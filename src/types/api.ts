@@ -111,9 +111,16 @@ export interface WakatimeResponse {
   data: WakatimeStats;
 }
 
-// Combined Wakatime data for display
 export interface WakatimeCombinedStats {
   weeklyStats: WakatimeStats;
   allTimeTotal: string;
   allTimeTotalSeconds: number;
+  calendarData: WakatimeCalendarDay[];
+}
+
+export interface WakatimeCalendarDay {
+  date: string;
+  total_seconds: number;
+  level: number;
+  text?: string;
 }

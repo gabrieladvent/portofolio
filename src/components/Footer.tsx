@@ -7,9 +7,6 @@ export default function Footer() {
                 <p className="text-gray-500 text-sm">
                     © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
                 </p>
-                <p className="text-gray-500 text-sm">
-                    Built with <span className="text-red-400">♥</span> using React & Tailwind CSS
-                </p>
             </div>
         </footer>
     );
