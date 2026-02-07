@@ -16,7 +16,6 @@ export default function GitHubContributions() {
     const { contributionCalendar } = stats;
     const weeks = contributionCalendar.weeks;
 
-    // Generate month labels
     const getMonthLabels = () => {
         const months: { label: string; index: number }[] = [];
         let lastMonth = -1;

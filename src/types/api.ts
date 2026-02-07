@@ -115,7 +115,7 @@ export interface WakatimeCombinedStats {
   weeklyStats: WakatimeStats;
   allTimeTotal: string;
   allTimeTotalSeconds: number;
-  calendarData: WakatimeCalendarDay[];
+  calendarData?: WakatimeCalendarDay[];
 }
 
 export interface WakatimeCalendarDay {

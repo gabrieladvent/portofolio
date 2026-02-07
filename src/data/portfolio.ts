@@ -1,7 +1,3 @@
-// ==========================================
-// PORTFOLIO DATA - Edit this file to update your portfolio
-// ==========================================
-
 export interface Project {
   id: string;
   title: string;
@@ -17,9 +13,9 @@ export interface Project {
 
 export interface Skill {
   name: string;
-  level: number; // 0-100
-  category: "frontend" | "backend" | "tools" | "other";
-  icon?: string;
+  level: number;
+  category: "frontend" | "backend" | "mobile" | "tools" | "other";
+  icon: string;
 }
 
 export interface Experience {
@@ -38,81 +34,80 @@ export interface SocialLink {
   icon: string;
 }
 
-// ==========================================
-// PERSONAL INFO
-// ==========================================
 export const personalInfo = {
-  name: "John Doe",
+  name: "Gabriel Advent",
   title: "Full Stack Developer",
-  tagline: "Building digital experiences that matter",
-  bio: `Passionate developer with 5+ years of experience crafting modern web applications. 
-        I specialize in React, TypeScript, and Node.js, with a keen eye for design and user experience. 
-        When I'm not coding, you'll find me exploring new technologies and contributing to open-source projects.`,
-  email: "hello@johndoe.dev",
-  location: "Jakarta, Indonesia",
+  bio: `Experienced web developer with 2+ years of experience, primarily focused on PHP using Laravel and CodeIgniter. 
+        Proficient in building scalable backend systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js. 
+        Committed to writing clean, maintainable code and delivering high-quality web solutions.`,
+  email: "bie.ritan112@gmail.com",
+  location: "Yogyakarta, Indonesia",
   avatar:
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
   resumeUrl: "/resume.pdf",
 };
 
-// ==========================================
-// SOCIAL LINKS
-// ==========================================
 export const socialLinks: SocialLink[] = [
   {
     name: "GitHub",
-    url: "https://github.com/johndoe",
+    url: "https://github.com/gabrieladvent",
     icon: "github",
   },
   {
     name: "LinkedIn",
-    url: "https://linkedin.com/in/johndoe",
+    url: "https://linkedin.com/in/gabrieladvent",
     icon: "linkedin",
   },
   {
-    name: "Twitter",
-    url: "https://twitter.com/johndoe",
-    icon: "twitter",
-  },
-  {
     name: "Instagram",
-    url: "https://instagram.com/johndoe",
+    url: "https://instagram.com/gab_adv",
     icon: "instagram",
   },
 ];
 
-// ==========================================
-// SKILLS
-// ==========================================
 export const skills: Skill[] = [
   // Frontend
-  { name: "React", level: 95, category: "frontend" },
-  { name: "TypeScript", level: 90, category: "frontend" },
-  { name: "Next.js", level: 85, category: "frontend" },
-  { name: "Vue.js", level: 75, category: "frontend" },
-  { name: "Tailwind CSS", level: 92, category: "frontend" },
-  { name: "Framer Motion", level: 80, category: "frontend" },
+  { name: "HTML", level: 95, category: "frontend", icon: "html" },
+  { name: "CSS", level: 90, category: "frontend", icon: "css" },
+  { name: "JavaScript", level: 90, category: "frontend", icon: "js" },
+  { name: "TypeScript", level: 88, category: "frontend", icon: "ts" },
+  { name: "React", level: 90, category: "frontend", icon: "react" },
+  { name: "Next.js", level: 85, category: "frontend", icon: "nextjs" },
+  { name: "Tailwind CSS", level: 92, category: "frontend", icon: "tailwind" },
+  { name: "Bootstrap", level: 85, category: "frontend", icon: "bootstrap" },
+  { name: "Framer Motion", level: 78, category: "frontend", icon: "react" },
+  { name: "jQuery", level: 80, category: "frontend", icon: "jquery" },
 
   // Backend
-  { name: "Node.js", level: 88, category: "backend" },
-  { name: "Express", level: 85, category: "backend" },
-  { name: "PostgreSQL", level: 80, category: "backend" },
-  { name: "MongoDB", level: 78, category: "backend" },
-  { name: "GraphQL", level: 75, category: "backend" },
-  { name: "Redis", level: 70, category: "backend" },
+  { name: "PHP", level: 92, category: "backend", icon: "php" },
+  { name: "Laravel", level: 88, category: "backend", icon: "laravel" },
+  { name: "CodeIgniter 4", level: 90, category: "backend", icon: "php" },
+  { name: "Node.js", level: 85, category: "backend", icon: "nodejs" },
+  { name: "Golang", level: 75, category: "backend", icon: "go" },
+  { name: "PostgreSQL", level: 82, category: "backend", icon: "postgres" },
+  { name: "MySQL", level: 85, category: "backend", icon: "mysql" },
+  { name: "Redis", level: 75, category: "backend", icon: "redis" },
+  { name: "Firebase", level: 78, category: "backend", icon: "firebase" },
+  { name: "WordPress", level: 80, category: "backend", icon: "wordpress" },
 
-  // Tools
-  { name: "Git", level: 90, category: "tools" },
-  { name: "Docker", level: 75, category: "tools" },
-  { name: "AWS", level: 70, category: "tools" },
-  { name: "Figma", level: 80, category: "tools" },
-  { name: "VS Code", level: 95, category: "tools" },
-  { name: "Linux", level: 78, category: "tools" },
+  // Mobile
+  { name: "Flutter", level: 75, category: "mobile", icon: "flutter" },
+  { name: "Dart", level: 75, category: "mobile", icon: "dart" },
+  { name: "Kotlin", level: 70, category: "mobile", icon: "kotlin" },
+
+  // DevOps & Tools
+  { name: "Git", level: 90, category: "tools", icon: "git" },
+  { name: "GitHub", level: 90, category: "tools", icon: "github" },
+  { name: "GitHub Actions", level: 78, category: "tools", icon: "githubactions" },
+  { name: "Docker", level: 78, category: "tools", icon: "docker" },
+  { name: "Linux", level: 80, category: "tools", icon: "linux" },
+  { name: "AWS", level: 70, category: "tools", icon: "aws" },
+  { name: "Grafana", level: 72, category: "tools", icon: "grafana" },
+  { name: "Postman", level: 85, category: "tools", icon: "postman" },
+  { name: "VS Code", level: 95, category: "tools", icon: "vscode" },
+  { name: "Android Studio", level: 75, category: "tools", icon: "androidstudio" },
 ];
 
-// ==========================================
-// PROJECTS
-// ==========================================
 export const projects: Project[] = [
   {
     id: "ecommerce-platform",
@@ -200,48 +195,45 @@ export const projects: Project[] = [
   },
 ];
 
-// ==========================================
-// EXPERIENCE
-// ==========================================
 export const experiences: Experience[] = [
   {
-    id: "senior-dev",
-    company: "TechCorp Indonesia",
-    position: "Senior Full Stack Developer",
-    startDate: "2022-01",
+    id: "fullstack-dev",
+    company: "Konnco Studio (PT. Sahabat Inovasi Teknologi)",
+    position: "Middle Full Stack Developer",
+    startDate: "2025-05",
     endDate: "Present",
-    description: `Leading development of enterprise web applications. 
-                  Mentoring junior developers and implementing best practices 
-                  for code quality and performance optimization.`,
-    technologies: ["React", "Node.js", "PostgreSQL", "AWS", "Docker"],
+    description: `Middle Full Stack Developer at Konnco Studio, responsible for frontend and backend development of web and mobile applications, 
+                including feature implementation, system maintenance, bug fixing, and payment gateway integration. 
+                Actively collaborate with cross-functional teams to deliver scalable, secure, and client-oriented solutions.`,
+    technologies: ["React", "PHP", "Golang", "Node.js", "PostgreSQL", "MySQL", "Redis"],
   },
   {
     id: "fullstack-dev",
-    company: "StartupXYZ",
+    company: "PT. Bintang Utara Nusantara (Vega)",
     position: "Full Stack Developer",
-    startDate: "2020-06",
-    endDate: "2021-12",
-    description: `Developed and maintained multiple web applications for clients. 
-                  Implemented CI/CD pipelines and improved deployment processes.`,
-    technologies: ["Vue.js", "Express", "MongoDB", "Redis"],
+    startDate: "2023-11",
+    endDate: "2025-05",
+    description: `Full Stack Developer with cross-functional IT responsibilities, including internal web application development using CodeIgniter 4, 
+                server procurement and configuration, deployment, and system maintenance. 
+                Also handled IT support, DevOps-related tasks, and served as a technical point of contact for internal systems, 
+                gaining strong exposure to enterprise IT operations.`,
+    technologies: ["CodeIgniter 4", "JavaScript", "Figma", "Bootstrap", "MySQL", "Grafana"],
   },
   {
-    id: "frontend-dev",
-    company: "Digital Agency",
-    position: "Frontend Developer",
-    startDate: "2019-01",
-    endDate: "2020-05",
-    description: `Created responsive web interfaces and interactive user experiences. 
-                  Collaborated with designers to implement pixel-perfect designs.`,
-    technologies: ["React", "SCSS", "JavaScript", "Figma"],
+    id: "fullstack-dev",
+    company: "Yayasan Kanisius Cabang Yogyakarta",
+    position: "Lead Full Stack Developer (Internship)",
+    startDate: "2023-06",
+    endDate: "2023-08",
+    description: `Lead Full Stack Developer Intern responsible for leading a small development team to build an internal web application 
+                connecting foundation schools with the central office. 
+                Handled task coordination, code reviews, and contributed to both frontend and backend development, 
+                strengthening leadership, communication, and collaboration skills.`,
+    technologies: ["Laravel", "JavaScript", "Figma", "Bootstrap", "MySQL"],
   },
 ];
 
-// ==========================================
-// API CONFIGURATION
-// ==========================================
-// These values are loaded from .env file
-// Create .env file from .env.example and fill in your values
+
 export const apiConfig = {
   github: {
     username: import.meta.env.VITE_GITHUB_USERNAME || "johndoe",
@@ -252,11 +244,8 @@ export const apiConfig = {
   },
 };
 
-// ==========================================
-// SITE CONFIGURATION
-// ==========================================
 export const siteConfig = {
-  title: "John Doe | Portfolio",
+  title: "Gabriel Advent | Portfolio",
   description: "Full Stack Developer specializing in modern web technologies",
   keywords: ["developer", "portfolio", "react", "typescript", "fullstack"],
   ogImage: "/og-image.png",

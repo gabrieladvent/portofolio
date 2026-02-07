@@ -1,12 +1,3 @@
-import { useState, useEffect, useRef } from 'react';
-import {
-  personalInfo,
-  socialLinks,
-  skills,
-  projects,
-  experiences
-} from './data/portfolio';
-import { useGitHubStats, useWakatimeStats } from './hooks/useApi';
 import Footer from './components/Footer';
 import ContactSection from './components/ContactSection';
 import WakatimeStatsSection from './components/wakatime/WakatimeStatsSection';
@@ -17,7 +8,6 @@ import AboutSection from './components/AboutSection';
 import HeroSection from './components/HeroSection';
 import { AnimatedBackground } from './utils/helpers';
 import Navigation from './components/Navigation';
-
 
 export default function App() {
   return (

@@ -32,11 +32,6 @@ export default function HeroSection() {
                     {personalInfo.title}
                 </p>
 
-                <p className={`text-lg text-gray-500 max-w-2xl mx-auto mb-12 transition-all duration-1000 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                    }`}>
-                    {personalInfo.tagline}
-                </p>
-
                 <div className={`flex flex-wrap items-center justify-center gap-4 mb-16 transition-all duration-1000 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     }`}>
                     <a
