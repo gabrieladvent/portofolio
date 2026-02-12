@@ -5,7 +5,7 @@ export default function AboutSection() {
     const { ref, isInView } = useInView();
 
     return (
-        <section id="about" className="py-32 px-6" ref={ref}>
+        <section id="about" className="py-6 px-6" ref={ref}>
             <div className="max-w-6xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
                     <div className={`relative transition-all duration-1000 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
@@ -31,19 +31,19 @@ export default function AboutSection() {
                         </p>
 
                         <div className="grid grid-cols-2 gap-6 mb-8">
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                                <div className="text-3xl font-bold text-emerald-400 mb-1">5+</div>
+                            <div className="p-5 rounded-2xl bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/[0.12] hover:border-emerald-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
+                                <div className="text-3xl font-bold text-emerald-400 mb-1">2+</div>
                                 <div className="text-gray-400 text-sm">Years Experience</div>
                             </div>
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                                <div className="text-3xl font-bold text-cyan-400 mb-1">50+</div>
+                            <div className="p-5 rounded-2xl bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/[0.12] hover:border-cyan-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
+                                <div className="text-3xl font-bold text-cyan-400 mb-1">30+</div>
                                 <div className="text-gray-400 text-sm">Projects Completed</div>
                             </div>
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                                <div className="text-3xl font-bold text-violet-400 mb-1">30+</div>
+                            <div className="p-5 rounded-2xl bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/[0.12] hover:border-violet-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
+                                <div className="text-3xl font-bold text-violet-400 mb-1">10+</div>
                                 <div className="text-gray-400 text-sm">Happy Clients</div>
                             </div>
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <div className="p-5 rounded-2xl bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/[0.12] hover:border-pink-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
                                 <div className="text-3xl font-bold text-pink-400 mb-1">∞</div>
                                 <div className="text-gray-400 text-sm">Cups of Coffee</div>
                             </div>
@@ -67,17 +67,17 @@ export default function AboutSection() {
                         <div className="space-y-12">
                             {experiences.map((exp, index) => (
                                 <div key={exp.id} className={`relative md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:ml-auto md:text-right' : 'md:pl-12'}`}>
-                                    <div className="absolute left-1/2 top-0 w-4 h-4 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 -translate-x-1/2 hidden md:block" />
-                                    <div className="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/30 transition-colors">
+                                    <div className="absolute left-1/2 top-0 w-4 h-4 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 -translate-x-1/2 hidden md:block shadow-xl shadow-emerald-500/50 ring-4 ring-black" />
+                                    <div className="group p-6 rounded-2xl bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 hover:bg-white/[0.12] hover:border-emerald-500/40 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 ease-out shadow-xl shadow-black/10">
                                         <span className="text-emerald-400 text-sm font-medium">
                                             {exp.startDate} - {exp.endDate}
                                         </span>
-                                        <h4 className="text-xl font-bold text-white mt-2">{exp.position}</h4>
+                                        <h4 className="text-xl font-bold text-white mt-2 group-hover:text-emerald-400 transition-colors duration-300">{exp.position}</h4>
                                         <p className="text-gray-400 mb-3">{exp.company}</p>
                                         <p className="text-gray-500 text-sm mb-4">{exp.description}</p>
                                         <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
                                             {exp.technologies.map((tech) => (
-                                                <span key={tech} className="px-2 py-1 text-xs rounded-md bg-emerald-500/10 text-emerald-400">
+                                                <span key={tech} className="px-3 py-1.5 text-xs rounded-lg bg-emerald-500/10 backdrop-blur-xl border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
                                                     {tech}
                                                 </span>
                                             ))}

@@ -10,11 +10,14 @@ export default function HeroSection() {
     }, []);
 
     return (
-        <section id="hero" className="min-h-screen flex items-center justify-center px-6 pt-20">
-            <div className="max-w-5xl mx-auto text-center">
-                <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm mb-8">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <section id="hero" className="min-h-screen flex items-center justify-center px-6 pt-20 relative">
+            {/* Glass background effect */}
+            <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 via-transparent to-transparent pointer-events-none" />
+            
+            <div className="max-w-5xl mx-auto text-center relative z-10">
+                <div className={`transition-all duration-1000 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 text-emerald-400 text-sm mb-8 shadow-xl shadow-emerald-500/10 hover:bg-white/[0.12] hover:border-emerald-400/40 transition-all duration-500">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-lg shadow-emerald-400/50" />
                         Available for work
                     </div>
                 </div>
@@ -32,24 +35,24 @@ export default function HeroSection() {
                     {personalInfo.title}
                 </p>
 
-                <div className={`flex flex-wrap items-center justify-center gap-4 mb-16 transition-all duration-1000 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                <div className={`flex flex-wrap items-center justify-center gap-4 mb-16 transition-all duration-1000 ease-out delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     }`}>
                     <a
                         href="#projects"
-                        className="group px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-black font-semibold hover:shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 hover:-translate-y-1"
+                        className="group px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-black font-semibold hover:shadow-2xl hover:shadow-emerald-500/30 transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-105"
                     >
                         View My Work
-                        <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
+                        <span className="inline-block ml-2 transition-transform duration-500 ease-out group-hover:translate-x-2">→</span>
                     </a>
                     <a
                         href="#contact"
-                        className="px-8 py-4 rounded-xl border border-white/10 text-white font-semibold hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+                        className="px-8 py-4 rounded-2xl bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 text-white font-semibold hover:bg-white/[0.15] hover:border-white/30 transition-all duration-500 ease-out shadow-xl shadow-black/10 hover:-translate-y-1 hover:scale-105"
                     >
                         Get In Touch
                     </a>
                 </div>
 
-                <div className={`flex items-center justify-center gap-6 transition-all duration-1000 delay-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                <div className={`flex items-center justify-center gap-6 transition-all duration-1000 ease-out delay-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     }`}>
                     {socialLinks.map((link) => (
                         <a
@@ -57,7 +60,7 @@ export default function HeroSection() {
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 transition-all duration-300"
+                            className="w-12 h-12 rounded-2xl bg-white/[0.08] backdrop-blur-2xl backdrop-saturate-150 border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/[0.15] hover:border-white/30 hover:-translate-y-2 hover:scale-110 transition-all duration-500 ease-out shadow-xl shadow-black/10"
                             aria-label={link.name}
                         >
                             <SocialIcon name={link.icon} />

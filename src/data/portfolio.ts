@@ -55,7 +55,7 @@ export const socialLinks: SocialLink[] = [
   },
   {
     name: "LinkedIn",
-    url: "https://linkedin.com/in/gabrieladvent",
+    url: "https://linkedin.com/in/gabriel-advent",
     icon: "linkedin",
   },
   {
@@ -198,7 +198,7 @@ export const projects: Project[] = [
 export const experiences: Experience[] = [
   {
     id: "fullstack-dev",
-    company: "Konnco Studio (PT. Sahabat Inovasi Teknologi)",
+    company: "PT. Sahabat Inovasi Teknologi (Konnco Studio)",
     position: "Middle Full Stack Developer",
     startDate: "2025-05",
     endDate: "Present",
@@ -247,7 +247,7 @@ export const apiConfig = {
 export const siteConfig = {
   title: "Gabriel Advent | Portfolio",
   description: "Full Stack Developer specializing in modern web technologies",
-  keywords: ["developer", "portfolio", "react", "typescript", "fullstack"],
+  keywords: ["developer", "portfolio", "react", "typescript", "fullstack", "laravel", "golang"],
   ogImage: "/og-image.png",
   themeColor: "#0a0a0a",
 };

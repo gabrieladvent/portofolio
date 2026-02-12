@@ -202,7 +202,7 @@ export default function SkillsSection() {
     };
 
     return (
-        <section id="skills" className="relative py-32 px-6" ref={ref}>
+        <section id="skills" className="relative py-10 px-6" ref={ref}>
             {/* Background gradient orbs */}
             <div className="absolute top-1/4 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
             <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
@@ -210,7 +210,7 @@ export default function SkillsSection() {
             
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="text-center">
                     <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm transition-all duration-700 ${isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
                         <Sparkles className="w-4 h-4 text-emerald-400 animate-spin" style={{ animationDuration: '3s' }} />
                         <span className="text-emerald-400 font-semibold text-sm uppercase tracking-wider">
@@ -228,15 +228,11 @@ export default function SkillsSection() {
                             Master & Love
                         </span>
                     </h2>
-                    
-                    <p className={`text-gray-400 text-lg max-w-2xl mx-auto transition-all duration-700 delay-200 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                        Click or hover over each skill to see proficiency level
-                    </p>
                 </div>
 
                 {/* Unified Skills Grid - Interactive Circular Icons */}
                 <div className={`transition-all duration-700 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div ref={containerRef} className="flex flex-wrap justify-center gap-3 max-w-6xl mx-auto py-20 px-4 sm:px-8 md:px-16 lg:px-48">
+                    <div ref={containerRef} className="flex flex-wrap justify-center gap-3 max-w-7xl mx-auto py-20 px-4 sm:px-8 md:px-16 lg:px-48">
                         {allSkills.map((skill, index) => {
                             const colors = categoryColors[skill.category];
                             const isHovered = hoveredSkill === skill.name;
@@ -380,32 +376,8 @@ export default function SkillsSection() {
                     </div>
                 </div>
 
-                {/* Stats Section */}
-                <div className={`mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto transition-all duration-700 delay-[600ms] ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div className="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                        <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-2">
-                            {skills.filter(s => s.category === 'frontend').length}
-                        </div>
-                        <div className="text-gray-400 text-sm font-medium">Frontend Technologies</div>
-                    </div>
-                    
-                    <div className="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                        <div className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                            {skills.filter(s => s.category === 'backend').length}
-                        </div>
-                        <div className="text-gray-400 text-sm font-medium">Backend Technologies</div>
-                    </div>
-                    
-                    <div className="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                        <div className="text-4xl font-bold bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent mb-2">
-                            {skills.filter(s => s.category === 'tools').length}
-                        </div>
-                        <div className="text-gray-400 text-sm font-medium">Tools & DevOps</div>
-                    </div>
-                </div>
-
                 {/* Bottom CTA */}
-                <div className={`mt-16 text-center transition-all duration-700 delay-[800ms] ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className={`text-center transition-all duration-700 delay-[800ms] ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-violet-500/10 border border-white/10 backdrop-blur-sm hover:border-white/20 transition-all duration-300 group">
                         <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
                         <span className="text-gray-300 text-sm group-hover:text-white transition-colors duration-300">

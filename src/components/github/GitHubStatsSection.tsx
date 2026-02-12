@@ -5,7 +5,7 @@ export default function GitHubStatsSection() {
   const { ref, isInView } = useInView();
 
   return (
-    <section id="github" className="py-32 px-6 relative" ref={ref}>
+    <section id="github" className="py-38 px-6 relative" ref={ref}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent" />
       <div className="max-w-7xl mx-auto relative">
         <div className="text-center mb-10">
