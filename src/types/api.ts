@@ -124,3 +124,12 @@ export interface WakatimeCalendarDay {
   level: number;
   text?: string;
 }
+
+export interface GitHubProfile {
+  avatar_url: string;
+  name: string;
+  bio: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+}

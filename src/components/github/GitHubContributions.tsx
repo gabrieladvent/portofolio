@@ -15,9 +15,12 @@ const STEP = CELL + GAP;
 
 const LEVEL_COLORS = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
 
-function colorToLevel(hex: string): number {
-    const idx = LEVEL_COLORS.indexOf(hex.toLowerCase());
-    return idx < 0 ? 0 : idx;
+function countToLevel(count: number): number {
+    if (count === 0) return 0;
+    if (count <= 3) return 1;
+    if (count <= 6) return 2;
+    if (count <= 9) return 3;
+    return 4;
 }
 
 export default function GitHubContributions() {
@@ -161,7 +164,7 @@ export default function GitHubContributions() {
                         {weeks.map((week, wIdx) =>
                             week.contributionDays.map(day => {
                                 const dow = new Date(day.date).getDay();
-                                const lvl = colorToLevel(day.color);
+                                const lvl = countToLevel(day.contributionCount);
                                 return (
                                     <div
                                         key={day.date}
