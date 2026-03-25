@@ -98,30 +98,12 @@ export function useWakatimeStats() {
   useEffect(() => {
     async function fetchWakatimeStats() {
       try {
-        if (!apiConfig.wakatime.apiKey) {
-          throw new Error("Wakatime API key not configured");
-        }
-
-        const authHeader = `Basic ${btoa(apiConfig.wakatime.apiKey + ":")}`;
-
-        // Fetch weekly stats
         const weeklyResponse = await fetch(
-          "/wakatime/api/v1/users/current/stats/last_7_days",
-          {
-            headers: {
-              Authorization: authHeader,
-            },
-          },
+          "/api/wakatime/users/current/stats/last_7_days",
         );
 
-        // Fetch all time stats
         const allTimeResponse = await fetch(
-          "/wakatime/api/v1/users/current/all_time_since_today",
-          {
-            headers: {
-              Authorization: authHeader,
-            },
-          },
+          "/api/wakatime/users/current/all_time_since_today",
         );
 
         if (!weeklyResponse.ok) {

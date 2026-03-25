@@ -65,6 +65,7 @@ export default function Navigation() {
 
                     <a
                         href={personalInfo.resumeUrl}
+                        target="_blank"
                         className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-black font-semibold text-sm hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-105"
                     >
                         Resume

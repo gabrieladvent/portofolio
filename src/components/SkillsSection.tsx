@@ -305,21 +305,6 @@ export default function SkillsSection() {
                                                 stroke="rgba(255,255,255,0.1)"
                                                 strokeWidth="2"
                                             />
-                                            <circle
-                                                cx="50"
-                                                cy="50"
-                                                r="45"
-                                                fill="none"
-                                                stroke="url(#gradient)"
-                                                strokeWidth="2"
-                                                strokeDasharray={`${2 * Math.PI * 45}`}
-                                                strokeDashoffset={`${2 * Math.PI * 45 * (1 - skill.level / 100)}`}
-                                                className={`transition-all duration-1000 ${isInView ? 'opacity-100' : 'opacity-0'}`}
-                                                style={{ 
-                                                    transitionDelay: `${300 + index * 20 + 200}ms`,
-                                                    strokeLinecap: 'round'
-                                                }}
-                                            />
                                             <defs>
                                                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                                     <stop offset="0%" stopColor={skill.category === 'frontend' ? '#10b981' : skill.category === 'backend' ? '#06b6d4' : '#8b5cf6'} />
@@ -346,18 +331,6 @@ export default function SkillsSection() {
                                                         {skill.name}
                                                     </div>
                                                     <Star className={`w-3 h-3 ${colors.text} fill-current`} />
-                                                </div>
-                                                
-                                                <div className="flex items-center gap-2">
-                                                    <div className="flex-1 h-1.5 rounded-full bg-white/20 overflow-hidden min-w-[80px]">
-                                                        <div 
-                                                            className={`h-full bg-gradient-to-r ${colors.gradient} rounded-full transition-all duration-500`}
-                                                            style={{ width: `${skill.level}%` }}
-                                                        />
-                                                    </div>
-                                                    <span className={`text-xs font-bold ${colors.text} min-w-[35px] text-right`}>
-                                                        {skill.level}%
-                                                    </span>
                                                 </div>
                                                 
                                                 {/* Category badge */}

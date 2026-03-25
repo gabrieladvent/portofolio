@@ -13,7 +13,6 @@ export interface Project {
 
 export interface Skill {
   name: string;
-  level: number;
   category: "frontend" | "backend" | "mobile" | "tools" | "other";
   icon: string;
 }
@@ -44,7 +43,7 @@ export const personalInfo = {
   location: "Yogyakarta, Indonesia",
   avatar:
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "public/Resume.pdf",
 };
 
 export const socialLinks: SocialLink[] = [
@@ -67,45 +66,45 @@ export const socialLinks: SocialLink[] = [
 
 export const skills: Skill[] = [
   // Frontend
-  { name: "HTML", level: 95, category: "frontend", icon: "html" },
-  { name: "CSS", level: 90, category: "frontend", icon: "css" },
-  { name: "JavaScript", level: 90, category: "frontend", icon: "js" },
-  { name: "TypeScript", level: 88, category: "frontend", icon: "ts" },
-  { name: "React", level: 90, category: "frontend", icon: "react" },
-  { name: "Next.js", level: 85, category: "frontend", icon: "nextjs" },
-  { name: "Tailwind CSS", level: 92, category: "frontend", icon: "tailwind" },
-  { name: "Bootstrap", level: 85, category: "frontend", icon: "bootstrap" },
-  { name: "Framer Motion", level: 78, category: "frontend", icon: "react" },
-  { name: "jQuery", level: 80, category: "frontend", icon: "jquery" },
+  { name: "HTML", category: "frontend", icon: "html" },
+  { name: "CSS", category: "frontend", icon: "css" },
+  { name: "JavaScript", category: "frontend", icon: "js" },
+  { name: "TypeScript", category: "frontend", icon: "ts" },
+  { name: "React", category: "frontend", icon: "react" },
+  { name: "Next.js", category: "frontend", icon: "nextjs" },
+  { name: "Tailwind CSS", category: "frontend", icon: "tailwind" },
+  { name: "Bootstrap", category: "frontend", icon: "bootstrap" },
+  { name: "Framer Motion", category: "frontend", icon: "react" },
+  { name: "jQuery", category: "frontend", icon: "jquery" },
 
   // Backend
-  { name: "PHP", level: 92, category: "backend", icon: "php" },
-  { name: "Laravel", level: 88, category: "backend", icon: "laravel" },
-  { name: "CodeIgniter 4", level: 90, category: "backend", icon: "php" },
-  { name: "Node.js", level: 85, category: "backend", icon: "nodejs" },
-  { name: "Golang", level: 75, category: "backend", icon: "go" },
-  { name: "PostgreSQL", level: 82, category: "backend", icon: "postgres" },
-  { name: "MySQL", level: 85, category: "backend", icon: "mysql" },
-  { name: "Redis", level: 75, category: "backend", icon: "redis" },
-  { name: "Firebase", level: 78, category: "backend", icon: "firebase" },
-  { name: "WordPress", level: 80, category: "backend", icon: "wordpress" },
+  { name: "PHP", category: "backend", icon: "php" },
+  { name: "Laravel", category: "backend", icon: "laravel" },
+  { name: "CodeIgniter 4", category: "backend", icon: "php" },
+  { name: "Node.js", category: "backend", icon: "nodejs" },
+  { name: "Golang", category: "backend", icon: "go" },
+  { name: "PostgreSQL", category: "backend", icon: "postgres" },
+  { name: "MySQL", category: "backend", icon: "mysql" },
+  { name: "Redis", category: "backend", icon: "redis" },
+  { name: "Firebase", category: "backend", icon: "firebase" },
+  { name: "WordPress", category: "backend", icon: "wordpress" },
 
   // Mobile
-  { name: "Flutter", level: 75, category: "mobile", icon: "flutter" },
-  { name: "Dart", level: 75, category: "mobile", icon: "dart" },
-  { name: "Kotlin", level: 70, category: "mobile", icon: "kotlin" },
+  { name: "Flutter", category: "mobile", icon: "flutter" },
+  { name: "Dart", category: "mobile", icon: "dart" },
+  { name: "Kotlin", category: "mobile", icon: "kotlin" },
 
   // DevOps & Tools
-  { name: "Git", level: 90, category: "tools", icon: "git" },
-  { name: "GitHub", level: 90, category: "tools", icon: "github" },
-  { name: "GitHub Actions", level: 78, category: "tools", icon: "githubactions" },
-  { name: "Docker", level: 78, category: "tools", icon: "docker" },
-  { name: "Linux", level: 80, category: "tools", icon: "linux" },
-  { name: "AWS", level: 70, category: "tools", icon: "aws" },
-  { name: "Grafana", level: 72, category: "tools", icon: "grafana" },
-  { name: "Postman", level: 85, category: "tools", icon: "postman" },
-  { name: "VS Code", level: 95, category: "tools", icon: "vscode" },
-  { name: "Android Studio", level: 75, category: "tools", icon: "androidstudio" },
+  { name: "Git", category: "tools", icon: "git" },
+  { name: "GitHub", category: "tools", icon: "github" },
+  { name: "GitHub Actions", category: "tools", icon: "githubactions" },
+  { name: "Docker", category: "tools", icon: "docker" },
+  { name: "Linux", category: "tools", icon: "linux" },
+  { name: "AWS", category: "tools", icon: "aws" },
+  { name: "Grafana", category: "tools", icon: "grafana" },
+  { name: "Postman", category: "tools", icon: "postman" },
+  { name: "VS Code", category: "tools", icon: "vscode" },
+  { name: "Android Studio", category: "tools", icon: "androidstudio" },
 ];
 
 export const projects: Project[] = [
@@ -205,7 +204,15 @@ export const experiences: Experience[] = [
     description: `Middle Full Stack Developer at Konnco Studio, responsible for frontend and backend development of web and mobile applications, 
                 including feature implementation, system maintenance, bug fixing, and payment gateway integration. 
                 Actively collaborate with cross-functional teams to deliver scalable, secure, and client-oriented solutions.`,
-    technologies: ["React", "PHP", "Golang", "Node.js", "PostgreSQL", "MySQL", "Redis"],
+    technologies: [
+      "React",
+      "PHP",
+      "Golang",
+      "Node.js",
+      "PostgreSQL",
+      "MySQL",
+      "Redis",
+    ],
   },
   {
     id: "fullstack-dev",
@@ -217,7 +224,14 @@ export const experiences: Experience[] = [
                 server procurement and configuration, deployment, and system maintenance. 
                 Also handled IT support, DevOps-related tasks, and served as a technical point of contact for internal systems, 
                 gaining strong exposure to enterprise IT operations.`,
-    technologies: ["CodeIgniter 4", "JavaScript", "Figma", "Bootstrap", "MySQL", "Grafana"],
+    technologies: [
+      "CodeIgniter 4",
+      "JavaScript",
+      "Figma",
+      "Bootstrap",
+      "MySQL",
+      "Grafana",
+    ],
   },
   {
     id: "fullstack-dev",
@@ -233,21 +247,28 @@ export const experiences: Experience[] = [
   },
 ];
 
-
 export const apiConfig = {
   github: {
     username: import.meta.env.VITE_GITHUB_USERNAME || "johndoe",
     token: import.meta.env.VITE_GITHUB_TOKEN || "",
   },
   wakatime: {
-    apiKey: import.meta.env.VITE_WAKATIME_API_KEY || "",
+    apiKey: import.meta.env.WAKATIME_API_KEY || "",
   },
 };
 
 export const siteConfig = {
   title: "Gabriel Advent | Portfolio",
   description: "Full Stack Developer specializing in modern web technologies",
-  keywords: ["developer", "portfolio", "react", "typescript", "fullstack", "laravel", "golang"],
+  keywords: [
+    "developer",
+    "portfolio",
+    "react",
+    "typescript",
+    "fullstack",
+    "laravel",
+    "golang",
+  ],
   ogImage: "/og-image.png",
   themeColor: "#0a0a0a",
 };
