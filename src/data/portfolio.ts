@@ -109,86 +109,174 @@ export const skills: Skill[] = [
 
 export const projects: Project[] = [
   {
-    id: "ecommerce-platform",
-    title: "E-Commerce Platform",
+    id: "object-detection-yolov8",
+    title: "Object Detection with YOLOv8",
     description:
-      "A full-featured e-commerce platform with real-time inventory management",
-    longDescription: `Built a complete e-commerce solution featuring user authentication, 
-                      product catalog, shopping cart, payment integration with Stripe, 
-                      and an admin dashboard for inventory management.`,
+      "Real-time object detection system powered by YOLOv8 with a public web interface built using Streamlit.",
+    longDescription: `Designed and implemented a real-time object detection system using the YOLOv8 algorithm as part of a thesis project. The system focuses on high accuracy and performance, capable of efficiently detecting various objects across different image conditions.
+
+    An interactive web interface was built using Streamlit to make the model accessible to non-technical users — simply upload an image through the browser and detection results are displayed visually in real time.
+
+    This project demonstrates practical integration between a machine learning model and a publicly accessible web application.`,
     image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-    technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "Redis"],
-    githubUrl: "https://github.com/johndoe/ecommerce",
-    liveUrl: "https://ecommerce-demo.johndoe.dev",
-    featured: true,
-    category: "web",
-  },
-  {
-    id: "task-management",
-    title: "Task Management App",
-    description:
-      "Collaborative task management with real-time updates and team features",
-    longDescription: `A Trello-like task management application with drag-and-drop functionality, 
-                      real-time collaboration, team workspaces, and detailed analytics.`,
-    image:
-      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop",
-    technologies: ["Next.js", "TypeScript", "Prisma", "Socket.io", "Tailwind"],
-    githubUrl: "https://github.com/johndoe/taskflow",
-    liveUrl: "https://taskflow.johndoe.dev",
-    featured: true,
-    category: "web",
-  },
-  {
-    id: "ai-chatbot",
-    title: "AI Chatbot Platform",
-    description: "Custom AI chatbot builder with natural language processing",
-    longDescription: `A platform for creating custom AI chatbots with training capabilities, 
-                      analytics dashboard, and integration APIs for websites and apps.`,
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-    technologies: ["Python", "FastAPI", "React", "OpenAI", "MongoDB"],
-    githubUrl: "https://github.com/johndoe/aichat",
-    featured: true,
+      "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&h=600&fit=crop",
+    technologies: ["Python", "YOLOv8", "Streamlit"],
+    githubUrl: "https://github.com/gabrieladvent/thesis-result.git",
+    liveUrl: "https://thesis-detec-result.streamlit.app/",
+    featured: false,
     category: "backend",
   },
+
   {
-    id: "fitness-tracker",
-    title: "Fitness Tracker Mobile",
-    description: "Cross-platform fitness tracking app with workout plans",
-    longDescription: `A React Native mobile app for tracking workouts, nutrition, 
-                      and progress with personalized workout plans and social features.`,
+    id: "count-sound",
+    title: "Count Sound",
+    description:
+      "A digital vote counting application designed to speed up and improve the accuracy of election result tabulation.",
+    longDescription: `Developed a web-based vote counting system to support the 2024 Legislative Election process in Wailolong, East Flores. The application digitizes the manual vote tallying workflow that was previously prone to human error.
+
+    Built with Laravel, the system provides structured data input, automated vote aggregation, and clear result visualization — making it easier for election organizers to monitor and validate vote counts in real time.
+
+    This project successfully reduced tabulation time and improved data accuracy at the village level.`,
     image:
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop",
-    technologies: ["React Native", "TypeScript", "Firebase", "Redux"],
-    githubUrl: "https://github.com/johndoe/fittrack",
+      "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=800&h=600&fit=crop",
+    technologies: ["Laravel", "PHP", "JavaScript", "CSS", "SCSS"],
+    githubUrl: "https://github.com/gabrieladvent/count-sound.git",
+    featured: true,
+    category: "web",
+  },
+
+  {
+    id: "toko-kelontong",
+    title: "Toko Kelontong (e-commerce system)",
+    description:
+      "A simple inventory and transaction management system for small retail businesses.",
+    longDescription: `Developed collaboratively in a team of four as a Software Engineering course project. The system is designed to help small grocery store owners manage products and daily transactions digitally.
+
+    Contributed to core features including product management, transaction recording, and UI improvements to enhance overall usability.
+
+    This project strengthened understanding of teamwork, fundamental system design, and practical implementation using core web technologies.`,
+    image:
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+    technologies: ["PHP", "JavaScript", "CSS"],
+    githubUrl: "https://github.com/gabrieladvent/toko-sembako.git",
     featured: false,
+    category: "web",
+  },
+
+  {
+    id: "weru-website",
+    title: "Weru Village Website",
+    description:
+      "A community website for digitally documenting and publishing village activities and local programs.",
+    longDescription: `Developed the official website for Weru Village, Gunung Kidul, Yogyakarta, as a digital documentation platform and public information hub for the local community.
+
+    The platform is used to publish local activities — particularly KKN (community service) programs — improving the visibility and accessibility of village initiatives to both residents and the general public.
+
+    Built with Laravel, the system prioritizes simplicity, ease of content management, and readability for all types of users.`,
+    image:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop",
+    technologies: ["Laravel", "PHP", "JavaScript", "CSS", "SCSS"],
+    githubUrl: "https://github.com/gabrieladvent/website-pedukuhan.git",
+    featured: false,
+    category: "web",
+  },
+
+  {
+    id: "lms-project",
+    title: "LMS Project",
+    description:
+      "A learning management platform for organizing courses, managing content, and tracking learner progress.",
+    longDescription: `Built a full-featured Learning Management System (LMS) that enables instructors to organize educational content and monitor learner performance within a single centralized platform.
+
+    Students can access materials, track their learning progress, and complete courses independently. Instructors get an intuitive admin panel for class management and progress reporting.
+
+    Developed using Laravel, Filament, Inertia.js, and React TypeScript — this project emphasizes clean architecture, admin usability, and scalable frontend-backend integration.`,
+    image:
+      "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=600&fit=crop",
+    technologies: [
+      "Laravel",
+      "Filament",
+      "Inertia.js",
+      "React TypeScript",
+      "Tailwind CSS",
+    ],
+    githubUrl: "https://github.com/gabrieladvent/lms-project",
+    featured: true,
+    category: "web",
+  },
+
+  {
+    id: "task-tracker",
+    title: "Task Tracker",
+    description:
+      "A sprint-based task and project management app built for developers and small teams.",
+    longDescription: `Developed a modern task management application designed to help developers and small teams manage their workflows more effectively and in a structured way.
+
+    The system supports period-based tracking (sprints or monthly cycles), project organization, task prioritization, and reporting. Unfinished tasks from a previous period are automatically carried over to maintain continuity.
+
+    Built with Laravel, Inertia.js, and React TypeScript — this project reflects real-world usage scenarios and focuses on improving productivity, visibility, and decision-making through structured data.`,
+    image:
+      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop",
+    technologies: ["Laravel", "Inertia.js", "React TypeScript", "Tailwind CSS"],
+    githubUrl: "https://github.com/gabrieladvent/task-tracker",
+    featured: true,
+    category: "web",
+  },
+
+  {
+    id: "restaurant-order-app",
+    title: "Restaurant Order App",
+    description:
+      "A mobile app for browsing restaurant menus and placing food orders directly from your phone.",
+    longDescription: `Developed a cross-platform mobile application that allows customers to browse a restaurant's menu, customize their orders, and place them seamlessly from their smartphones.
+ 
+    The app features an intuitive menu browsing experience with category filters, item detail pages, a cart system, and order summary before checkout. The UI is designed to be clean and fast, prioritizing ease of use for all ages.
+ 
+    Built with Flutter and Dart, this project demonstrates mobile UI development skills, state management, and the ability to deliver a polished, production-ready app experience on both Android and iOS from a single codebase.`,
+    image:
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop",
+    technologies: ["Flutter", "Dart"],
+    githubUrl: "https://github.com/gabrieladvent/restaurant-order-app",
+    featured: true,
     category: "mobile",
   },
+
   {
-    id: "portfolio-generator",
-    title: "Portfolio Generator",
-    description: "CLI tool for generating developer portfolios from templates",
-    longDescription: `A command-line tool that generates beautiful portfolio websites 
-                      from YAML/JSON configuration files with multiple themes.`,
+    id: "tka-assessment-website",
+    title: "TKA Assessment Website",
+    description:
+      "A web-based academic assessment platform for elementary and junior high school students in Magelang, Central Java.",
+    longDescription: `Developed a comprehensive academic assessment platform (TKA) to support standardized testing for elementary (SD) and junior high school (SMP) students in Magelang, Central Java.
+
+    The platform covers the full assessment lifecycle — from creating question banks and building exams, to students taking tests online, and administrators monitoring results in real time. Teachers can compose various question types, set time limits, and organize exams by subject and grade level.
+ 
+    A built-in reporting and monitoring dashboard gives administrators and teachers clear visibility into student performance, completion rates, and score analytics — making it easier to identify learning gaps and track academic progress.
+ 
+    Built with Laravel, Livewire, Tailwind CSS, and MySQL, the system delivers a seamless, reactive experience without full page reloads, ensuring a smooth exam-taking flow for students.`,
     image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
-    technologies: ["Node.js", "TypeScript", "Handlebars", "CLI"],
-    githubUrl: "https://github.com/johndoe/portgen",
-    featured: false,
-    category: "other",
+      "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop",
+    technologies: ["Laravel", "Livewire", "Tailwind CSS", "MySQL"],
+    githubUrl: "https://github.com/gabrieladvent/tka-assessment",
+    featured: true,
+    category: "web",
   },
+
   {
-    id: "crypto-dashboard",
-    title: "Crypto Dashboard",
-    description: "Real-time cryptocurrency tracking and portfolio management",
-    longDescription: `A dashboard for tracking cryptocurrency prices, managing portfolios, 
-                      and analyzing market trends with real-time data from multiple exchanges.`,
+    id: "laundry-management",
+    title: "Laundry Management System",
+    description:
+      "A full-featured laundry management app covering customer registration, orders, delivery, and more.",
+    longDescription: `Built a comprehensive laundry business management system designed to streamline day-to-day operations from end to end.
+ 
+    The platform handles the complete laundry workflow — customer registration, order intake with item details and pricing, processing status tracking, delivery scheduling, and payment recording. Staff can manage everything from a single, clean admin interface.
+ 
+    Key features include order status tracking (received, in-progress, ready, delivered), customer history, delivery management, and business reporting to monitor daily and monthly performance.
+ 
+    Built with Laravel and Filament, the system leverages Filament's powerful admin panel to deliver a fast, well-structured back-office experience with minimal development overhead.`,
     image:
-      "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=600&fit=crop",
-    technologies: ["Vue.js", "D3.js", "WebSocket", "Node.js"],
-    githubUrl: "https://github.com/johndoe/cryptodash",
-    liveUrl: "https://crypto.johndoe.dev",
+      "https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=800&h=600&fit=crop",
+    technologies: ["Laravel", "Filament", "MySQL", "Tailwind CSS"],
+    githubUrl: "https://github.com/gabrieladvent/loundry-filament",
     featured: false,
     category: "web",
   },
@@ -196,7 +284,7 @@ export const projects: Project[] = [
 
 export const experiences: Experience[] = [
   {
-    id: "fullstack-dev",
+    id: "fullstack-dev-konnco",
     company: "PT. Sahabat Inovasi Teknologi (Konnco Studio)",
     position: "Middle Full Stack Developer",
     startDate: "2025-05",
@@ -215,7 +303,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    id: "fullstack-dev",
+    id: "fullstack-dev-vega",
     company: "PT. Bintang Utara Nusantara (Vega)",
     position: "Full Stack Developer",
     startDate: "2023-11",
@@ -234,7 +322,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    id: "fullstack-dev",
+    id: "fullstack-dev-kanisius",
     company: "Yayasan Kanisius Cabang Yogyakarta",
     position: "Lead Full Stack Developer (Internship)",
     startDate: "2023-06",
