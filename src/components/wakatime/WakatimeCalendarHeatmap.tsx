@@ -7,11 +7,11 @@ export default function WakatimeCalendarHeatmap({ data }: { data: WakatimeCalend
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
     const levelColors = [
-        'bg-[#1a1a1a]',
-        'bg-[#4d4d00]',
-        'bg-[#808000]',
-        'bg-[#cccc00]',
-        'bg-[#ffff00]',
+        'bg-[#ebedf0]',
+        'bg-[#fde68a]',
+        'bg-[#fcd34d]',
+        'bg-[#f59e0b]',
+        'bg-[#d97706]',
     ];
 
     const weeks: WakatimeCalendarDay[][] = [];
@@ -102,12 +102,12 @@ export default function WakatimeCalendarHeatmap({ data }: { data: WakatimeCalend
     };
 
     return (
-        <div className="p-6 rounded-xl bg-white/5 border border-white/10 overflow-hidden">
+        <div className="p-6 rounded-xl bg-white border border-black/[0.07] shadow-sm overflow-hidden">
             {/* Scrollable container */}
             <div className="overflow-x-auto">
                 <div className="min-w-[750px]">
                     {/* Month Labels */}
-                    <div className="flex mb-2 text-xs text-gray-500">
+                    <div className="flex mb-2 text-xs text-zinc-400">
                         <div className="w-8" />
                         <div className="flex-1 flex">
                             {monthLabels.map((label, i) => (
@@ -127,7 +127,7 @@ export default function WakatimeCalendarHeatmap({ data }: { data: WakatimeCalend
                     {/* Calendar Grid */}
                     <div className="flex">
                         {/* Day Labels */}
-                        <div className="flex flex-col justify-between pr-2 text-xs text-gray-500 h-[98px]">
+                        <div className="flex flex-col justify-between pr-2 text-xs text-zinc-400 h-[98px]">
                             <span className="h-[11px]"></span>
                             <span className="h-[11px] leading-[11px]">Mon</span>
                             <span className="h-[11px]"></span>
@@ -145,7 +145,7 @@ export default function WakatimeCalendarHeatmap({ data }: { data: WakatimeCalend
                                         <div
                                             key={dayIndex}
                                             className={`w-[11px] h-[11px] rounded-sm transition-all duration-200 ${day.level >= 0
-                                                ? `${levelColors[day.level]} hover:scale-125 hover:ring-2 hover:ring-yellow-400/50 cursor-pointer`
+                                                ? `${levelColors[day.level]} hover:scale-125 hover:ring-2 hover:ring-amber-500/50 cursor-pointer`
                                                 : 'bg-transparent'
                                                 }`}
                                             onMouseEnter={(e) => handleMouseEnter(day, e)}
@@ -160,7 +160,7 @@ export default function WakatimeCalendarHeatmap({ data }: { data: WakatimeCalend
             </div>
 
             {/* Legend */}
-            <div className="flex items-center justify-start gap-2 mt-4 text-xs text-gray-500">
+            <div className="flex items-center justify-start gap-2 mt-4 text-xs text-zinc-400">
                 <span>Sedikit</span>
                 {levelColors.map((color, i) => (
                     <div key={i} className={`w-[11px] h-[11px] rounded-sm ${color}`} />

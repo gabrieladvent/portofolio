@@ -1,25 +1,27 @@
-import { useInView } from "../../utils/helpers";
+import { motion } from "motion/react";
+import SectionHeader from "../ui/SectionHeader";
 import WakatimeStats from "./WakatimeStats";
 
 export default function WakatimeStatsSection() {
-    const { ref, isInView } = useInView();
-
     return (
-        <section id="stats" className="py-6 px-6 relative" ref={ref}>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent" />
-            <div className="max-w-7xl mx-auto relative">
-                <div className="text-center mb-10">
-                    <span className={`text-cyan-400 font-semibold text-sm uppercase tracking-wider transition-all duration-700 ${isInView ? 'opacity-100' : 'opacity-0'}`}>
-                        Wakatime
-                    </span>
-                    <h2 className={`text-4xl sm:text-5xl font-bold text-white mt-4 transition-all duration-700 delay-100 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                        Coding Activity
-                    </h2>
-                </div>
+        <section id="stats" className="py-28 px-6 relative">
+            <div className="max-w-5xl mx-auto relative">
+                <SectionHeader
+                    index="05"
+                    eyebrow="WakaTime"
+                    title="Coding Activity"
+                    description="Statistik waktu coding real dari editor saya — bahasa, rata-rata harian, dan total."
+                />
 
-                <div className={`transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                <motion.div
+                    initial={{ opacity: 0, y: 32 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.7, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+                    className="mt-14"
+                >
                     <WakatimeStats />
-                </div>
+                </motion.div>
             </div>
         </section>
     );

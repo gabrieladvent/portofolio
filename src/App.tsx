@@ -8,22 +8,25 @@ import AboutSection from './components/AboutSection';
 import HeroSection from './components/HeroSection';
 import { AnimatedBackground } from './utils/helpers';
 import Navigation from './components/Navigation';
+import SmoothScroll from './components/SmoothScroll';
 
 export default function App() {
   return (
-    <div className="relative min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
-      <AnimatedBackground />
-      <Navigation />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <GitHubStatsSection />
-        <WakatimeStatsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </div>
+    <SmoothScroll>
+      <div className="relative min-h-screen bg-[#f6f6f4] text-zinc-900 overflow-x-hidden">
+        <AnimatedBackground />
+        <Navigation />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <SkillsSection />
+          <ProjectsSection />
+          <GitHubStatsSection />
+          <WakatimeStatsSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+    </SmoothScroll>
   );
 }

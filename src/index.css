@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* Pakai JetBrains Mono untuk utility font-mono (label Swiss) */
+@theme {
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
 
 /* Custom Animations */
 @keyframes float {
@@ -59,27 +65,33 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #f6f6f4;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #10b981, #06b6d4);
+  background: #d4d4d8;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #34d399, #22d3ee);
+  background: #10b981;
 }
 
 /* Selection Color */
 ::selection {
-  background: rgba(16, 185, 129, 0.3);
-  color: white;
+  background: rgba(16, 185, 129, 0.25);
+  color: #0a0a0a;
 }
 
-/* Smooth Scrolling */
+/* Smooth scrolling sekarang di-handle oleh Lenis (lihat SmoothScroll.tsx),
+   jadi scroll-behavior native dimatikan supaya tidak bentrok. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 /* Base Styles */

@@ -36,14 +36,16 @@ export interface SocialLink {
 export const personalInfo = {
   name: "Gabriel Advent",
   title: "Full Stack Developer",
-  bio: `Experienced web developer with 2+ years of experience, primarily focused on PHP using Laravel and CodeIgniter. 
-        Proficient in building scalable backend systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js. 
+  tagline:
+    "I build scalable backend systems and usable interfaces — primarily with Laravel, React, and Go.",
+  bio: `Experienced web developer with 2+ years of experience, primarily focused on PHP using Laravel and CodeIgniter.
+        Proficient in building scalable backend systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js.
         Committed to writing clean, maintainable code and delivering high-quality web solutions.`,
   email: "bie.ritan112@gmail.com",
   location: "Yogyakarta, Indonesia",
   avatar:
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-  resumeUrl: "public/Resume.pdf",
+  resumeUrl: "/Resume.pdf",
 };
 
 export const socialLinks: SocialLink[] = [
