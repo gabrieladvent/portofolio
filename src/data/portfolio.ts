@@ -37,9 +37,9 @@ export const personalInfo = {
   name: "Gabriel Advent",
   title: "Full Stack Developer",
   tagline:
-    "I build scalable backend systems and usable interfaces — primarily with Laravel, React, and Go.",
+    "I build scalable systems and usable interfaces — primarily with Laravel, React, and Go.",
   bio: `Experienced web developer with 2+ years of experience, primarily focused on PHP using Laravel and CodeIgniter.
-        Proficient in building scalable backend systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js.
+        Proficient in building scalable systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js.
         Committed to writing clean, maintainable code and delivering high-quality web solutions.`,
   email: "bie.ritan112@gmail.com",
   location: "Yogyakarta, Indonesia",
@@ -202,7 +202,8 @@ export const projects: Project[] = [
       "React TypeScript",
       "Tailwind CSS",
     ],
-    githubUrl: "https://github.com/gabrieladvent/lms-project",
+    githubUrl: "https://github.com/gabrieladvent/learning-management-system",
+    liveUrl: "https://lms.geb4v.my.id",
     featured: true,
     category: "web",
   },
@@ -279,6 +280,46 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=800&h=600&fit=crop",
     technologies: ["Laravel", "Filament", "MySQL", "Tailwind CSS"],
     githubUrl: "https://github.com/gabrieladvent/loundry-filament",
+    featured: true,
+    category: "web",
+  },
+
+  {
+    id: "library-management",
+    title: "Library Management System",
+    description:
+      "A library management system to manage books, borrowing, returns, and overdue tracking.",
+    longDescription: `Built a library management system designed to simplify and digitize daily library operations.
+
+      The system manages the complete book lifecycle, including book inventory management, borrowing and return processes, due date tracking, and overdue handling. It helps librarians efficiently track which books are available, currently borrowed, or overdue.
+
+      Key features include book catalog management, member borrowing history, return processing, late return tracking with penalties (if applicable), and reporting to monitor library activity.
+
+      Built with CodeIgniter 4 and MySQL, the system provides a lightweight and efficient backend with a clean interface styled using CSS for smooth day-to-day library operations.`,
+    image:
+      "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800&h=600&fit=crop",
+    technologies: ["CodeIgniter 4", "MySQL", "CSS"],
+    githubUrl: "https://github.com/gabrieladvent/library",
+    featured: false,
+    category: "web",
+  },
+
+  {
+    id: "kanisius-yogyakarta-website",
+    title: "Yayasan Kanisius Yogyakarta Website",
+    description:
+      "A data management and analytics platform for student records across Kanisius schools in Yogyakarta.",
+    longDescription: `Developed a web-based data management and analytics system for Yayasan Kanisius Yogyakarta to centralize student information across multiple schools under the foundation.
+
+      The platform is designed to support data collection, management, and analysis of student records from various schools within the Kanisius network in Yogyakarta. It helps administrators and staff monitor student data more efficiently and generate insights for decision-making.
+
+      Key features include student data management, cross-school data aggregation, reporting and analytics, and structured data visualization to support educational monitoring and evaluation.
+
+      Built with Laravel 10, Bootstrap, and MySQL, the system provides a responsive interface and a robust backend for handling centralized educational data across multiple institutions.`,
+    image:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop",
+    technologies: ["Laravel 10", "Bootstrap", "MySQL"],
+    githubUrl: "https://github.com/gabrieladvent/website-kanisius",
     featured: false,
     category: "web",
   },

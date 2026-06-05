@@ -27,7 +27,7 @@ export default function SkillsSection() {
                             <span className="text-emerald-400">work with</span>
                         </>
                     }
-                    description="Stack yang saya pakai sehari-hari untuk membangun produk web, mobile, dan backend."
+                    description="My daily tech stack for building web, mobile, and backend applications."
                 />
 
                 <div className="mt-16 space-y-12">

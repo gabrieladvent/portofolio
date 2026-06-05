@@ -10,7 +10,7 @@ export default function GitHubStatsSection() {
           index="04"
           eyebrow="GitHub"
           title="Contributions & Activity"
-          description="Jejak commit, pull request, dan kontribusi saya di GitHub sepanjang tahun."
+          description="A record of my GitHub commits, pull requests, and contributions throughout the year."
         />
 
         <motion.div

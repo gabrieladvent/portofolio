@@ -59,21 +59,21 @@ export default function WakatimeStats() {
         <div className="space-y-4">
             {/* Stats Cards - 2x2 Grid */}
             <div className="grid grid-cols-2 gap-4">
-                {/* Rata-rata Waktu Coding Harian */}
+                {/* Daily Average Coding Time */}
                 <div className="p-5 rounded-xl bg-white border border-black/[0.07] shadow-sm hover:border-emerald-500/40 transition-colors">
-                    <div className="text-zinc-500 text-sm mb-2">Rata-rata Waktu Coding Harian</div>
+                    <div className="text-zinc-500 text-sm mb-2">Daily Average Coding Time</div>
                     <div className="text-2xl font-bold text-zinc-900">{weeklyStats.human_readable_daily_average}</div>
                 </div>
 
-                {/* Total Minggu Ini */}
+                {/* Weekly Total */}
                 <div className="p-5 rounded-xl bg-white border border-black/[0.07] shadow-sm hover:border-emerald-500/40 transition-colors">
-                    <div className="text-zinc-500 text-sm mb-2">Total Minggu Ini</div>
+                    <div className="text-zinc-500 text-sm mb-2">Weekly Total</div>
                     <div className="text-2xl font-bold text-zinc-900">{weeklyStats.human_readable_total}</div>
                 </div>
 
-                {/* Hari Terbaik */}
+                {/* Peak Coding Day */}
                 <div className="p-5 rounded-xl bg-white border border-black/[0.07] shadow-sm hover:border-emerald-500/40 transition-colors">
-                    <div className="text-zinc-500 text-sm mb-2">Hari Terbaik</div>
+                    <div className="text-zinc-500 text-sm mb-2">Peak Coding Day</div>
                     <div className="text-xl font-bold text-zinc-900">
                         {weeklyStats.best_day ? (
                             <>
@@ -88,9 +88,9 @@ export default function WakatimeStats() {
                     </div>
                 </div>
 
-                {/* Total Coding Sejak Bergabung */}
+                {/* Overall Coding Time Since Joining (wakatime join) */}
                 <div className="p-5 rounded-xl bg-white border border-black/[0.07] shadow-sm hover:border-emerald-500/40 transition-colors">
-                    <div className="text-zinc-500 text-sm mb-2">Total Coding Sejak Bergabung</div>
+                    <div className="text-zinc-500 text-sm mb-2">Overall Coding Time Since Joining (wakatime join)</div>
                     <div className="text-2xl font-bold text-zinc-900">{allTimeTotal}</div>
                 </div>
             </div>
@@ -100,9 +100,9 @@ export default function WakatimeStats() {
                 <WakatimeCalendarHeatmap data={transformedCalendar} />
             )}
 
-            {/* Bahasa Teratas */}
+            {/* Top Languages */}
             <div className="p-6 rounded-xl bg-white border border-black/[0.07] shadow-sm">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-6">Bahasa Teratas</div>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-6">Top Languages</div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                     {/* Left Column */}

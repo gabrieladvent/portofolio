@@ -161,11 +161,11 @@ export default function WakatimeCalendarHeatmap({ data }: { data: WakatimeCalend
 
             {/* Legend */}
             <div className="flex items-center justify-start gap-2 mt-4 text-xs text-zinc-400">
-                <span>Sedikit</span>
+                <span>Less</span>
                 {levelColors.map((color, i) => (
                     <div key={i} className={`w-[11px] h-[11px] rounded-sm ${color}`} />
                 ))}
-                <span>Banyak</span>
+                <span>More</span>
             </div>
 
             {/* Tooltip */}

@@ -23,7 +23,7 @@ export default function AboutSection() {
         target: ref,
         offset: ["start end", "end start"],
     });
-    // Parallax gambar avatar di dalam frame + tile naik — magnitudo besar.
+    // Avatar image parallax inside the frame + tile rising — large magnitude.
     const avatarImgY = useTransform(scrollYProgress, [0, 1], ["-16%", "16%"]);
     const bentoY = useTransform(scrollYProgress, [0, 1], [90, -90]);
 
@@ -47,7 +47,7 @@ export default function AboutSection() {
                     variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
                     className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 auto-rows-fr"
                 >
-                    {/* Avatar — tile tinggi, gambar parallax */}
+                    {/* Avatar — tall tile, parallax image */}
                     <motion.div
                         variants={item}
                         className="col-span-2 md:col-span-1 md:row-span-2 rounded-2xl border border-black/[0.07] overflow-hidden relative min-h-[220px] shadow-sm"
@@ -65,7 +65,7 @@ export default function AboutSection() {
                         </div>
                     </motion.div>
 
-                    {/* Now — role sekarang */}
+                    {/* Now — current role */}
                     <motion.div variants={item} className={`col-span-2 md:col-span-3 ${tileBase}`}>
                         <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-2">
                             Currently

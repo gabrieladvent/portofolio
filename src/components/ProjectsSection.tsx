@@ -29,7 +29,7 @@ function ProjectModal({
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             style={{ perspective: "1200px" }}
         >
-            {/* Backdrop — blur keseluruhan background */}
+            {/* Backdrop — blur the entire background */}
             <motion.div
                 className="absolute inset-0 backdrop-blur-md bg-black/40"
                 initial={{ opacity: 0 }}
@@ -51,7 +51,7 @@ function ProjectModal({
                 transition={{ duration: 0.32, ease: [0.34, 1.56, 0.64, 1] }}
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Gambar header */}
+                {/* Header image */}
                 <div className="relative aspect-video w-full overflow-hidden rounded-t-2xl">
                     <img
                         src={project.image}
@@ -73,7 +73,7 @@ function ProjectModal({
                         </div>
                     )}
 
-                    {/* Tombol tutup */}
+                    {/* Close button */}
                     <button
                         title="Close"
                         onClick={onClose}
@@ -85,7 +85,7 @@ function ProjectModal({
                     </button>
                 </div>
 
-                {/* Konten */}
+                {/* Content */}
                 <div className="p-6 space-y-5">
                     <div>
                         <h3 className="text-2xl font-bold text-zinc-900 mb-2 leading-tight">
@@ -114,7 +114,7 @@ function ProjectModal({
                         </div>
                     </div>
 
-                    {/* Tombol aksi */}
+                    {/* Action buttons */}
                     <div className="flex gap-3 pt-1">
                         {project.githubUrl && (
                             <a
@@ -158,7 +158,7 @@ function ProjectCard({
     index: number;
     onSelect: () => void;
 }) {
-    // Parallax per kartu — kolom genap/ganjil bergerak beda → kedalaman.
+    // Per-card parallax — even/odd columns move differently → depth.
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
     const depth = index % 2 === 0 ? 120 : 45;
@@ -180,7 +180,7 @@ function ProjectCard({
                 whileHover={{ y: -6 }}
                 className="group relative rounded-2xl overflow-hidden bg-white border border-black/[0.07] shadow-sm hover:border-emerald-500/40 hover:shadow-xl cursor-pointer"
             >
-                {/* Gambar */}
+                {/* Image */}
                 <div className="relative aspect-video overflow-hidden">
                     <img
                         src={project.image}
@@ -189,9 +189,9 @@ function ProjectCard({
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                    {/* Hint text subtle di pojok bawah */}
+                    {/* Subtle hint text in the bottom corner */}
                     <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
-                        <span className="text-xs text-white/70 italic">klik untuk detail →</span>
+                        <span className="text-xs text-white/70 italic">click for details →</span>
                     </div>
                 </div>
 
@@ -250,7 +250,7 @@ export default function ProjectsSection() {
         <>
             <section id="projects" className="py-20 px-6">
                 <div className="max-w-7xl mx-auto lg:grid lg:grid-cols-12 lg:gap-12">
-                    {/* Kolom kiri — sticky scroll-telling ala tinyPod */}
+                    {/* Left column — sticky scroll-telling, tinyPod-style */}
                     <div className="lg:col-span-4">
                         <div className="lg:sticky lg:top-28 mb-12 lg:mb-0">
                             <motion.div
@@ -282,8 +282,8 @@ export default function ProjectsSection() {
                                 transition={{ duration: 0.7, delay: 0.2, ease }}
                                 className="text-zinc-600 mt-5 max-w-sm leading-relaxed"
                             >
-                                Kumpulan proyek yang saya bangun — dari web app, mobile, sampai
-                                sistem backend. Klik kartu untuk lihat detailnya.
+                                A collection of projects I’ve built, ranging from web and mobile applications to backend systems. 
+                                Click any card to see the details.
                             </motion.p>
 
                             {/* Filter buttons */}
@@ -311,7 +311,7 @@ export default function ProjectsSection() {
                         </div>
                     </div>
 
-                    {/* Kolom kanan — grid kartu */}
+                    {/* Right column — card grid */}
                     <div className="lg:col-span-8">
                         <motion.div layout className="grid sm:grid-cols-2 gap-6">
                             <AnimatePresence mode="popLayout">

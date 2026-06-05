@@ -11,8 +11,8 @@ export default function ContactSection() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Buka aplikasi email visitor dengan isi yang sudah terisi.
-        const subject = `Halo dari ${formState.name || "portfolio"}`;
+        // Open the visitor's email app with the fields pre-filled.
+        const subject = `Hello from ${formState.name || "portfolio"}`;
         const body = `${formState.message}\n\n— ${formState.name} (${formState.email})`;
         window.location.href = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
             subject
@@ -29,7 +29,7 @@ export default function ContactSection() {
                     index="06"
                     eyebrow="Contact"
                     title="Let's build something together"
-                    description="Punya proyek atau ide? Saya senang mendengarnya. Kirim pesan dan ayo mulai."
+                    description="Have a project or idea in mind? I’d be happy to hear it. Send me a message and let’s get started."
                 />
 
                 <div className="grid md:grid-cols-2 gap-12 mt-16">

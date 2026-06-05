@@ -21,7 +21,7 @@ export default function HeroSection() {
         target: ref,
         offset: ["start start", "end start"],
     });
-    // Banyak layer parallax — magnitudo besar & divergen biar KERASA.
+    // Many parallax layers — large, divergent magnitudes so it really SHOWS.
     const nameY = useTransform(scrollYProgress, [0, 1], [0, -160]);
     const subY = useTransform(scrollYProgress, [0, 1], [0, -300]);
     const ctaY = useTransform(scrollYProgress, [0, 1], [0, -430]);
@@ -45,7 +45,7 @@ export default function HeroSection() {
             ref={ref}
             className="relative min-h-screen flex items-center px-6 pt-28 pb-16 overflow-hidden"
         >
-            {/* Monogram raksasa samar di background — parallax pelan */}
+            {/* Giant faint monogram in the background — slow parallax */}
             <motion.div
                 style={{ y: ghostY, x: ghostX, opacity: fade }}
                 aria-hidden
@@ -55,7 +55,7 @@ export default function HeroSection() {
             </motion.div>
 
             <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-12 gap-10 items-end relative">
-                {/* Kolom utama */}
+                {/* Main column */}
                 <motion.div
                     variants={container}
                     initial="hidden"
@@ -70,7 +70,7 @@ export default function HeroSection() {
                             <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
                             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                         </span>
-                        Available for work
+                        Available for part-time or project work
                     </motion.div>
 
                     <motion.h1 style={{ y: nameY }} className="font-bold tracking-tight leading-[0.86] text-zinc-900">
@@ -128,7 +128,7 @@ export default function HeroSection() {
                     </motion.div>
                 </motion.div>
 
-                {/* Kolom meta — parallax paling cepat */}
+                {/* Meta column — fastest parallax */}
                 <motion.div
                     style={{ y: metaY }}
                     variants={container}

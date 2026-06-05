@@ -1,5 +1,5 @@
 import { useGitHubStats } from "../../hooks/useApi";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface TooltipState {
     visible: boolean;
@@ -29,6 +29,14 @@ export default function GitHubContributions() {
         visible: false, x: 0, y: 0, count: 0, date: "",
     });
     const wrapRef = useRef<HTMLDivElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    // On mobile the heatmap scrolls horizontally — start at the most recent weeks.
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
+        }
+    }, [stats]);
 
     if (loading) {
         return (
@@ -124,10 +132,13 @@ export default function GitHubContributions() {
             </div>
 
             {/* Calendar + side stats layout */}
-            <div className="flex gap-3 items-stretch">
+            <div className="flex flex-col lg:flex-row gap-3 lg:items-stretch">
 
-                {/* Calendar — fixed width, no stretching */}
-                <div className="rounded-xl backdrop-blur-sm border border-black/[0.07] p-3 flex-shrink-0 flex flex-col">
+                {/* Calendar — fixed width; scrolls horizontally on mobile */}
+                <div
+                    ref={scrollRef}
+                    className="rounded-xl backdrop-blur-sm border border-black/[0.07] p-3 lg:shrink-0 flex flex-col overflow-x-auto lg:overflow-visible"
+                >
                     <div
                         ref={wrapRef}
                         className="relative"
@@ -215,8 +226,8 @@ export default function GitHubContributions() {
                     </div>
                 </div>
 
-                {/* Side stats — 3 cards stacked, matching calendar height exactly */}
-                <div className="flex-1 grid grid-rows-2 gap-2.5">
+                {/* Side stats — 2-up on mobile, stacked beside the calendar on desktop */}
+                <div className="flex-1 grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-2.5">
                     {/* Total */}
                     <div className="rounded-xl backdrop-blur-sm border border-black/[0.07] px-3.5 py-2 flex items-center gap-3">
                         <div>

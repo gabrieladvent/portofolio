@@ -10,7 +10,7 @@ export default function WakatimeStatsSection() {
                     index="05"
                     eyebrow="WakaTime"
                     title="Coding Activity"
-                    description="Statistik waktu coding real dari editor saya — bahasa, rata-rata harian, dan total."
+                    description="Real coding activity statistics from my editor, including programming languages, daily averages, and total time."
                 />
 
                 <motion.div

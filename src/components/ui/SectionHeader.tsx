@@ -5,8 +5,8 @@ import type { ReactNode } from "react";
 const ease = [0.21, 0.47, 0.32, 0.98] as const;
 
 /**
- * SectionHeader — gaya Swiss/editorial: angka section RAKSASA (parallax),
- * label monospace + garis hairline + judul besar.
+ * SectionHeader — Swiss/editorial style: GIANT section number (parallax),
+ * monospace label + hairline rule + large title.
  */
 export default function SectionHeader({
     index,
@@ -26,13 +26,13 @@ export default function SectionHeader({
         target: ref,
         offset: ["start end", "end start"],
     });
-    // Parallax kuat & berlawanan arah biar kerasa.
+    // Strong, opposite-direction parallax so it stands out.
     const numY = useTransform(scrollYProgress, [0, 1], [160, -160]);
     const numX = useTransform(scrollYProgress, [0, 1], ["6%", "-6%"]);
 
     return (
         <div ref={ref} className={`relative max-w-3xl ${className}`}>
-            {/* Angka raksasa Swiss — parallax */}
+            {/* Giant Swiss number — parallax */}
             {index && (
                 <motion.span
                     style={{ y: numY, x: numX }}
@@ -43,7 +43,7 @@ export default function SectionHeader({
                 </motion.span>
             )}
 
-            {/* Baris label mono + hairline */}
+            {/* Mono label row + hairline */}
             <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
