@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -8,13 +7,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(500).json({ error: "Wakatime API key not configured" });
     }
 
-    const pathSegments = req.query.path as string[];
+    const { path, ...queryParams } = req.query;
 
-    const wakatimePath = pathSegments.join("/");
-
-    const queryParams = { ...req.query };
-
-    delete queryParams.path;
+    // `path` arrives from the vercel.json rewrite as the full sub-path
+    // (e.g. "users/current/stats/last_7_days").
+    const wakatimePath = Array.isArray(path) ? path.join("/") : (path ?? "");
 
     const queryString = new URLSearchParams(
         queryParams as Record<string, string>,
