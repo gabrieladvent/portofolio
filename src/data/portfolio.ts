@@ -111,6 +111,33 @@ export const skills: Skill[] = [
 
 export const projects: Project[] = [
   {
+    id: "school-website-template",
+    title: "School Website Template (Single-Tenant)",
+    description:
+      "A reusable, configurable school website where the entire identity — branding, theme, content, and modules — is managed from an admin panel without touching code.",
+    longDescription: `Built a reusable school website template designed so that a single deployment serves one school, with every aspect of its identity configured through an admin panel rather than hardcoded — making it easy to spin up a new, distinct site for any school from the same codebase.
+
+    The platform features a runtime theming system: admins can pick from color presets and style packs (typography + radius) or derive the palette straight from an uploaded logo, with an automatic color ramp and WCAG contrast validation on save. Content modules (News, Achievements, Extracurriculars, Gallery, Agenda, Admissions, and a configurable faith/values section) can be toggled per school — navigation, routes, and homepage sections adapt automatically, returning a clean 404 when a module is disabled.
+
+    Includes role-based access control (Filament Shield), a rich text editor and media uploads for all content, full SEO support (sitemap, robots, Open Graph, Schema.org), Indonesian localization with timezone handling, and a polished, responsive, accessible public front-end.
+
+    Built with Laravel, Filament, Livewire, Alpine.js, and Tailwind CSS — emphasizing a single source of truth for configuration, a strong design system, and an experience that lets non-technical school staff manage everything themselves.`,
+    image:
+      "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop",
+    technologies: [
+      "Laravel",
+      "Filament",
+      "Livewire",
+      "Alpine.js",
+      "Tailwind CSS",
+    ],
+    githubUrl: "https://github.com/gabrieladvent/single-tenancy-landing-page",
+    liveUrl: "https://school.geb4v.my.id/",
+    featured: true,
+    category: "web",
+  },
+
+  {
     id: "object-detection-yolov8",
     title: "Object Detection with YOLOv8",
     description:
