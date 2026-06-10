@@ -6,7 +6,7 @@ export default function GitHubStatsSection() {
   return (
     <section id="github" className="py-28 px-6 relative">
       <div className="max-w-5xl mx-auto relative">
-        
+
         <SectionHeader
           index="04"
           eyebrow="GitHub"
