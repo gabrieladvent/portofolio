@@ -41,7 +41,8 @@ function ProjectModal({
 
             {/* Modal card — glass effect */}
             <motion.div
-                className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-black/10 shadow-2xl scrollbar-hide bg-white"
+                data-lenis-prevent
+                className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto overscroll-contain rounded-2xl border border-black/10 shadow-2xl scrollbar-hide bg-white"
                 style={{
                     boxShadow: "0 20px 60px rgba(0,0,0,0.25)",
                 }}
