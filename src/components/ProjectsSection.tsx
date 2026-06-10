@@ -169,13 +169,14 @@ function ProjectCard({
         <motion.div
             ref={ref}
             layout
-            style={{ y }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease }}
         >
+            {/* Parallax lives on its own wrapper so it never fights the `layout` animation */}
+            <motion.div style={{ y }}>
             <motion.div
                 onClick={onSelect}
                 whileHover={{ y: -6 }}
@@ -229,6 +230,7 @@ function ProjectCard({
                     </div>
                 </div>
             </motion.div>
+            </motion.div>
         </motion.div>
     );
 }
@@ -240,12 +242,24 @@ export default function ProjectsSection() {
     const categories = [
         { key: "all", label: "All" },
         { key: "web", label: "Web" },
-        { key: "mobile", label: "Mobile" },
+        { key: "frontend", label: "Frontend" },
         { key: "backend", label: "Backend" },
+        { key: "mobile", label: "Mobile" },
     ];
+
+    const PAGE_SIZE = 6;
+    const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
     const filteredProjects =
         filter === "all" ? projects : projects.filter((p) => p.category === filter);
+
+    const visibleProjects = filteredProjects.slice(0, visibleCount);
+    const hasMore = visibleCount < filteredProjects.length;
+
+    const handleFilter = (key: string) => {
+        setFilter(key);
+        setVisibleCount(PAGE_SIZE); // reset paging when switching category
+    };
 
     return (
         <>
@@ -292,7 +306,7 @@ export default function ProjectsSection() {
                                 {categories.map((cat) => (
                                     <button
                                         key={cat.key}
-                                        onClick={() => setFilter(cat.key)}
+                                        onClick={() => handleFilter(cat.key)}
                                         className={`relative px-5 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${filter === cat.key
                                             ? "text-white"
                                             : "bg-black/[0.04] text-zinc-500 hover:bg-black/[0.08] hover:text-zinc-900"
@@ -316,7 +330,7 @@ export default function ProjectsSection() {
                     <div className="lg:col-span-8">
                         <motion.div layout className="grid sm:grid-cols-2 gap-6">
                             <AnimatePresence mode="popLayout">
-                                {filteredProjects.map((project, index) => (
+                                {visibleProjects.map((project, index) => (
                                     <ProjectCard
                                         key={project.id}
                                         project={project}
@@ -326,6 +340,41 @@ export default function ProjectsSection() {
                                 ))}
                             </AnimatePresence>
                         </motion.div>
+
+                        {/* Load more */}
+                        {hasMore && (
+                            <motion.div
+                                layout
+                                className="mt-12 flex flex-col items-center gap-4"
+                            >
+                                <span className="font-mono text-xs tracking-widest uppercase text-zinc-400">
+                                    {visibleProjects.length} / {filteredProjects.length}
+                                </span>
+                                <motion.button
+                                    onClick={() =>
+                                        setVisibleCount((c) => c + PAGE_SIZE)
+                                    }
+                                    whileHover={{ y: -2 }}
+                                    whileTap={{ scale: 0.97 }}
+                                    className="group relative inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-zinc-900 text-white text-sm font-medium shadow-lg shadow-black/10 hover:bg-emerald-600 transition-colors duration-300"
+                                >
+                                    Show more
+                                    <svg
+                                        className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M19 9l-7 7-7-7"
+                                        />
+                                    </svg>
+                                </motion.button>
+                            </motion.div>
+                        )}
                     </div>
                 </div>
             </section>
