@@ -350,6 +350,23 @@ export const projects: Project[] = [
     featured: false,
     category: "web",
   },
+
+  {
+    id: "koperasi-management",
+    title: "Cooperative (KSP) Management System",
+    description:
+      "An internal management system for a savings & loan cooperative (KSP), handling member records, multiple savings schemes, loans, and installment tracking — with strong financial data integrity at its core.",
+    longDescription: `Built for a government employees' cooperative (KPRI) to replace manual, Excel-based bookkeeping. The system centralizes member data, six savings schemes, loans, and installments into a single internal admin platform.
+
+      It implements the cooperative's real business rules — grade-based mandatory savings, flexible holiday savings, a shopping-balance scheme, short-term ("sebrakan") and long-term loans with admin and mandatory-savings deductions, and installments composed of principal, service charge, and time-deposit savings that are returned once the loan is paid off.
+
+      Financial integrity is the top priority: DECIMAL-based money handling, database transactions, full audit logging, reversal-based corrections instead of hard deletes, and idempotent transactions. Built with Laravel 11, Filament 3, and MySQL for a fast, well-structured back office.`,
+    image:
+      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop",
+    technologies: ["Laravel", "Filament", "MySQL", "Tailwind CSS"],
+    featured: true,
+    category: "web",
+  },
 ];
 
 export const experiences: Experience[] = [
