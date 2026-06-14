@@ -237,6 +237,7 @@ function ProjectCard({
 
 export default function ProjectsSection() {
     const [filter, setFilter] = useState<string>("all");
+    
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
     const categories = [
