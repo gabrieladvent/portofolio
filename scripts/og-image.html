@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      background: #f6f6f4;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      position: relative;
+      overflow: hidden;
+      color: #18181b;
+    }
+
+    .blob-a {
+      position: absolute; top: -180px; left: 180px;
+      width: 620px; height: 620px; border-radius: 50%;
+      background: rgba(52, 211, 153, 0.28); filter: blur(150px);
+    }
+
+    .blob-b {
+      position: absolute; bottom: -240px; right: 120px;
+      width: 640px; height: 640px; border-radius: 50%;
+      background: rgba(253, 230, 138, 0.42); filter: blur(160px);
+    }
+
+    .grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(0,0,0,0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.045) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .content {
+      position: relative;
+      padding: 76px 80px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .top { display: flex; align-items: center; gap: 16px; }
+
+    .mark {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: #10b981; color: #fff;
+      font-size: 30px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .eyebrow {
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      font-size: 15px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #71717a;
+    }
+
+    h1 {
+      font-size: 88px; font-weight: 800; letter-spacing: -0.035em;
+      line-height: 1.0; margin-bottom: 22px;
+    }
+
+    h1 .dot { color: #10b981; }
+
+    .role { font-size: 34px; font-weight: 600; color: #3f3f46; letter-spacing: -0.015em; }
+
+    .tagline { font-size: 22px; color: #71717a; margin-top: 14px; max-width: 780px; line-height: 1.45; }
+
+    .bottom { display: flex; align-items: center; justify-content: space-between; }
+
+    .chips { display: flex; gap: 10px; }
+
+    .chip {
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      font-size: 17px; padding: 9px 16px; border-radius: 10px;
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(0,0,0,0.09);
+      color: #52525b;
+    }
+
+    .where {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 19px; color: #71717a;
+    }
+
+    .pin { width: 11px; height: 11px; border-radius: 50%; background: #10b981; }
+  </style>
+</head>
+
+<body>
+  <div class="blob-a"></div>
+  <div class="blob-b"></div>
+  <div class="grid"></div>
+
+  <div class="content">
+    <div class="top">
+      <div class="mark">G</div>
+      <div class="eyebrow">Portfolio · gabrieladvent</div>
+    </div>
+
+    <div>
+      <h1>Gabriel Advent<span class="dot">.</span></h1>
+      <div class="role">Full Stack Developer</div>
+      <div class="tagline">
+        Building scalable backend systems and usable interfaces
+        with Laravel, React, and Go.
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="chips">
+        <div class="chip">Laravel</div>
+        <div class="chip">React</div>
+        <div class="chip">TypeScript</div>
+        <div class="chip">Golang</div>
+        <div class="chip">PostgreSQL</div>
+      </div>
+      <div class="where">
+        <span class="pin"></span>
+        Yogyakarta, Indonesia
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

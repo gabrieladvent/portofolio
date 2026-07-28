@@ -43,8 +43,9 @@ export const personalInfo = {
         Committed to writing clean, maintainable code and delivering high-quality web solutions.`,
   email: "bie.ritan112@gmail.com",
   location: "Yogyakarta, Indonesia",
-  avatar:
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+  // Fallback when /api/github is unreachable — GitHub serves the real avatar
+  // from this path, so a failed API call no longer shows a stranger's photo.
+  avatar: "https://github.com/gabrieladvent.png",
   resumeUrl: "/cv-gabriel-advent-batan.pdf",
 };
 
@@ -422,28 +423,5 @@ export const experiences: Experience[] = [
   },
 ];
 
-export const apiConfig = {
-  github: {
-    username: import.meta.env.VITE_GITHUB_USERNAME || "johndoe",
-    token: import.meta.env.VITE_GITHUB_TOKEN || "",
-  },
-  wakatime: {
-    apiKey: import.meta.env.WAKATIME_API_KEY || "",
-  },
-};
-
-export const siteConfig = {
-  title: "Gabriel Advent | Portfolio",
-  description: "Full Stack Developer specializing in modern web technologies",
-  keywords: [
-    "developer",
-    "portfolio",
-    "react",
-    "typescript",
-    "fullstack",
-    "laravel",
-    "golang",
-  ],
-  ogImage: "/og-image.png",
-  themeColor: "#0a0a0a",
-};
+// GitHub/Wakatime credentials live only in the serverless handlers under /api,
+// so nothing here is read from import.meta.env any more.

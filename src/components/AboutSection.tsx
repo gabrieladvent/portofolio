@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { experiences, personalInfo } from "../data/portfolio";
 import { useGitHubProfile } from "../hooks/useApi";
 import SectionHeader from "./ui/SectionHeader";
@@ -45,6 +45,8 @@ export default function AboutSection() {
     const avatarImgY = useTransform(scrollYProgress, [0, 1], ["-16%", "16%"]);
     const bentoY = useTransform(scrollYProgress, [0, 1], [90, -90]);
 
+    const reduceMotion = useReducedMotion();
+
     return (
         <section id="about" className="py-28 px-6">
             <div className="max-w-6xl mx-auto">
@@ -58,7 +60,7 @@ export default function AboutSection() {
                 {/* Bento grid */}
                 <motion.div
                     ref={ref}
-                    style={{ y: bentoY }}
+                    style={{ y: reduceMotion ? undefined : bentoY }}
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, amount: 0.15 }}
@@ -71,7 +73,7 @@ export default function AboutSection() {
                         className="col-span-2 md:col-span-1 md:row-span-2 rounded-2xl border border-black/[0.07] overflow-hidden relative min-h-[220px] shadow-sm"
                     >
                         <motion.img
-                            style={{ y: avatarImgY, scale: 1.4 }}
+                            style={{ y: reduceMotion ? undefined : avatarImgY, scale: reduceMotion ? 1 : 1.4 }}
                             src={profile?.avatar_url ?? personalInfo.avatar}
                             alt={personalInfo.name}
                             className="absolute inset-0 w-full h-full object-cover"

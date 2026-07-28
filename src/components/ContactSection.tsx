@@ -6,17 +6,52 @@ import SectionHeader from "./ui/SectionHeader";
 
 const ease = [0.21, 0.47, 0.32, 0.98] as const;
 
+type Status = "idle" | "sending" | "sent" | "error" | "fallback";
+
 export default function ContactSection() {
     const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+    const [company, setCompany] = useState(""); // honeypot
+    const [status, setStatus] = useState<Status>("idle");
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Open the visitor's email app with the fields pre-filled.
+    const openMailClient = () => {
         const subject = `Hello from ${formState.name || "portfolio"}`;
         const body = `${formState.message}\n\n— ${formState.name} (${formState.email})`;
         window.location.href = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
             subject
         )}&body=${encodeURIComponent(body)}`;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (status === "sending") return;
+
+        setStatus("sending");
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...formState, company }),
+            });
+
+            if (response.ok) {
+                setStatus("sent");
+                setFormState({ name: "", email: "", message: "" });
+                return;
+            }
+
+            // 503 means delivery isn't configured — hand off to the mail client
+            // rather than losing what the visitor typed.
+            if (response.status === 503) {
+                setStatus("fallback");
+                openMailClient();
+                return;
+            }
+
+            setStatus("error");
+        } catch {
+            setStatus("error");
+        }
     };
 
     const inputClass =
@@ -98,7 +133,7 @@ export default function ContactSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, amount: 0.3 }}
                         transition={{ duration: 0.6, delay: 0.1, ease }}
-                        className="space-y-5"
+                        className="relative space-y-5"
                     >
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium text-zinc-700 mb-2">
@@ -142,14 +177,66 @@ export default function ContactSection() {
                                 required
                             />
                         </div>
+                        {/* Honeypot — hidden from people, irresistible to bots. */}
+                        <div className="absolute -left-[9999px]" aria-hidden="true">
+                            <label htmlFor="company">Company</label>
+                            <input
+                                type="text"
+                                id="company"
+                                name="company"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                value={company}
+                                onChange={(e) => setCompany(e.target.value)}
+                            />
+                        </div>
+
                         <motion.button
                             type="submit"
-                            whileHover={{ y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold shadow-xl shadow-emerald-500/20"
+                            disabled={status === "sending"}
+                            whileHover={status === "sending" ? undefined : { y: -2 }}
+                            whileTap={status === "sending" ? undefined : { scale: 0.98 }}
+                            className="w-full py-4 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white font-semibold shadow-xl shadow-emerald-500/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
-                            Send Message
+                            {status === "sending" && (
+                                <span className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                            )}
+                            {status === "sending" ? "Sending..." : "Send Message"}
                         </motion.button>
+
+                        <div aria-live="polite" className="min-h-[1.25rem]">
+                            {status === "sent" && (
+                                <p className="text-sm text-emerald-700 flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                    Message sent — I'll get back to you soon.
+                                </p>
+                            )}
+                            {status === "fallback" && (
+                                <p className="text-sm text-zinc-500">
+                                    Opening your mail app instead. If nothing happens, email me at{" "}
+                                    <a
+                                        href={`mailto:${personalInfo.email}`}
+                                        className="text-emerald-600 hover:underline"
+                                    >
+                                        {personalInfo.email}
+                                    </a>
+                                    .
+                                </p>
+                            )}
+                            {status === "error" && (
+                                <p className="text-sm text-red-600">
+                                    Couldn't send that.{" "}
+                                    <button
+                                        type="button"
+                                        onClick={openMailClient}
+                                        className="underline hover:no-underline"
+                                    >
+                                        Send it by email instead
+                                    </button>
+                                    .
+                                </p>
+                            )}
+                        </div>
                     </motion.form>
                 </div>
             </div>

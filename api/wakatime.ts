@@ -32,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
 
         return res.status(response.status).json(data);
-    } catch (error) {
+    } catch {
         return res.status(500).json({ error: "Failed to fetch from Wakatime" });
     }
 }

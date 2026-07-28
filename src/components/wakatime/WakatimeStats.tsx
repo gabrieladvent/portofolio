@@ -1,6 +1,7 @@
 import { useWakatimeStats } from "../../hooks/useApi";
 import type { WakatimeCalendarDay } from "../../types/api";
 import WakatimeCalendarHeatmap from "./WakatimeCalendarHeatmap";
+import DataUnavailable from "../ui/DataUnavailable";
 
 export default function WakatimeStats() {
     const { stats, loading } = useWakatimeStats();
@@ -20,7 +21,11 @@ export default function WakatimeStats() {
         );
     }
 
-    if (!stats) return null;
+    if (!stats) {
+        return (
+            <DataUnavailable label="Coding activity couldn't be loaded right now." />
+        );
+    }
 
     const { weeklyStats, allTimeTotal, calendarData } = stats;
 

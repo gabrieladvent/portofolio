@@ -1,5 +1,6 @@
 import { useGitHubStats } from "../../hooks/useApi";
 import { useState, useRef, useEffect } from "react";
+import DataUnavailable from "../ui/DataUnavailable";
 
 interface TooltipState {
     visible: boolean;
@@ -58,7 +59,15 @@ export default function GitHubContributions() {
         );
     }
 
-    if (!stats) return null;
+    if (!stats) {
+        return (
+            <DataUnavailable
+                label="The contribution graph couldn't be loaded right now."
+                href="https://github.com/gabrieladvent"
+                linkLabel="View the profile on GitHub"
+            />
+        );
+    }
 
     const { contributionCalendar } = stats;
     const weeks = contributionCalendar.weeks;

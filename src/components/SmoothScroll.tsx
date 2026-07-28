@@ -1,4 +1,5 @@
 import { ReactLenis } from "lenis/react";
+import { useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
 /**
@@ -10,6 +11,12 @@ import type { ReactNode } from "react";
  * in CSS, since it would conflict with Lenis.
  */
 export default function SmoothScroll({ children }: { children: ReactNode }) {
+  const reduceMotion = useReducedMotion();
+
+  // Hijacked scrolling is exactly what `prefers-reduced-motion` is asking us
+  // not to do, so hand control back to the browser in that case.
+  if (reduceMotion) return <>{children}</>;
+
   return (
     <ReactLenis
       root

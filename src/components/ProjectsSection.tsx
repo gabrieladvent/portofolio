@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { projects } from "../data/portfolio";
 
 type Project = {
@@ -57,6 +57,9 @@ function ProjectModal({
                     <img
                         src={project.image}
                         alt={project.title}
+                        decoding="async"
+                        width={1280}
+                        height={720}
                         className="w-full h-full object-cover"
                     />
 
@@ -164,6 +167,7 @@ function ProjectCard({
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
     const depth = index % 2 === 0 ? 120 : 45;
     const y = useTransform(scrollYProgress, [0, 1], [depth, -depth]);
+    const reduceMotion = useReducedMotion();
 
     return (
         <motion.div
@@ -176,7 +180,7 @@ function ProjectCard({
             transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease }}
         >
             {/* Parallax lives on its own wrapper so it never fights the `layout` animation */}
-            <motion.div style={{ y }}>
+            <motion.div style={{ y: reduceMotion ? undefined : y }}>
             <motion.div
                 onClick={onSelect}
                 whileHover={{ y: -6 }}
@@ -187,6 +191,10 @@ function ProjectCard({
                     <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
+                        width={640}
+                        height={360}
                         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

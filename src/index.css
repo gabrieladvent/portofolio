@@ -94,6 +94,27 @@ html {
   scroll-behavior: auto;
 }
 
+/* Respect the OS-level motion preference: kill looping decoration and long
+   transitions for visitors who get motion sick. Lenis is disabled separately
+   in SmoothScroll.tsx, and Framer parallax is gated with useReducedMotion. */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-float,
+  .animate-glow,
+  .animate-gradient {
+    animation: none !important;
+  }
+}
+
 /* Base Styles */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;

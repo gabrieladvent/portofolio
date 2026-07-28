@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { personalInfo, socialLinks, skills, projects } from "../data/portfolio";
 import { SocialIcon } from "../utils/helpers";
 
@@ -30,6 +30,11 @@ export default function HeroSection() {
     const ghostX = useTransform(scrollYProgress, [0, 1], ["0%", "-22%"]);
     const fade = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
+    // Scroll-linked motion is the most nausea-inducing part of the page, so it
+    // is dropped entirely for visitors who ask for reduced motion.
+    const reduceMotion = useReducedMotion();
+    const p = <T,>(value: T) => (reduceMotion ? undefined : value);
+
     const container = {
         hidden: {},
         show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
@@ -47,7 +52,7 @@ export default function HeroSection() {
         >
             {/* Giant faint monogram in the background — slow parallax */}
             <motion.div
-                style={{ y: ghostY, x: ghostX, opacity: fade }}
+                style={{ y: p(ghostY), x: p(ghostX), opacity: p(fade) }}
                 aria-hidden
                 className="pointer-events-none absolute -right-10 top-1/4 select-none font-bold tracking-tighter leading-none text-[clamp(12rem,40vw,30rem)] text-black/[0.035]"
             >
@@ -73,7 +78,7 @@ export default function HeroSection() {
                         Available for part-time or project work
                     </motion.div>
 
-                    <motion.h1 style={{ y: nameY }} className="font-bold tracking-tight leading-[0.86] text-zinc-900">
+                    <motion.h1 style={{ y: p(nameY) }} className="font-bold tracking-tight leading-[0.86] text-zinc-900">
                         <motion.span variants={line} className="block text-[clamp(3rem,12vw,8.5rem)]">
                             {firstName}
                         </motion.span>
@@ -85,7 +90,7 @@ export default function HeroSection() {
                         </motion.span>
                     </motion.h1>
 
-                    <motion.div style={{ y: subY }}>
+                    <motion.div style={{ y: p(subY) }}>
                         <motion.p variants={line} className="mt-7 text-xl sm:text-2xl text-zinc-700 font-medium">
                             {personalInfo.title}
                         </motion.p>
@@ -94,7 +99,7 @@ export default function HeroSection() {
                         </motion.p>
                     </motion.div>
 
-                    <motion.div style={{ y: ctaY }}>
+                    <motion.div style={{ y: p(ctaY) }}>
                         <motion.div variants={line} className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
                             <a
                                 href="#projects"
@@ -130,7 +135,7 @@ export default function HeroSection() {
 
                 {/* Meta column — fastest parallax */}
                 <motion.div
-                    style={{ y: metaY }}
+                    style={{ y: p(metaY) }}
                     variants={container}
                     initial="hidden"
                     animate="show"
@@ -164,7 +169,7 @@ export default function HeroSection() {
             </div>
 
             <motion.div
-                style={{ opacity: fade }}
+                style={{ opacity: p(fade) }}
                 className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-widest text-zinc-400 flex flex-col items-center gap-2"
             >
                 <span>Scroll</span>
