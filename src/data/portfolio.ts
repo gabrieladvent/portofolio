@@ -38,7 +38,7 @@ export const personalInfo = {
   title: "Full Stack Developer",
   tagline:
     "I build scalable systems and usable interfaces — primarily with Laravel, React, and Go.",
-  bio: `Experienced web developer with 2+ years of experience, primarily focused on PHP using Laravel and CodeIgniter.
+  bio: `Experienced web developer with 3+ years of experience, primarily focused on PHP using Laravel and CodeIgniter.
         Proficient in building scalable systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js.
         Committed to writing clean, maintainable code and delivering high-quality web solutions.`,
   email: "bie.ritan112@gmail.com",

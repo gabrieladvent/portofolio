@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { experiences, personalInfo } from "../data/portfolio";
 import { useGitHubProfile } from "../hooks/useApi";
@@ -14,9 +14,27 @@ const item = {
     show: { opacity: 1, y: 0, transition: { duration: 0.55, ease } },
 };
 
+const timeFormatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Jakarta",
+    hour: "2-digit",
+    minute: "2-digit",
+});
+
+function useLocalTime() {
+    const [time, setTime] = useState(() => timeFormatter.format(new Date()));
+
+    useEffect(() => {
+        const id = setInterval(() => setTime(timeFormatter.format(new Date())), 15_000);
+        return () => clearInterval(id);
+    }, []);
+
+    return time;
+}
+
 export default function AboutSection() {
     const { profile } = useGitHubProfile();
     const current = experiences[0];
+    const localTime = useLocalTime();
 
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -86,7 +104,7 @@ export default function AboutSection() {
 
                     {/* Stat tiles */}
                     <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
-                        <div className="text-3xl font-bold text-emerald-600 tabular-nums">2+</div>
+                        <div className="text-3xl font-bold text-emerald-600 tabular-nums">3+</div>
                         <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Years exp</div>
                     </motion.div>
                     <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
@@ -108,6 +126,34 @@ export default function AboutSection() {
                             <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">Based in</div>
                             <div className="text-zinc-900 text-sm font-medium">{personalInfo.location}</div>
                         </div>
+                    </motion.div>
+
+                    {/* Availability */}
+                    <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
+                        <div className="flex items-center gap-2">
+                            <span className="relative flex h-2 w-2 shrink-0">
+                                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                            </span>
+                            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                                Status
+                            </div>
+                        </div>
+                        <div className="text-zinc-900 text-sm font-medium mt-1.5">
+                            Open to freelance & collaboration
+                        </div>
+                    </motion.div>
+
+                    {/* Local time */}
+                    <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                            Local time
+                        </div>
+                        <div className="text-2xl font-bold text-zinc-900 tabular-nums mt-1 tracking-tight">
+                            {localTime}
+                            <span className="text-xs font-mono font-normal text-zinc-400 ml-1.5">WIB</span>
+                        </div>
+                        <div className="text-zinc-500 text-xs mt-0.5">GMT+7 · usually replies same day</div>
                     </motion.div>
                 </motion.div>
 

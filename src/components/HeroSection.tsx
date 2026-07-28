@@ -11,7 +11,7 @@ const featuredCount = projects.filter((p) => p.featured).length;
 
 const meta = [
     { k: "Location", v: personalInfo.location },
-    { k: "Experience", v: "2+ Years" },
+    { k: "Experience", v: "3+ Years" },
     { k: "Focus", v: "Backend · UI" },
 ];
 
