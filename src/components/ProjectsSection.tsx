@@ -118,7 +118,9 @@ function ProjectModal({
                         </div>
                     </div>
 
-                    {/* Action buttons */}
+                    {/* Action buttons — skipped entirely when a project has no links,
+                        so the modal doesn't end on an empty padded row. */}
+                    {(project.githubUrl || project.liveUrl) && (
                     <div className="flex gap-3 pt-1">
                         {project.githubUrl && (
                             <a
@@ -147,6 +149,7 @@ function ProjectModal({
                             </a>
                         )}
                     </div>
+                    )}
                 </div>
             </motion.div>
         </motion.div>
@@ -165,7 +168,9 @@ function ProjectCard({
     // Per-card parallax — even/odd columns move differently → depth.
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-    const depth = index % 2 === 0 ? 120 : 45;
+    // Keep the offset subtle — a large delta reads as a misaligned grid,
+    // not as depth.
+    const depth = index % 2 === 0 ? 36 : 14;
     const y = useTransform(scrollYProgress, [0, 1], [depth, -depth]);
     const reduceMotion = useReducedMotion();
 
@@ -243,24 +248,40 @@ function ProjectCard({
     );
 }
 
+const CATEGORY_LABELS: Record<Project["category"], string> = {
+    web: "Web",
+    backend: "Backend",
+    mobile: "Mobile",
+    other: "Other",
+};
+
 export default function ProjectsSection() {
     const [filter, setFilter] = useState<string>("all");
     
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
+    // Derived from the data so a filter can never advertise an empty category
+    // the way the hardcoded "Frontend" chip used to.
     const categories = [
-        { key: "all", label: "All" },
-        { key: "web", label: "Web" },
-        { key: "frontend", label: "Frontend" },
-        { key: "backend", label: "Backend" },
-        { key: "mobile", label: "Mobile" },
+        { key: "all", label: "All", count: projects.length },
+        ...(["web", "backend", "mobile", "other"] as const)
+            .map((key) => ({
+                key,
+                label: CATEGORY_LABELS[key],
+                count: projects.filter((p) => p.category === key).length,
+            }))
+            .filter((c) => c.count > 0),
     ];
 
     const PAGE_SIZE = 6;
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-    const filteredProjects =
-        filter === "all" ? projects : projects.filter((p) => p.category === filter);
+    // Featured first, so the section actually leads with what its title promises.
+    const filteredProjects = (
+        filter === "all" ? projects : projects.filter((p) => p.category === filter)
+    )
+        .slice()
+        .sort((a, b) => Number(b.featured) - Number(a.featured));
 
     const visibleProjects = filteredProjects.slice(0, visibleCount);
     const hasMore = visibleCount < filteredProjects.length;
@@ -272,7 +293,7 @@ export default function ProjectsSection() {
 
     return (
         <>
-            <section id="projects" className="py-20 px-6">
+            <section id="projects" className="py-20 md:py-24 px-6">
                 <div className="max-w-7xl mx-auto lg:grid lg:grid-cols-12 lg:gap-12">
                     {/* Left column — sticky scroll-telling, tinyPod-style */}
                     <div className="lg:col-span-4">
@@ -328,7 +349,15 @@ export default function ProjectsSection() {
                                                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                             />
                                         )}
-                                        <span className="relative z-10">{cat.label}</span>
+                                        <span className="relative z-10 flex items-center gap-1.5">
+                                            {cat.label}
+                                            <span
+                                                className={`font-mono text-[11px] ${filter === cat.key ? "text-white/70" : "text-zinc-400"
+                                                    }`}
+                                            >
+                                                {cat.count}
+                                            </span>
+                                        </span>
                                     </button>
                                 ))}
                             </div>
@@ -337,6 +366,21 @@ export default function ProjectsSection() {
 
                     {/* Right column — card grid */}
                     <div className="lg:col-span-8">
+                        {filteredProjects.length === 0 && (
+                            <div className="rounded-2xl border border-dashed border-black/[0.12] bg-white/50 px-6 py-16 text-center">
+                                <p className="text-zinc-500 text-sm">
+                                    No projects in this category yet.
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={() => handleFilter("all")}
+                                    className="mt-3 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors"
+                                >
+                                    Show all projects
+                                </button>
+                            </div>
+                        )}
+
                         <motion.div layout className="grid sm:grid-cols-2 gap-6">
                             <AnimatePresence mode="popLayout">
                                 {visibleProjects.map((project, index) => (

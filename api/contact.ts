@@ -2,6 +2,35 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 const MAX_LENGTHS = { name: 100, email: 200, message: 5000 };
 
+const RATE_LIMIT = { max: 3, windowMs: 10 * 60 * 1000 };
+
+// Per-instance memory only: a warm Vercel function keeps this between requests,
+// a cold start resets it. Enough to stop a single client hammering the endpoint
+// without pulling in an external store.
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string) {
+    const now = Date.now();
+    const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_LIMIT.windowMs);
+
+    if (recent.length >= RATE_LIMIT.max) {
+        hits.set(ip, recent);
+        return true;
+    }
+
+    recent.push(now);
+    hits.set(ip, recent);
+
+    // Opportunistic cleanup so the map can't grow without bound.
+    if (hits.size > 500) {
+        for (const [key, times] of hits) {
+            if (times.every((t) => now - t >= RATE_LIMIT.windowMs)) hits.delete(key);
+        }
+    }
+
+    return false;
+}
+
 function escapeHtml(value: string) {
     return value
         .replace(/&/g, "&amp;")
@@ -24,6 +53,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!apiKey || !to) {
         return res.status(503).json({ error: "Contact delivery not configured" });
+    }
+
+    const forwarded = req.headers["x-forwarded-for"];
+    const ip = (Array.isArray(forwarded) ? forwarded[0] : forwarded || "unknown")
+        .split(",")[0]
+        .trim();
+
+    if (isRateLimited(ip)) {
+        return res
+            .status(429)
+            .json({ error: "Too many messages. Please try again later." });
     }
 
     const { name, email, message, company } = (req.body ?? {}) as Record<string, unknown>;

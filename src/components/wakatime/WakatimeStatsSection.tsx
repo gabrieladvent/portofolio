@@ -4,7 +4,7 @@ import WakatimeStats from "./WakatimeStats";
 
 export default function WakatimeStatsSection() {
     return (
-        <section id="stats" className="py-28 px-6 relative">
+        <section id="stats" className="py-20 md:py-24 px-6 relative">
             <div className="max-w-5xl mx-auto relative">
                 <SectionHeader
                     index="05"

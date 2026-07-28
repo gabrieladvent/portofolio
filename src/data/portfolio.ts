@@ -69,16 +69,12 @@ export const socialLinks: SocialLink[] = [
 
 export const skills: Skill[] = [
   // Frontend
-  { name: "HTML", category: "frontend", icon: "html" },
-  { name: "CSS", category: "frontend", icon: "css" },
   { name: "JavaScript", category: "frontend", icon: "js" },
   { name: "TypeScript", category: "frontend", icon: "ts" },
   { name: "React", category: "frontend", icon: "react" },
   { name: "Next.js", category: "frontend", icon: "nextjs" },
   { name: "Tailwind CSS", category: "frontend", icon: "tailwind" },
-  { name: "Bootstrap", category: "frontend", icon: "bootstrap" },
   { name: "Framer Motion", category: "frontend", icon: "react" },
-  { name: "jQuery", category: "frontend", icon: "jquery" },
 
   // Backend
   { name: "PHP", category: "backend", icon: "php" },
@@ -90,7 +86,6 @@ export const skills: Skill[] = [
   { name: "MySQL", category: "backend", icon: "mysql" },
   { name: "Redis", category: "backend", icon: "redis" },
   { name: "Firebase", category: "backend", icon: "firebase" },
-  { name: "WordPress", category: "backend", icon: "wordpress" },
 
   // Mobile
   { name: "Flutter", category: "mobile", icon: "flutter" },
@@ -105,9 +100,6 @@ export const skills: Skill[] = [
   { name: "Linux", category: "tools", icon: "linux" },
   { name: "AWS", category: "tools", icon: "aws" },
   { name: "Grafana", category: "tools", icon: "grafana" },
-  { name: "Postman", category: "tools", icon: "postman" },
-  { name: "VS Code", category: "tools", icon: "vscode" },
-  { name: "Android Studio", category: "tools", icon: "androidstudio" },
 ];
 
 export const projects: Project[] = [
@@ -126,7 +118,7 @@ export const projects: Project[] = [
     technologies: ["Python", "YOLOv8", "Streamlit"],
     githubUrl: "https://github.com/gabrieladvent/thesis-result.git",
     liveUrl: "https://thesis-detec-result.streamlit.app/",
-    featured: false,
+    featured: true,
     category: "backend",
   },
 
@@ -223,7 +215,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop",
     technologies: ["Laravel", "Inertia.js", "React TypeScript", "Tailwind CSS"],
     githubUrl: "https://github.com/gabrieladvent/task-tracker",
-    featured: true,
+    featured: false,
     category: "web",
   },
 
@@ -241,7 +233,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop",
     technologies: ["Flutter", "Dart"],
     githubUrl: "https://github.com/gabrieladvent/restaurant-order-app",
-    featured: true,
+    featured: false,
     category: "mobile",
   },
 
@@ -261,7 +253,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop",
     technologies: ["Laravel", "Livewire", "Tailwind CSS", "MySQL"],
     githubUrl: "https://github.com/gabrieladvent/tka-assessment",
-    featured: true,
+    featured: false,
     category: "web",
   },
 
@@ -281,7 +273,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=800&h=600&fit=crop",
     technologies: ["Laravel", "Filament", "MySQL", "Tailwind CSS"],
     githubUrl: "https://github.com/gabrieladvent/loundry-filament",
-    featured: true,
+    featured: false,
     category: "web",
   },
 
@@ -365,7 +357,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop",
     technologies: ["Laravel", "Filament", "MySQL", "Tailwind CSS"],
-    featured: true,
+    featured: false,
     category: "web",
   },
 ];

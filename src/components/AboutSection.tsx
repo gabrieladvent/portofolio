@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { experiences, personalInfo } from "../data/portfolio";
+import { experiences, personalInfo, projects } from "../data/portfolio";
 import { useGitHubProfile } from "../hooks/useApi";
 import SectionHeader from "./ui/SectionHeader";
 
@@ -36,6 +36,14 @@ export default function AboutSection() {
     const current = experiences[0];
     const localTime = useLocalTime();
 
+    // Project count comes from the data, so the tile can never claim a number
+    // that differs from what the Projects section actually shows.
+    const stats = [
+        { value: "3+", label: "Years exp", accent: true },
+        { value: `${projects.length}`, label: "Projects", accent: false },
+        { value: "5+", label: "Clients", accent: false },
+    ];
+
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -48,7 +56,7 @@ export default function AboutSection() {
     const reduceMotion = useReducedMotion();
 
     return (
-        <section id="about" className="py-28 px-6">
+        <section id="about" className="py-20 md:py-24 px-6">
             <div className="max-w-6xl mx-auto">
                 <SectionHeader
                     index="01"
@@ -65,12 +73,12 @@ export default function AboutSection() {
                     whileInView="show"
                     viewport={{ once: true, amount: 0.15 }}
                     variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
-                    className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 auto-rows-fr"
+                    className="mt-14 grid grid-cols-3 md:grid-cols-4 gap-3 md:auto-rows-fr"
                 >
                     {/* Avatar — tall tile, parallax image */}
                     <motion.div
                         variants={item}
-                        className="col-span-2 md:col-span-1 md:row-span-2 rounded-2xl border border-black/[0.07] overflow-hidden relative min-h-[220px] shadow-sm"
+                        className="col-span-3 md:col-span-1 md:row-span-2 rounded-2xl border border-black/[0.07] overflow-hidden relative min-h-[220px] shadow-sm"
                     >
                         <motion.img
                             style={{ y: reduceMotion ? undefined : avatarImgY, scale: reduceMotion ? 1 : 1.4 }}
@@ -86,7 +94,7 @@ export default function AboutSection() {
                     </motion.div>
 
                     {/* Now — current role */}
-                    <motion.div variants={item} className={`col-span-2 md:col-span-3 ${tileBase}`}>
+                    <motion.div variants={item} className={`col-span-3 md:col-span-3 ${tileBase}`}>
                         <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-2">
                             Currently
                         </div>
@@ -105,21 +113,26 @@ export default function AboutSection() {
                     </motion.div>
 
                     {/* Stat tiles */}
-                    <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
-                        <div className="text-3xl font-bold text-emerald-600 tabular-nums">3+</div>
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Years exp</div>
-                    </motion.div>
-                    <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
-                        <div className="text-3xl font-bold text-zinc-900 tabular-nums">20+</div>
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Projects</div>
-                    </motion.div>
-                    <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
-                        <div className="text-3xl font-bold text-zinc-900 tabular-nums">5+</div>
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Clients</div>
-                    </motion.div>
+                    {stats.map((stat) => (
+                        <motion.div
+                            key={stat.label}
+                            variants={item}
+                            className={`${tileBase} flex flex-col justify-center py-4 md:py-5`}
+                        >
+                            <div
+                                className={`text-2xl md:text-3xl font-bold tabular-nums ${stat.accent ? "text-emerald-600" : "text-zinc-900"
+                                    }`}
+                            >
+                                {stat.value}
+                            </div>
+                            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mt-1">
+                                {stat.label}
+                            </div>
+                        </motion.div>
+                    ))}
 
                     {/* Location */}
-                    <motion.div variants={item} className={`col-span-2 md:col-span-2 ${tileBase} flex items-center gap-3`}>
+                    <motion.div variants={item} className={`col-span-3 md:col-span-2 ${tileBase} flex items-center gap-3`}>
                         <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -131,7 +144,7 @@ export default function AboutSection() {
                     </motion.div>
 
                     {/* Availability */}
-                    <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
+                    <motion.div variants={item} className={`col-span-3 md:col-span-1 ${tileBase} flex flex-col justify-center`}>
                         <div className="flex items-center gap-2">
                             <span className="relative flex h-2 w-2 shrink-0">
                                 <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
@@ -147,7 +160,7 @@ export default function AboutSection() {
                     </motion.div>
 
                     {/* Local time */}
-                    <motion.div variants={item} className={`${tileBase} flex flex-col justify-center`}>
+                    <motion.div variants={item} className={`col-span-3 md:col-span-1 ${tileBase} flex flex-col justify-center`}>
                         <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
                             Local time
                         </div>

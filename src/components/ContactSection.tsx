@@ -6,7 +6,7 @@ import SectionHeader from "./ui/SectionHeader";
 
 const ease = [0.21, 0.47, 0.32, 0.98] as const;
 
-type Status = "idle" | "sending" | "sent" | "error" | "fallback";
+type Status = "idle" | "sending" | "sent" | "error" | "fallback" | "throttled";
 
 export default function ContactSection() {
     const [formState, setFormState] = useState({ name: "", email: "", message: "" });
@@ -40,6 +40,11 @@ export default function ContactSection() {
                 return;
             }
 
+            if (response.status === 429) {
+                setStatus("throttled");
+                return;
+            }
+
             // 503 means delivery isn't configured — hand off to the mail client
             // rather than losing what the visitor typed.
             if (response.status === 503) {
@@ -58,7 +63,7 @@ export default function ContactSection() {
         "w-full px-4 py-3 rounded-xl bg-white border border-black/[0.1] text-zinc-900 placeholder-zinc-400 shadow-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-400/40 transition-all outline-none";
 
     return (
-        <section id="contact" className="py-28 px-6">
+        <section id="contact" className="py-20 md:py-24 px-6">
             <div className="max-w-5xl mx-auto">
                 <SectionHeader
                     index="06"
@@ -221,6 +226,12 @@ export default function ContactSection() {
                                         {personalInfo.email}
                                     </a>
                                     .
+                                </p>
+                            )}
+                            {status === "throttled" && (
+                                <p className="text-sm text-amber-600">
+                                    That's a few messages in a row — please try again in a
+                                    little while, or email me directly.
                                 </p>
                             )}
                             {status === "error" && (

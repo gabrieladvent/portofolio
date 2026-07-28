@@ -16,7 +16,7 @@ const skillIconUrl = (iconId: string) =>
 
 export default function SkillsSection() {
     return (
-        <section id="skills" className="py-28 px-6">
+        <section id="skills" className="py-20 md:py-24 px-6">
             <div className="max-w-5xl mx-auto">
                 <SectionHeader
                     index="02"
@@ -24,7 +24,7 @@ export default function SkillsSection() {
                     title={
                         <>
                             Technologies I{" "}
-                            <span className="text-emerald-400">work with</span>
+                            <span className="text-emerald-600">work with</span>
                         </>
                     }
                     description="My daily tech stack for building web, mobile, and backend applications."
