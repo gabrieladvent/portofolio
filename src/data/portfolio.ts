@@ -81,10 +81,16 @@ export const skills: Skill[] = [
   { name: "Laravel", category: "backend", icon: "laravel" },
   { name: "CodeIgniter 4", category: "backend", icon: "php" },
   { name: "Node.js", category: "backend", icon: "nodejs" },
+  // skillicons.dev has no fastify/drizzle/bullmq slug — they render blank, so
+  // each falls back to the closest icon it actually serves.
+  { name: "Fastify", category: "backend", icon: "nodejs" },
   { name: "Golang", category: "backend", icon: "go" },
   { name: "PostgreSQL", category: "backend", icon: "postgres" },
   { name: "MySQL", category: "backend", icon: "mysql" },
+  { name: "Drizzle ORM", category: "backend", icon: "postgres" },
   { name: "Redis", category: "backend", icon: "redis" },
+  { name: "BullMQ", category: "backend", icon: "redis" },
+  { name: "Solidity", category: "backend", icon: "solidity" },
   { name: "Firebase", category: "backend", icon: "firebase" },
 
   // Mobile
@@ -103,6 +109,34 @@ export const skills: Skill[] = [
 ];
 
 export const projects: Project[] = [
+  {
+    id: "warung-agent",
+    title: "WarungAgent",
+    description:
+      "An autonomous AI agent that runs a small shop's operations — stablecoin payments, automatic supplier restocking, and receivables tokenized as on-chain RWA for DeFi financing.",
+    longDescription: `Built an AI agent that operates a neighborhood shop (warung) end to end: it accepts stablecoin payments, reorders from suppliers when stock runs low, and turns customer credit (piutang) into tokenized real-world assets that DeFi investors can finance.
+    The agent reasons over live inventory — ranking restock priority by sales velocity, parsing supplier quotes from raw WhatsApp messages (tiered pricing, minimum order, availability), rejecting offers that fail policy, skipping suppliers outside the whitelist, and halting once the daily spending cap is reached, then reporting why. Every step streams to the dashboard over SSE, so its decision trail is auditable rather than a black box.
+    Two dashboards sit on top: one for the shop owner (stock, treasury, receivables, off-ramp) and one for investors (invoice marketplace, bidding, portfolio, risk model). Invoices are minted as NFTs into an escrow pool with a first-loss buffer that returns to the shop on settlement and pays out to the financer on default.
+    The frontend was built against a mock API written to a locked data contract, which then served as a living specification for the backend. All money is handled as BigInt base-unit strings (18 decimals on BNB Smart Chain) because even 0.01 USDC overflows JavaScript's safe integer range.
+    Built with Next.js, TypeScript, Fastify, Drizzle ORM, PostgreSQL, Redis + BullMQ, and Solidity (Foundry) on BNB Smart Chain.`,
+    image:
+      "https://images.unsplash.com/photo-1621504450181-5d356f61d307?w=800&h=600&fit=crop",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Fastify",
+      "Drizzle ORM",
+      "PostgreSQL",
+      "Redis",
+      "BullMQ",
+      "Solidity",
+      "Tailwind CSS",
+    ],
+    githubUrl: "https://github.com/gabrieladvent/warung-agent",
+    featured: true,
+    category: "web",
+  },
+
   {
     id: "object-detection-yolov8",
     title: "Object Detection with YOLOv8",
