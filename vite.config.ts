@@ -128,6 +128,9 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             react: ["react", "react-dom"],
             motion: ["motion", "lenis"],
+            // Only the about page's globe pulls this in, and it does so through
+            // a dynamic import, so it stays off the initial load.
+            three: ["three", "@react-three/fiber"],
           },
         },
       },

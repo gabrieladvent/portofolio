@@ -25,14 +25,14 @@ export function SocialIcon({ name }: { name: string }) {
 export function AnimatedBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-[#f6f6f4]" />
+      <div className="absolute inset-0 bg-[#f6f6f4] dark:bg-[#0a0c0b]" />
       {/* Soft warm + emerald tint, very subtle for the light theme */}
-      <div className="absolute -top-32 left-1/4 w-[32rem] h-[32rem] bg-emerald-300/20 rounded-full blur-[150px]" />
-      <div className="absolute bottom-0 right-1/4 w-[34rem] h-[34rem] bg-amber-200/30 rounded-full blur-[160px]" />
+      <div className="absolute -top-32 left-1/4 w-[32rem] h-[32rem] bg-emerald-300/20 dark:bg-emerald-500/10 rounded-full blur-[150px]" />
+      <div className="absolute bottom-0 right-1/4 w-[34rem] h-[34rem] bg-amber-200/30 dark:bg-sky-500/10 rounded-full blur-[160px]" />
       {/* Thin grid (subtle dark lines) */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjA0KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-70" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjA0KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-70 dark:opacity-25 dark:invert" />
       {/* Top-bottom vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#f6f6f4] via-transparent to-[#f6f6f4]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#f6f6f4] dark:from-[#0a0c0b] via-transparent to-[#f6f6f4] dark:to-[#0a0c0b]" />
     </div>
   );
 }

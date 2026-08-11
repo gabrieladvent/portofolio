@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
+/* Tailwind v4 wires `dark:` to prefers-color-scheme by default. The About page
+   needs a switch the visitor controls, so the variant follows a class on <html>
+   instead — the OS preference is still the starting value, set in useTheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Seluruh situs pakai JetBrains Mono — font-sans di-alias ke mono supaya
    utility bawaan Tailwind ikut monospace, bukan cuma label Swiss. */
 @theme {

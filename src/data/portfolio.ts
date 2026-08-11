@@ -25,6 +25,7 @@ export interface Experience {
   endDate: string | "Present";
   description: string;
   technologies: string[];
+  logo?: string;
 }
 
 export interface SocialLink {
@@ -43,8 +44,6 @@ export const personalInfo = {
         Committed to writing clean, maintainable code and delivering high-quality web solutions.`,
   email: "bie.ritan112@gmail.com",
   location: "Yogyakarta, Indonesia",
-  // Fallback when /api/github is unreachable — GitHub serves the real avatar
-  // from this path, so a failed API call no longer shows a stranger's photo.
   avatar: "https://github.com/gabrieladvent.png",
   resumeUrl: "/cv-gabriel-advent-batan.pdf",
 };
@@ -400,6 +399,7 @@ export const experiences: Experience[] = [
   {
     id: "fullstack-dev-konnco",
     company: "PT. Sahabat Inovasi Teknologi (Konnco Studio)",
+    logo: "/logos/konnco.png",
     position: "Middle Full Stack Developer",
     startDate: "2025-05",
     endDate: "Present",
@@ -419,6 +419,7 @@ export const experiences: Experience[] = [
   {
     id: "fullstack-dev-vega",
     company: "PT. Bintang Utara Nusantara (Vega)",
+    logo: "/logos/vega.png",
     position: "Full Stack Developer",
     startDate: "2023-11",
     endDate: "2025-05",
@@ -438,6 +439,7 @@ export const experiences: Experience[] = [
   {
     id: "fullstack-dev-kanisius",
     company: "Yayasan Kanisius Cabang Yogyakarta",
+    logo: "/logos/kanisius.png",
     position: "Lead Full Stack Developer (Internship)",
     startDate: "2023-06",
     endDate: "2023-08",
