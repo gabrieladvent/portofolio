@@ -1,9 +1,12 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
-/* Pakai JetBrains Mono untuk utility font-mono (label Swiss) */
+/* Seluruh situs pakai JetBrains Mono — font-sans di-alias ke mono supaya
+   utility bawaan Tailwind ikut monospace, bukan cuma label Swiss. */
 @theme {
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 /* Custom Scrollbar */
@@ -64,7 +67,7 @@ html {
 
 /* Base Styles */
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
