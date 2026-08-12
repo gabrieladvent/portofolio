@@ -13,6 +13,9 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
+    /* The globe imports its coastline data as JSON so it ships in the bundle
+       rather than being fetched, which the CSP would block anyway. */
+    "resolveJsonModule": true,
     "noEmit": true,
     "jsx": "react-jsx",
 

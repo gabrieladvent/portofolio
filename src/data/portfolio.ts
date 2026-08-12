@@ -9,6 +9,8 @@ export interface Project {
   liveUrl?: string;
   featured: boolean;
   category: "web" | "mobile" | "backend" | "other";
+  date?: string;
+  role?: string;
 }
 
 export interface Skill {
@@ -25,6 +27,7 @@ export interface Experience {
   endDate: string | "Present";
   description: string;
   technologies: string[];
+  logo?: string;
 }
 
 export interface SocialLink {
@@ -36,14 +39,15 @@ export interface SocialLink {
 export const personalInfo = {
   name: "Gabriel Advent",
   title: "Full Stack Developer",
-  bio: `Experienced web developer with 2+ years of experience, primarily focused on PHP using Laravel and CodeIgniter. 
-        Proficient in building scalable backend systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js. 
+  tagline:
+    "I build scalable systems and usable interfaces — primarily with Laravel, React, and Go.",
+  bio: `Experienced web developer with 3+ years of experience, primarily focused on PHP using Laravel and CodeIgniter.
+        Proficient in building scalable systems and familiar with modern technologies such as React, TypeScript, Golang, and Node.js.
         Committed to writing clean, maintainable code and delivering high-quality web solutions.`,
   email: "bie.ritan112@gmail.com",
   location: "Yogyakarta, Indonesia",
-  avatar:
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-  resumeUrl: "public/Resume.pdf",
+  avatar: "https://github.com/gabrieladvent.png",
+  resumeUrl: "/cv-gabriel-advent-batan.pdf",
 };
 
 export const socialLinks: SocialLink[] = [
@@ -66,28 +70,27 @@ export const socialLinks: SocialLink[] = [
 
 export const skills: Skill[] = [
   // Frontend
-  { name: "HTML", category: "frontend", icon: "html" },
-  { name: "CSS", category: "frontend", icon: "css" },
   { name: "JavaScript", category: "frontend", icon: "js" },
   { name: "TypeScript", category: "frontend", icon: "ts" },
   { name: "React", category: "frontend", icon: "react" },
   { name: "Next.js", category: "frontend", icon: "nextjs" },
   { name: "Tailwind CSS", category: "frontend", icon: "tailwind" },
-  { name: "Bootstrap", category: "frontend", icon: "bootstrap" },
   { name: "Framer Motion", category: "frontend", icon: "react" },
-  { name: "jQuery", category: "frontend", icon: "jquery" },
 
   // Backend
   { name: "PHP", category: "backend", icon: "php" },
   { name: "Laravel", category: "backend", icon: "laravel" },
   { name: "CodeIgniter 4", category: "backend", icon: "php" },
   { name: "Node.js", category: "backend", icon: "nodejs" },
+  { name: "Fastify", category: "backend", icon: "nodejs" },
   { name: "Golang", category: "backend", icon: "go" },
   { name: "PostgreSQL", category: "backend", icon: "postgres" },
   { name: "MySQL", category: "backend", icon: "mysql" },
+  { name: "Drizzle ORM", category: "backend", icon: "postgres" },
   { name: "Redis", category: "backend", icon: "redis" },
+  { name: "BullMQ", category: "backend", icon: "redis" },
+  { name: "Solidity", category: "backend", icon: "solidity" },
   { name: "Firebase", category: "backend", icon: "firebase" },
-  { name: "WordPress", category: "backend", icon: "wordpress" },
 
   // Mobile
   { name: "Flutter", category: "mobile", icon: "flutter" },
@@ -102,14 +105,43 @@ export const skills: Skill[] = [
   { name: "Linux", category: "tools", icon: "linux" },
   { name: "AWS", category: "tools", icon: "aws" },
   { name: "Grafana", category: "tools", icon: "grafana" },
-  { name: "Postman", category: "tools", icon: "postman" },
-  { name: "VS Code", category: "tools", icon: "vscode" },
-  { name: "Android Studio", category: "tools", icon: "androidstudio" },
 ];
 
 export const projects: Project[] = [
   {
+    id: "warung-agent",
+    date: "2026-07",
+    role: "Full Stack",
+    title: "WarungAgent",
+    description:
+      "An autonomous AI agent that runs a small shop's operations — stablecoin payments, automatic supplier restocking, and receivables tokenized as on-chain RWA for DeFi financing.",
+    longDescription: `Built an AI agent that operates a neighborhood shop (warung) end to end: it accepts stablecoin payments, reorders from suppliers when stock runs low, and turns customer credit (piutang) into tokenized real-world assets that DeFi investors can finance.
+    The agent reasons over live inventory — ranking restock priority by sales velocity, parsing supplier quotes from raw WhatsApp messages (tiered pricing, minimum order, availability), rejecting offers that fail policy, skipping suppliers outside the whitelist, and halting once the daily spending cap is reached, then reporting why. Every step streams to the dashboard over SSE, so its decision trail is auditable rather than a black box.
+    Two dashboards sit on top: one for the shop owner (stock, treasury, receivables, off-ramp) and one for investors (invoice marketplace, bidding, portfolio, risk model). Invoices are minted as NFTs into an escrow pool with a first-loss buffer that returns to the shop on settlement and pays out to the financer on default.
+    The frontend was built against a mock API written to a locked data contract, which then served as a living specification for the backend. All money is handled as BigInt base-unit strings (18 decimals on BNB Smart Chain) because even 0.01 USDC overflows JavaScript's safe integer range.
+    Built with Next.js, TypeScript, Fastify, Drizzle ORM, PostgreSQL, Redis + BullMQ, and Solidity (Foundry) on BNB Smart Chain.`,
+    image:
+      "https://images.unsplash.com/photo-1621504450181-5d356f61d307?w=800&h=600&fit=crop",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Fastify",
+      "Drizzle ORM",
+      "PostgreSQL",
+      "Redis",
+      "BullMQ",
+      "Solidity",
+      "Tailwind CSS",
+    ],
+    githubUrl: "https://github.com/gabrieladvent/warung-agent",
+    featured: true,
+    category: "web",
+  },
+
+  {
     id: "object-detection-yolov8",
+    date: "2024-06",
+    role: "ML Engineer",
     title: "Object Detection with YOLOv8",
     description:
       "Real-time object detection system powered by YOLOv8 with a public web interface built using Streamlit.",
@@ -123,12 +155,14 @@ export const projects: Project[] = [
     technologies: ["Python", "YOLOv8", "Streamlit"],
     githubUrl: "https://github.com/gabrieladvent/thesis-result.git",
     liveUrl: "https://thesis-detec-result.streamlit.app/",
-    featured: false,
+    featured: true,
     category: "backend",
   },
 
   {
     id: "count-sound",
+    date: "2024-02",
+    role: "Solo Developer",
     title: "Count Sound",
     description:
       "A digital vote counting application designed to speed up and improve the accuracy of election result tabulation.",
@@ -147,6 +181,8 @@ export const projects: Project[] = [
 
   {
     id: "toko-kelontong",
+    date: "2023-05",
+    role: "Team of 4",
     title: "Toko Kelontong (e-commerce system)",
     description:
       "A simple inventory and transaction management system for small retail businesses.",
@@ -165,6 +201,8 @@ export const projects: Project[] = [
 
   {
     id: "weru-website",
+    date: "2023-07",
+    role: "Solo Developer",
     title: "Weru Village Website",
     description:
       "A community website for digitally documenting and publishing village activities and local programs.",
@@ -183,6 +221,8 @@ export const projects: Project[] = [
 
   {
     id: "lms-project",
+    date: "2026-05",
+    role: "Full Stack",
     title: "LMS Project",
     description:
       "A learning management platform for organizing courses, managing content, and tracking learner progress.",
@@ -200,13 +240,16 @@ export const projects: Project[] = [
       "React TypeScript",
       "Tailwind CSS",
     ],
-    githubUrl: "https://github.com/gabrieladvent/lms-project",
+    githubUrl: "https://github.com/gabrieladvent/learning-management-system",
+    liveUrl: "https://lms.geb4v.my.id",
     featured: true,
     category: "web",
   },
 
   {
     id: "task-tracker",
+    date: "2025-10",
+    role: "Solo Developer",
     title: "Task Tracker",
     description:
       "A sprint-based task and project management app built for developers and small teams.",
@@ -219,12 +262,14 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop",
     technologies: ["Laravel", "Inertia.js", "React TypeScript", "Tailwind CSS"],
     githubUrl: "https://github.com/gabrieladvent/task-tracker",
-    featured: true,
+    featured: false,
     category: "web",
   },
 
   {
     id: "restaurant-order-app",
+    date: "2024-11",
+    role: "Mobile Developer",
     title: "Restaurant Order App",
     description:
       "A mobile app for browsing restaurant menus and placing food orders directly from your phone.",
@@ -237,12 +282,14 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop",
     technologies: ["Flutter", "Dart"],
     githubUrl: "https://github.com/gabrieladvent/restaurant-order-app",
-    featured: true,
+    featured: false,
     category: "mobile",
   },
 
   {
     id: "tka-assessment-website",
+    date: "2026-02",
+    role: "Full Stack",
     title: "TKA Assessment Website",
     description:
       "A web-based academic assessment platform for elementary and junior high school students in Magelang, Central Java.",
@@ -257,12 +304,14 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop",
     technologies: ["Laravel", "Livewire", "Tailwind CSS", "MySQL"],
     githubUrl: "https://github.com/gabrieladvent/tka-assessment",
-    featured: true,
+    featured: false,
     category: "web",
   },
 
   {
     id: "laundry-management",
+    date: "2025-09",
+    role: "Solo Developer",
     title: "Laundry Management System",
     description:
       "A full-featured laundry management app covering customer registration, orders, delivery, and more.",
@@ -280,12 +329,105 @@ export const projects: Project[] = [
     featured: false,
     category: "web",
   },
+
+  {
+    id: "library-management",
+    date: "2024-12",
+    role: "Solo Developer",
+    title: "Library Management System",
+    description:
+      "A library management system to manage books, borrowing, returns, and overdue tracking.",
+    longDescription: `Built a library management system designed to simplify and digitize daily library operations.
+
+      The system manages the complete book lifecycle, including book inventory management, borrowing and return processes, due date tracking, and overdue handling. It helps librarians efficiently track which books are available, currently borrowed, or overdue.
+
+      Key features include book catalog management, member borrowing history, return processing, late return tracking with penalties (if applicable), and reporting to monitor library activity.
+
+      Built with CodeIgniter 4 and MySQL, the system provides a lightweight and efficient backend with a clean interface styled using CSS for smooth day-to-day library operations.`,
+    image:
+      "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800&h=600&fit=crop",
+    technologies: ["CodeIgniter 4", "MySQL", "CSS"],
+    githubUrl: "https://github.com/gabrieladvent/library",
+    featured: false,
+    category: "web",
+  },
+
+  {
+    id: "school-website-template",
+    date: "2026-01",
+    role: "Full Stack",
+    title: "School Website Template (Single-Tenant)",
+    description:
+      "A reusable, configurable school website where the entire identity — branding, theme, content, and modules — is managed from an admin panel without touching code.",
+    longDescription: `Built a reusable school website template designed so that a single deployment serves one school, with every aspect of its identity configured through an admin panel rather than hardcoded — making it easy to spin up a new, distinct site for any school from the same codebase.
+
+    The platform features a runtime theming system: admins can pick from color presets and style packs (typography + radius) or derive the palette straight from an uploaded logo, with an automatic color ramp and WCAG contrast validation on save. Content modules (News, Achievements, Extracurriculars, Gallery, Agenda, Admissions, and a configurable faith/values section) can be toggled per school — navigation, routes, and homepage sections adapt automatically, returning a clean 404 when a module is disabled.
+
+    Includes role-based access control (Filament Shield), a rich text editor and media uploads for all content, full SEO support (sitemap, robots, Open Graph, Schema.org), Indonesian localization with timezone handling, and a polished, responsive, accessible public front-end.
+
+    Built with Laravel, Filament, Livewire, Alpine.js, and Tailwind CSS — emphasizing a single source of truth for configuration, a strong design system, and an experience that lets non-technical school staff manage everything themselves.`,
+    image:
+      "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop",
+    technologies: [
+      "Laravel",
+      "Filament",
+      "Livewire",
+      "Alpine.js",
+      "Tailwind CSS",
+    ],
+    githubUrl: "https://github.com/gabrieladvent/single-tenancy-landing-page",
+    liveUrl: "https://school.geb4v.my.id/",
+    featured: true,
+    category: "web",
+  },
+
+  {
+    id: "kanisius-yogyakarta-website",
+    date: "2023-08",
+    role: "Lead Developer",
+    title: "Yayasan Kanisius Yogyakarta Website",
+    description:
+      "A data management and analytics platform for student records across Kanisius schools in Yogyakarta.",
+    longDescription: `Developed a web-based data management and analytics system for Yayasan Kanisius Yogyakarta to centralize student information across multiple schools under the foundation.
+
+      The platform is designed to support data collection, management, and analysis of student records from various schools within the Kanisius network in Yogyakarta. It helps administrators and staff monitor student data more efficiently and generate insights for decision-making.
+
+      Key features include student data management, cross-school data aggregation, reporting and analytics, and structured data visualization to support educational monitoring and evaluation.
+
+      Built with Laravel 10, Bootstrap, and MySQL, the system provides a responsive interface and a robust backend for handling centralized educational data across multiple institutions.`,
+    image:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop",
+    technologies: ["Laravel 10", "Bootstrap", "MySQL"],
+    githubUrl: "https://github.com/gabrieladvent/website-kanisius",
+    featured: false,
+    category: "web",
+  },
+
+  {
+    id: "koperasi-management",
+    date: "2026-07",
+    role: "Full Stack",
+    title: "Cooperative (KSP) Management System",
+    description:
+      "An internal management system for a savings & loan cooperative (KSP), handling member records, multiple savings schemes, loans, and installment tracking — with strong financial data integrity at its core.",
+    longDescription: `Built for a government employees' cooperative (KPRI) to replace manual, Excel-based bookkeeping. The system centralizes member data, six savings schemes, loans, and installments into a single internal admin platform.
+
+      It implements the cooperative's real business rules — grade-based mandatory savings, flexible holiday savings, a shopping-balance scheme, short-term ("sebrakan") and long-term loans with admin and mandatory-savings deductions, and installments composed of principal, service charge, and time-deposit savings that are returned once the loan is paid off.
+
+      Financial integrity is the top priority: DECIMAL-based money handling, database transactions, full audit logging, reversal-based corrections instead of hard deletes, and idempotent transactions. Built with Laravel 11, Filament 3, and MySQL for a fast, well-structured back office.`,
+    image:
+      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop",
+    technologies: ["Laravel", "Filament", "MySQL", "Tailwind CSS"],
+    featured: false,
+    category: "web",
+  },
 ];
 
 export const experiences: Experience[] = [
   {
     id: "fullstack-dev-konnco",
     company: "PT. Sahabat Inovasi Teknologi (Konnco Studio)",
+    logo: "/logos/konnco.png",
     position: "Middle Full Stack Developer",
     startDate: "2025-05",
     endDate: "Present",
@@ -305,6 +447,7 @@ export const experiences: Experience[] = [
   {
     id: "fullstack-dev-vega",
     company: "PT. Bintang Utara Nusantara (Vega)",
+    logo: "/logos/vega.png",
     position: "Full Stack Developer",
     startDate: "2023-11",
     endDate: "2025-05",
@@ -324,6 +467,7 @@ export const experiences: Experience[] = [
   {
     id: "fullstack-dev-kanisius",
     company: "Yayasan Kanisius Cabang Yogyakarta",
+    logo: "/logos/kanisius.png",
     position: "Lead Full Stack Developer (Internship)",
     startDate: "2023-06",
     endDate: "2023-08",
@@ -335,28 +479,3 @@ export const experiences: Experience[] = [
   },
 ];
 
-export const apiConfig = {
-  github: {
-    username: import.meta.env.VITE_GITHUB_USERNAME || "johndoe",
-    token: import.meta.env.VITE_GITHUB_TOKEN || "",
-  },
-  wakatime: {
-    apiKey: import.meta.env.WAKATIME_API_KEY || "",
-  },
-};
-
-export const siteConfig = {
-  title: "Gabriel Advent | Portfolio",
-  description: "Full Stack Developer specializing in modern web technologies",
-  keywords: [
-    "developer",
-    "portfolio",
-    "react",
-    "typescript",
-    "fullstack",
-    "laravel",
-    "golang",
-  ],
-  ogImage: "/og-image.png",
-  themeColor: "#0a0a0a",
-};

@@ -1,25 +1,28 @@
-import { useInView } from "../../utils/helpers";
+import { motion } from "motion/react";
+import SectionHeader from "../ui/SectionHeader";
 import GitHubContributions from "./GitHubContributions";
 
 export default function GitHubStatsSection() {
-  const { ref, isInView } = useInView();
-
   return (
-    <section id="github" className="py-38 px-6 relative" ref={ref}>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent" />
-      <div className="max-w-7xl mx-auto relative">
-        <div className="text-center mb-10">
-          <span className={`text-emerald-400 font-semibold text-sm uppercase tracking-wider transition-all duration-700 ${isInView ? 'opacity-100' : 'opacity-0'}`}>
-            GitHub
-          </span>
-          <h2 className={`text-4xl sm:text-5xl font-bold text-white mt-4 transition-all duration-700 delay-100 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            Contributions & Activity
-          </h2>
-        </div>
+    <section id="github" className="py-20 md:py-24 px-6 relative">
+      <div className="max-w-5xl mx-auto relative">
 
-        <div className={`transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <SectionHeader
+          index="04"
+          eyebrow="GitHub"
+          title="Contributions & Activity"
+          description="A record of my GitHub commits, pull requests, and contributions throughout the year."
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+          className="mt-14"
+        >
           <GitHubContributions />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

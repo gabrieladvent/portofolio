@@ -1,93 +1,224 @@
-import { experiences, personalInfo } from "../data/portfolio";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { experiences, personalInfo, projects } from "../data/portfolio";
 import { useGitHubProfile } from "../hooks/useApi";
-import { useInView } from "../utils/helpers";
+import SectionHeader from "./ui/SectionHeader";
+
+const ease = [0.21, 0.47, 0.32, 0.98] as const;
+
+const tileBase =
+    "rounded-2xl border border-black/[0.07] bg-white p-5 shadow-sm hover:border-black/15 transition-colors";
+
+const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.55, ease } },
+};
+
+const timeFormatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Jakarta",
+    hour: "2-digit",
+    minute: "2-digit",
+});
+
+function useLocalTime() {
+    const [time, setTime] = useState(() => timeFormatter.format(new Date()));
+
+    useEffect(() => {
+        const id = setInterval(() => setTime(timeFormatter.format(new Date())), 15_000);
+        return () => clearInterval(id);
+    }, []);
+
+    return time;
+}
 
 export default function AboutSection() {
-    const { ref, isInView } = useInView();
     const { profile } = useGitHubProfile();
+    const current = experiences[0];
+    const localTime = useLocalTime();
+
+    // Project count comes from the data, so the tile can never claim a number
+    // that differs from what the Projects section actually shows.
+    const stats = [
+        { value: "3+", label: "Years exp", accent: true },
+        { value: `${projects.length}`, label: "Projects", accent: false },
+        { value: "5+", label: "Clients", accent: false },
+    ];
+
+    const ref = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"],
+    });
+    // Avatar image parallax inside the frame + tile rising — large magnitude.
+    const avatarImgY = useTransform(scrollYProgress, [0, 1], ["-16%", "16%"]);
+    const bentoY = useTransform(scrollYProgress, [0, 1], [90, -90]);
+
+    const reduceMotion = useReducedMotion();
 
     return (
-        <section id="about" className="py-6 px-6" ref={ref}>
+        <section id="about" className="py-20 md:py-24 px-6">
             <div className="max-w-6xl mx-auto">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
-                    <div className={`relative transition-all duration-1000 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
-                        <div className="relative w-full max-w-sm mx-auto rounded-2xl overflow-hidden">
-                            <div className="absolute -inset-4 bg-linear-to-r from-emerald-500/20 to-cyan-500/20 rounded-3xl blur-2xl" />
-                            <img
-                                src={profile?.avatar_url ?? personalInfo.avatar}
-                                alt="Avatar"
-                                className="relative w-full aspect-square object-cover object-center rounded-2xl"
-                            />
+                <SectionHeader
+                    index="01"
+                    eyebrow="About"
+                    title="A bit about me"
+                    description={personalInfo.bio}
+                />
+
+                {/* Bento grid */}
+                <motion.div
+                    ref={ref}
+                    style={{ y: reduceMotion ? undefined : bentoY }}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
+                    className="mt-14 grid grid-cols-3 md:grid-cols-4 gap-3 md:auto-rows-fr"
+                >
+                    {/* Avatar — tall tile, parallax image */}
+                    <motion.div
+                        variants={item}
+                        className="col-span-3 md:col-span-1 md:row-span-2 rounded-2xl border border-black/[0.07] overflow-hidden relative min-h-[220px] shadow-sm"
+                    >
+                        <motion.img
+                            style={{ y: reduceMotion ? undefined : avatarImgY, scale: reduceMotion ? 1 : 1.4 }}
+                            src={profile?.avatar_url ?? personalInfo.avatar}
+                            alt={personalInfo.name}
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute bottom-4 left-4">
+                            <div className="text-white font-semibold">{personalInfo.name}</div>
+                            <div className="font-mono text-[11px] text-emerald-300">@gabrieladvent</div>
                         </div>
-                        <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-linear-to-br from-emerald-500 to-cyan-500 rounded-2xl -z-10" />
-                        <div className="absolute -top-6 -left-6 w-24 h-24 border-2 border-emerald-500/30 rounded-2xl -z-10" />
-                    </div>
+                    </motion.div>
 
-                    <div className={`transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
-                        <span className="text-emerald-400 font-semibold text-sm uppercase tracking-wider">About Me</span>
-                        <h2 className="text-4xl sm:text-5xl font-bold text-white mt-4 mb-6">
-                            Crafting Digital Experiences
-                        </h2>
-                        <p className="text-gray-400 text-lg leading-relaxed mb-8">
-                            {personalInfo.bio}
-                        </p>
-
-                        <div className="grid grid-cols-2 gap-6 mb-8">
-                            <div className="p-5 rounded-2xl bg-white/8 backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/12 hover:border-emerald-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
-                                <div className="text-3xl font-bold text-emerald-400 mb-1">2+</div>
-                                <div className="text-gray-400 text-sm">Years Experience</div>
-                            </div>
-                            <div className="p-5 rounded-2xl bg-white/8 backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/12 hover:border-cyan-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
-                                <div className="text-3xl font-bold text-cyan-400 mb-1">30+</div>
-                                <div className="text-gray-400 text-sm">Projects Completed</div>
-                            </div>
-                            <div className="p-5 rounded-2xl bg-white/8 backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/12 hover:border-violet-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
-                                <div className="text-3xl font-bold text-violet-400 mb-1">10+</div>
-                                <div className="text-gray-400 text-sm">Happy Clients</div>
-                            </div>
-                            <div className="p-5 rounded-2xl bg-white/8 backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-xl shadow-black/10 hover:bg-white/12 hover:border-pink-400/40 hover:-translate-y-2 hover:scale-105 transition-all duration-500 ease-out">
-                                <div className="text-3xl font-bold text-pink-400 mb-1">∞</div>
-                                <div className="text-gray-400 text-sm">Cups of Coffee</div>
-                            </div>
+                    {/* Now — current role */}
+                    <motion.div variants={item} className={`col-span-3 md:col-span-3 ${tileBase}`}>
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mb-2">
+                            Currently
                         </div>
-
-                        <div className="flex items-center gap-4 text-gray-400">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <span>{personalInfo.location}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Experience Timeline */}
-                <div className={`mt-32 transition-all duration-1000 delay-500 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-                    <h3 className="text-2xl font-bold text-white text-center mb-12">Work Experience</h3>
-                    <div className="relative">
-                        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-emerald-500 via-cyan-500 to-violet-500 hidden md:block" />
-                        <div className="space-y-12">
-                            {experiences.map((exp, index) => (
-                                <div key={exp.id} className={`relative md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:ml-auto md:text-right' : 'md:pl-12'}`}>
-                                    <div className="absolute left-1/2 top-0 w-4 h-4 rounded-full bg-linear-to-r from-emerald-400 to-cyan-400 -translate-x-1/2 hidden md:block shadow-xl shadow-emerald-500/50 ring-4 ring-black" />
-                                    <div className="group p-6 rounded-2xl bg-white/8 backdrop-blur-2xl backdrop-saturate-150 border border-white/20 hover:bg-white/12 hover:border-emerald-500/40 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 ease-out shadow-xl shadow-black/10">
-                                        <span className="text-emerald-400 text-sm font-medium">
-                                            {exp.startDate} - {exp.endDate}
-                                        </span>
-                                        <h4 className="text-xl font-bold text-white mt-2 group-hover:text-emerald-400 transition-colors duration-300">{exp.position}</h4>
-                                        <p className="text-gray-400 mb-3">{exp.company}</p>
-                                        <p className="text-gray-500 text-sm mb-4">{exp.description}</p>
-                                        <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
-                                            {exp.technologies.map((tech) => (
-                                                <span key={tech} className="px-3 py-1.5 text-xs rounded-lg bg-emerald-500/10 backdrop-blur-xl border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
-                                                    {tech}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
+                        <div className="text-zinc-900 text-lg font-semibold">{current.position}</div>
+                        <div className="text-zinc-500 text-sm">{current.company}</div>
+                        <div className="flex flex-wrap gap-2 mt-3">
+                            {current.technologies.slice(0, 6).map((t) => (
+                                <span
+                                    key={t}
+                                    className="font-mono text-[11px] px-2 py-0.5 rounded-md bg-black/[0.04] border border-black/[0.08] text-zinc-600"
+                                >
+                                    {t}
+                                </span>
                             ))}
                         </div>
+                    </motion.div>
+
+                    {/* Stat tiles */}
+                    {stats.map((stat) => (
+                        <motion.div
+                            key={stat.label}
+                            variants={item}
+                            className={`${tileBase} flex flex-col justify-center py-4 md:py-5`}
+                        >
+                            <div
+                                className={`text-2xl md:text-3xl font-bold tabular-nums ${stat.accent ? "text-emerald-600" : "text-zinc-900"
+                                    }`}
+                            >
+                                {stat.value}
+                            </div>
+                            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 mt-1">
+                                {stat.label}
+                            </div>
+                        </motion.div>
+                    ))}
+
+                    {/* Location */}
+                    <motion.div variants={item} className={`col-span-3 md:col-span-2 ${tileBase} flex items-center gap-3`}>
+                        <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <div>
+                            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">Based in</div>
+                            <div className="text-zinc-900 text-sm font-medium">{personalInfo.location}</div>
+                        </div>
+                    </motion.div>
+
+                    {/* Availability */}
+                    <motion.div variants={item} className={`col-span-3 md:col-span-1 ${tileBase} flex flex-col justify-center`}>
+                        <div className="flex items-center gap-2">
+                            <span className="relative flex h-2 w-2 shrink-0">
+                                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                            </span>
+                            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                                Status
+                            </div>
+                        </div>
+                        <div className="text-zinc-900 text-sm font-medium mt-1.5">
+                            Open to freelance & collaboration
+                        </div>
+                    </motion.div>
+
+                    {/* Local time */}
+                    <motion.div variants={item} className={`col-span-3 md:col-span-1 ${tileBase} flex flex-col justify-center`}>
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                            Local time
+                        </div>
+                        <div className="text-2xl font-bold text-zinc-900 tabular-nums mt-1 tracking-tight">
+                            {localTime}
+                            <span className="text-xs font-mono font-normal text-zinc-400 ml-1.5">WIB</span>
+                        </div>
+                        <div className="text-zinc-500 text-xs mt-0.5">GMT+7 · usually replies same day</div>
+                    </motion.div>
+                </motion.div>
+
+                {/* Experience timeline */}
+                <div className="mt-28">
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.6 }}
+                        transition={{ duration: 0.6, ease }}
+                        className="flex items-center gap-4 font-mono text-xs tracking-widest uppercase mb-12"
+                    >
+                        <span className="text-zinc-500">Experience</span>
+                        <span className="h-px flex-1 bg-black/10" />
+                    </motion.div>
+
+                    <div className="space-y-px">
+                        {experiences.map((exp, index) => (
+                            <motion.div
+                                key={exp.id}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.6, delay: index * 0.06, ease }}
+                                className="group grid md:grid-cols-12 gap-3 md:gap-8 py-8 border-t border-black/[0.08]"
+                            >
+                                <div className="md:col-span-3 font-mono text-xs text-zinc-500 tabular-nums">
+                                    {exp.startDate} — {exp.endDate}
+                                </div>
+                                <div className="md:col-span-9">
+                                    <h4 className="text-xl font-bold text-zinc-900 group-hover:text-emerald-600 transition-colors">
+                                        {exp.position}
+                                    </h4>
+                                    <p className="text-zinc-500 text-sm mt-0.5">{exp.company}</p>
+                                    <p className="text-zinc-600 text-sm mt-3 leading-relaxed max-w-2xl">
+                                        {exp.description}
+                                    </p>
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        {exp.technologies.map((tech) => (
+                                            <span
+                                                key={tech}
+                                                className="font-mono text-[11px] px-2 py-0.5 rounded-md bg-black/[0.03] border border-black/[0.08] text-zinc-600"
+                                            >
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </div>
