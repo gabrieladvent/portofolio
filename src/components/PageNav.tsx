@@ -1,12 +1,16 @@
 import { FolderOpen, Moon, Sun, User } from "lucide-react";
-import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { personalInfo } from "../data/portfolio";
 import { useTheme } from "../hooks/useTheme";
 
 const tabs = [
     { href: "/about", label: "About", Icon: User },
-    { href: "/#projects", label: "Work", Icon: FolderOpen },
+    { href: "/work", label: "Work", Icon: FolderOpen },
 ];
+
+/** Shared by the travelling pill and the tab it is growing into, so the two
+ *  arrive together instead of the pill overshooting an empty box. */
+const pill = { type: "spring", stiffness: 260, damping: 30, mass: 0.9 } as const;
 
 /**
  * Floating pill nav for standalone pages. The homepage keeps its own scroll-spy
@@ -56,19 +60,48 @@ export default function PageNav({ current }: { current: string }) {
                     {tabs.map(({ href, label, Icon }) => {
                         const active = href === current;
                         return (
-                            <a
+                            <motion.a
                                 key={href}
+                                // The tab resizes as its label appears; `layout`
+                                // eases that width change instead of snapping it.
+                                layout={!reduceMotion}
                                 href={href}
                                 aria-label={label}
                                 aria-current={active ? "page" : undefined}
-                                className={`flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-300 ${active
-                                    ? "bg-emerald-500 text-white"
-                                    : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
+                                transition={pill}
+                                className={`relative flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-300 ${active
+                                    ? "text-white"
+                                    : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-black/[0.04] dark:hover:bg-white/[0.06] rounded-full"
                                     }`}
                             >
-                                <Icon className="w-4 h-4" strokeWidth={2} />
-                                {active && <span>{label}</span>}
-                            </a>
+                                {/* One pill shared by both tabs: giving it the
+                                    same layoutId in each makes it travel across
+                                    rather than disappear here and reappear there. */}
+                                {active && (
+                                    <motion.span
+                                        aria-hidden="true"
+                                        layoutId={reduceMotion ? undefined : "nav-pill"}
+                                        transition={pill}
+                                        className="absolute inset-0 rounded-full bg-emerald-500"
+                                    />
+                                )}
+                                <Icon className="relative z-10 w-4 h-4" strokeWidth={2} />
+                                <AnimatePresence initial={false} mode="popLayout">
+                                    {active && (
+                                        <motion.span
+                                            key="label"
+                                            layout={!reduceMotion}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="relative z-10"
+                                        >
+                                            {label}
+                                        </motion.span>
+                                    )}
+                                </AnimatePresence>
+                            </motion.a>
                         );
                     })}
                 </nav>

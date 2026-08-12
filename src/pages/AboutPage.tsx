@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import {
     Laptop,
@@ -15,7 +15,6 @@ import PhotoDeck, { type DeckItem } from "../components/about/PhotoDeck";
 import GlobeCard from "../components/about/GlobeCard";
 import ScrollCard from "../components/about/ScrollCard";
 import PageFooter from "../components/PageFooter";
-import PageNav from "../components/PageNav";
 
 const ease = [0.21, 0.47, 0.32, 0.98] as const;
 
@@ -146,11 +145,12 @@ function ExperienceItem({
 }
 
 export default function AboutPage() {
+    useEffect(() => {
+        document.title = `About — ${personalInfo.name}`;
+    }, []);
 
     return (
         <>
-            <PageNav current="/about" />
-
             <main className="px-4 sm:px-6 pt-20 sm:pt-24">
                 <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-4 items-start">
                     {/* ── Left column ──────────────────────────────────── */}

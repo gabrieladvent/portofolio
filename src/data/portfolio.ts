@@ -9,6 +9,8 @@ export interface Project {
   liveUrl?: string;
   featured: boolean;
   category: "web" | "mobile" | "backend" | "other";
+  date?: string;
+  role?: string;
 }
 
 export interface Skill {
@@ -80,8 +82,6 @@ export const skills: Skill[] = [
   { name: "Laravel", category: "backend", icon: "laravel" },
   { name: "CodeIgniter 4", category: "backend", icon: "php" },
   { name: "Node.js", category: "backend", icon: "nodejs" },
-  // skillicons.dev has no fastify/drizzle/bullmq slug — they render blank, so
-  // each falls back to the closest icon it actually serves.
   { name: "Fastify", category: "backend", icon: "nodejs" },
   { name: "Golang", category: "backend", icon: "go" },
   { name: "PostgreSQL", category: "backend", icon: "postgres" },
@@ -110,6 +110,8 @@ export const skills: Skill[] = [
 export const projects: Project[] = [
   {
     id: "warung-agent",
+    date: "2026-07",
+    role: "Full Stack",
     title: "WarungAgent",
     description:
       "An autonomous AI agent that runs a small shop's operations — stablecoin payments, automatic supplier restocking, and receivables tokenized as on-chain RWA for DeFi financing.",
@@ -138,6 +140,8 @@ export const projects: Project[] = [
 
   {
     id: "object-detection-yolov8",
+    date: "2024-06",
+    role: "ML Engineer",
     title: "Object Detection with YOLOv8",
     description:
       "Real-time object detection system powered by YOLOv8 with a public web interface built using Streamlit.",
@@ -157,6 +161,8 @@ export const projects: Project[] = [
 
   {
     id: "count-sound",
+    date: "2024-02",
+    role: "Solo Developer",
     title: "Count Sound",
     description:
       "A digital vote counting application designed to speed up and improve the accuracy of election result tabulation.",
@@ -175,6 +181,8 @@ export const projects: Project[] = [
 
   {
     id: "toko-kelontong",
+    date: "2023-05",
+    role: "Team of 4",
     title: "Toko Kelontong (e-commerce system)",
     description:
       "A simple inventory and transaction management system for small retail businesses.",
@@ -193,6 +201,8 @@ export const projects: Project[] = [
 
   {
     id: "weru-website",
+    date: "2023-07",
+    role: "Solo Developer",
     title: "Weru Village Website",
     description:
       "A community website for digitally documenting and publishing village activities and local programs.",
@@ -211,6 +221,8 @@ export const projects: Project[] = [
 
   {
     id: "lms-project",
+    date: "2026-05",
+    role: "Full Stack",
     title: "LMS Project",
     description:
       "A learning management platform for organizing courses, managing content, and tracking learner progress.",
@@ -236,6 +248,8 @@ export const projects: Project[] = [
 
   {
     id: "task-tracker",
+    date: "2025-10",
+    role: "Solo Developer",
     title: "Task Tracker",
     description:
       "A sprint-based task and project management app built for developers and small teams.",
@@ -254,6 +268,8 @@ export const projects: Project[] = [
 
   {
     id: "restaurant-order-app",
+    date: "2024-11",
+    role: "Mobile Developer",
     title: "Restaurant Order App",
     description:
       "A mobile app for browsing restaurant menus and placing food orders directly from your phone.",
@@ -272,6 +288,8 @@ export const projects: Project[] = [
 
   {
     id: "tka-assessment-website",
+    date: "2026-02",
+    role: "Full Stack",
     title: "TKA Assessment Website",
     description:
       "A web-based academic assessment platform for elementary and junior high school students in Magelang, Central Java.",
@@ -292,6 +310,8 @@ export const projects: Project[] = [
 
   {
     id: "laundry-management",
+    date: "2025-09",
+    role: "Solo Developer",
     title: "Laundry Management System",
     description:
       "A full-featured laundry management app covering customer registration, orders, delivery, and more.",
@@ -312,6 +332,8 @@ export const projects: Project[] = [
 
   {
     id: "library-management",
+    date: "2024-12",
+    role: "Solo Developer",
     title: "Library Management System",
     description:
       "A library management system to manage books, borrowing, returns, and overdue tracking.",
@@ -332,6 +354,8 @@ export const projects: Project[] = [
 
   {
     id: "school-website-template",
+    date: "2026-01",
+    role: "Full Stack",
     title: "School Website Template (Single-Tenant)",
     description:
       "A reusable, configurable school website where the entire identity — branding, theme, content, and modules — is managed from an admin panel without touching code.",
@@ -359,6 +383,8 @@ export const projects: Project[] = [
 
   {
     id: "kanisius-yogyakarta-website",
+    date: "2023-08",
+    role: "Lead Developer",
     title: "Yayasan Kanisius Yogyakarta Website",
     description:
       "A data management and analytics platform for student records across Kanisius schools in Yogyakarta.",
@@ -379,6 +405,8 @@ export const projects: Project[] = [
 
   {
     id: "koperasi-management",
+    date: "2026-07",
+    role: "Full Stack",
     title: "Cooperative (KSP) Management System",
     description:
       "An internal management system for a savings & loan cooperative (KSP), handling member records, multiple savings schemes, loans, and installment tracking — with strong financial data integrity at its core.",
@@ -451,5 +479,3 @@ export const experiences: Experience[] = [
   },
 ];
 
-// GitHub/Wakatime credentials live only in the serverless handlers under /api,
-// so nothing here is read from import.meta.env any more.
