@@ -19,8 +19,7 @@ const columns = [
         title: "Elsewhere",
         links: [
             { label: "Resume", href: personalInfo.resumeUrl },
-            { label: "Email", href: `mailto:${personalInfo.email}` },
-            { label: "Activity", href: "/#stats" },
+            { label: "Old Site", href: "/v3-old" },
         ],
     },
 ];

@@ -106,6 +106,49 @@ function StringToken({ token }: { token: Extract<Token, { kind: "string" }> }) {
     );
 }
 
+/** How wide a token draws in the minimap, as a share of the line budget. */
+function share(text: string) {
+    return `${Math.min((text.length / LINE_BUDGET) * 100, 100)}%`;
+}
+
+const MINIMAP_TONE: Record<Token["kind"], string> = {
+    string: "bg-zinc-400 dark:bg-zinc-500",
+    keyword: "bg-emerald-500/70",
+    key: "bg-zinc-300 dark:bg-zinc-600",
+    punct: "bg-zinc-200 dark:bg-zinc-700",
+};
+
+/**
+ * The minimap a real editor puts down the right-hand edge: the same file at a
+ * size too small to read, which is the point — it shows the file's shape while
+ * the words are busy being written.
+ */
+function MinimapLine({
+    progress,
+    start,
+    tokens,
+    still,
+}: {
+    progress: MotionValue<number>;
+    start: number;
+    tokens: Token[];
+    still: boolean;
+}) {
+    const opacity = useTransform(progress, [start, start + 0.012], [0, 1]);
+
+    return (
+        <motion.div style={still ? undefined : { opacity }} className="flex h-[3px] gap-[2px]">
+            {tokens.map((token, i) => (
+                <span
+                    key={i}
+                    style={{ width: share(token.text) }}
+                    className={`rounded-full ${MINIMAP_TONE[token.kind]}`}
+                />
+            ))}
+        </motion.div>
+    );
+}
+
 function CodeLine({
     progress,
     start,
@@ -178,22 +221,64 @@ export default function TechAct({ progress, from, to, still = false }: ActProps)
                 that repeats its own tab tells the reader nothing. */}
             <ActHeader eyebrow="Stack" value="What I build with" caption={`${skills.length} tools`} />
 
-            <div className="font-mono text-[10px] sm:text-[11px]">
-                {LINES.map((tokens, index) => (
-                    <CodeLine
-                        key={index}
-                        progress={p}
-                        start={from + 0.04 + index * step}
-                        number={index + 1}
-                        tokens={tokens}
-                        still={still}
-                    />
-                ))}
+            <div className="flex items-start gap-6 sm:gap-10">
+                {/* The explorer an editor keeps on the left. It earns its place:
+                    the group sizes are the one thing the file itself buries. */}
+                <div
+                    aria-hidden="true"
+                    className="hidden w-40 shrink-0 border-r border-black/[0.06] pr-6 font-mono text-[11px] lg:block dark:border-white/[0.07]"
+                >
+                    <p className="mb-3 text-[10px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                        Explorer
+                    </p>
+                    <p className="mb-1.5 text-zinc-500 dark:text-zinc-400">stack.ts</p>
+                    {GROUPS.map((group) => (
+                        <p key={group.key} className="flex items-baseline justify-between gap-2 py-0.5">
+                            <span className="text-zinc-400 dark:text-zinc-500">└ {group.label}</span>
+                            <span className="tabular-nums text-zinc-300 dark:text-zinc-600">
+                                {skills.filter((skill) => skill.category === group.key).length}
+                            </span>
+                        </p>
+                    ))}
+                </div>
+
+                <div className="min-w-0 flex-1 font-mono text-[10px] sm:text-[11px] xl:text-[13px]">
+                    {LINES.map((tokens, index) => (
+                        <CodeLine
+                            key={index}
+                            progress={p}
+                            start={from + 0.04 + index * step}
+                            number={index + 1}
+                            tokens={tokens}
+                            still={still}
+                        />
+                    ))}
+                </div>
+
+                <div
+                    aria-hidden="true"
+                    className="hidden w-24 shrink-0 space-y-[7px] border-l border-black/[0.06] pl-4 sm:block dark:border-white/[0.07]"
+                >
+                    {LINES.map((tokens, index) => (
+                        <MinimapLine
+                            key={index}
+                            progress={p}
+                            start={from + 0.04 + index * step}
+                            tokens={tokens}
+                            still={still}
+                        />
+                    ))}
+                </div>
             </div>
 
-            <p className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500">
-                Hover a name for its logo
-            </p>
+            <div className="flex items-center justify-between gap-4 border-t border-black/[0.06] pt-3 font-mono text-[10px] text-zinc-400 dark:border-white/[0.07] dark:text-zinc-500">
+                {/* Both halves at once wrap to two lines on a phone, which is
+                    two lines more than a status bar is worth. */}
+                <span className="hidden sm:inline">
+                    TypeScript · {LINES.length} lines · {GROUPS.length} groups
+                </span>
+                <span>Hover a name for its logo</span>
+            </div>
         </motion.div>
     );
 }

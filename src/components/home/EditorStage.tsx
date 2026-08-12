@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import {
     motion,
     useMotionTemplate,
@@ -28,8 +28,8 @@ const TABS = ["activity.tsx", "waka.json", "stack.ts"];
 
 /**
  * Height of the title bar in pixels — py-2.5 either side of an 11px mono line,
- * plus its bottom border. The roll-up leaves exactly this much standing, and
- * the closed window is centred by lifting half of what is still hidden.
+ * plus its bottom border. The roll-up leaves exactly this much standing, so the
+ * closed window reads as a bar waiting to be opened.
  */
 const BAR_HEIGHT = 38;
 
@@ -76,29 +76,18 @@ function TitleBar({ active }: { active: number }) {
 }
 
 function Body({ children }: { children: ReactNode }) {
-    // Tall on phones: a 16/9 box at 350px wide leaves under 200px of height, and
-    // the stack alone needs thirteen wrapped lines of pills down there.
-    return <div className="relative aspect-3/5 sm:aspect-video">{children}</div>;
+    // Tall on phones: a wide box at 350px across leaves under 200px of height,
+    // and the stack alone needs fifteen lines down there.
+    //
+    // Wider than 16/9 on desktop: the panels are laid out in columns, so the
+    // room they want is sideways. Letterboxing buys that width without the
+    // window growing taller and crowding the screen it is pinned to.
+    return <div className="relative aspect-3/5 sm:aspect-21/9">{children}</div>;
 }
 
 /** The scrolling version: a tall section with a pinned window inside it. */
 function ScrollStage() {
     const ref = useRef<HTMLDivElement>(null);
-    const frame = useRef<HTMLDivElement>(null);
-
-    // How much of the window is still rolled away, measured rather than assumed:
-    // the body's aspect ratio changes at the small breakpoint, so a fixed number
-    // would centre the closed window on desktop and misplace it on a phone.
-    const [hidden, setHidden] = useState(0);
-    useEffect(() => {
-        const element = frame.current;
-        if (!element) return;
-        const measure = () => setHidden((element.offsetHeight - BAR_HEIGHT) / 2);
-        measure();
-        const observer = new ResizeObserver(measure);
-        observer.observe(element);
-        return () => observer.disconnect();
-    }, []);
 
     // The pinned box is exactly one viewport tall, which is what makes
     // "start start"→"end end" line up with the pinned range to the pixel.
@@ -115,10 +104,10 @@ function ScrollStage() {
     const rolled = useTransform(progress, [0, 0.14], [1, 0]);
     const clipPath = useMotionTemplate`inset(0% 0% calc((100% - ${BAR_HEIGHT}px) * ${rolled}) 0% round 14px)`;
 
-    // While it is rolled up the window is only its title bar, which would sit
-    // high above the middle of the pinned screen. This drops it by half the
-    // body it has yet to grow, so the closed window is centred too.
-    const y = useTransform(progress, [0, 0.14], [hidden, 0]);
+    // The title bar stays put and the body grows down out of it. An earlier cut
+    // dropped the closed window by half its unbuilt body, to keep the bar in the
+    // middle of the pinned screen — but that also delayed it by that much on the
+    // way in, leaving a screen-high gap under the hero before anything appeared.
     const scale = useTransform(progress, [0, 0.14], [0.96, 1]);
 
     const [active, setActive] = useState(0);
@@ -130,8 +119,8 @@ function ScrollStage() {
     return (
         <div ref={ref} className="h-[440svh]">
             <div className="sticky top-0 flex h-svh items-center justify-center px-4 sm:px-6">
-                <motion.div style={{ y, scale }} className="w-full max-w-[920px]">
-                    <motion.div ref={frame} style={{ clipPath }} className={windowChrome}>
+                <motion.div style={{ scale }} className="w-full max-w-310">
+                    <motion.div style={{ clipPath }} className={windowChrome}>
                         <TitleBar active={active} />
                         <Body>
                             <GithubAct progress={progress} {...ACTS.github} />
@@ -152,7 +141,7 @@ function ScrollStage() {
  */
 function StaticStage() {
     return (
-        <div className="mx-auto max-w-[920px] space-y-6 px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-310 space-y-6 px-4 py-16 sm:px-6">
             {[
                 <GithubAct key="g" still {...ACTS.github} />,
                 <WakatimeAct key="w" still {...ACTS.wakatime} />,

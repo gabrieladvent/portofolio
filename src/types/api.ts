@@ -77,6 +77,10 @@ export interface WakatimeStats {
   human_readable_daily_average: string;
   languages: WakatimeLanguage[];
   editors: WakatimeEditor[];
+  operating_systems?: WakatimeEditor[];
+  days_minus_holidays?: number;
+  start?: string;
+  end?: string;
   projects?: WakatimeProject[];
   best_day?: WakatimeBestDay;
   categories: {
