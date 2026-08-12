@@ -1,49 +1,19 @@
-import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useLenis } from 'lenis/react';
-import Footer from './components/Footer';
-import ContactSection from './components/ContactSection';
-import WakatimeStatsSection from './components/wakatime/WakatimeStatsSection';
-import GitHubStatsSection from './components/github/GitHubStatsSection';
-import ProjectsSection from './components/ProjectsSection';
-import SkillsSection from './components/SkillsSection';
-import AboutSection from './components/AboutSection';
-import HeroSection from './components/HeroSection';
 import { AnimatedBackground } from './utils/helpers';
-import Navigation from './components/Navigation';
 import SmoothScroll from './components/SmoothScroll';
+import HomePage from './pages/HomePage';
+import LegacyHomePage from './pages/LegacyHomePage';
 import AboutPage from './pages/AboutPage';
 import WorkPage from './pages/WorkPage';
 import CaseStudyPage from './pages/CaseStudyPage';
 import PageNav from './components/PageNav';
 import { useRoute } from './hooks/useRoute';
-import { personalInfo } from './data/portfolio';
-
-function HomePage() {
-  useEffect(() => {
-    document.title = `${personalInfo.name} — ${personalInfo.title}`;
-  }, []);
-
-  return (
-    <>
-      <Navigation />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <GitHubStatsSection />
-        <WakatimeStatsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </>
-  );
-}
 
 function pageFor(route: string) {
   if (route === '/about') return <AboutPage />;
   if (route === '/work') return <WorkPage />;
+  if (route === '/v3-old') return <LegacyHomePage />;
   // Anything deeper under /work is a project slug; CaseStudyPage renders its
   // own 404 when the slug matches nothing.
   if (route.startsWith('/work/')) {
@@ -63,7 +33,9 @@ function pageFor(route: string) {
 function Shell() {
   const route = useRoute();
   const lenis = useLenis();
-  const standalone = route !== '/';
+  // The archived homepage brings its own scroll-spy Navigation; two navs at once
+  // would sit on top of each other.
+  const floatingNav = route !== '/v3-old';
 
   // Pages animate only their opacity. A transform here would make this a
   // containing block for `position: fixed`, and the homepage's own nav — fixed
@@ -72,7 +44,7 @@ function Shell() {
     <div className="relative min-h-screen bg-[#f6f6f4] dark:bg-[#0a0c0b] text-zinc-900 dark:text-zinc-100 overflow-x-clip transition-colors duration-500">
       <AnimatedBackground />
 
-      {standalone && <PageNav current={route.startsWith('/work') ? '/work' : route} />}
+      {floatingNav && <PageNav current={route.startsWith('/work') ? '/work' : route} />}
 
       <AnimatePresence
         mode="wait"

@@ -12,7 +12,13 @@ function normalise(pathname: string) {
  */
 function isAppRoute(pathname: string) {
     const path = normalise(pathname);
-    return path === "/" || path === "/about" || path === "/work" || path.startsWith("/work/");
+    return (
+        path === "/" ||
+        path === "/about" ||
+        path === "/work" ||
+        path === "/v3-old" ||
+        path.startsWith("/work/")
+    );
 }
 
 let current = normalise(window.location.pathname);
