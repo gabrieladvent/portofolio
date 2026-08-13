@@ -5,7 +5,6 @@ export interface DeckItem {
     id: string;
     caption: string;
     meta: string;
-    /** Drop a real photo here (e.g. "/photos/jogja.jpg"); falls back to the tint. */
     src?: string;
     tint: string;
     emoji: string;
@@ -20,11 +19,6 @@ const layout = [
 
 const SWIPE_THRESHOLD = 70;
 
-/**
- * A stack of photos you can throw off the top — the one you drop goes to the
- * back and the next one surfaces. Tap or Enter cycles it too, so the interaction
- * isn't locked behind a pointer drag.
- */
 export default function PhotoDeck({ items }: { items: DeckItem[] }) {
     const [front, setFront] = useState(0);
     const reduceMotion = useReducedMotion();
@@ -39,7 +33,6 @@ export default function PhotoDeck({ items }: { items: DeckItem[] }) {
 
     return (
         <motion.div
-            // A slow idle bob, so the deck reads as grabbable before you touch it.
             animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             className="relative w-40 h-52 sm:w-44 sm:h-56 mb-5 shrink-0 select-none"

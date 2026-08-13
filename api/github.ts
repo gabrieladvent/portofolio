@@ -25,10 +25,6 @@ const CONTRIBUTIONS_QUERY = `
   }
 `;
 
-/**
- * Proxies GitHub reads so the token never reaches the browser bundle.
- * `?resource=profile` -> REST user object, `?resource=contributions` -> GraphQL calendar.
- */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const token = process.env.GITHUB_TOKEN;
   const username = process.env.GITHUB_USERNAME;
@@ -56,8 +52,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       let response = await fetch(url, { headers });
 
-      // The profile is public: an expired token shouldn't take it down,
-      // it only costs the higher authenticated rate limit.
       if (response.status === 401 && token) {
         const anonymous = { ...headers };
         delete anonymous.Authorization;
@@ -85,7 +79,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (resource === "contributions") {
-      // The contribution calendar is GraphQL-only, and GraphQL always needs a token.
       if (!token) {
         return res.status(503).json({ error: "GitHub token not configured" });
       }

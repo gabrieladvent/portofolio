@@ -33,13 +33,13 @@ export default function PageNav({ current }: { current: string }) {
                 page colour instead of being cut off by it. */}
             <div
                 aria-hidden="true"
-                className="pointer-events-none fixed top-0 left-0 right-0 h-24 z-40 bg-gradient-to-b from-[#f6f6f4] via-[#f6f6f4]/80 dark:from-[#0a0c0b] dark:via-[#0a0c0b]/80 to-transparent"
+                className="chat-shift pointer-events-none fixed top-0 left-[var(--chat-pane)] right-0 h-24 z-40 bg-gradient-to-b from-[#f6f6f4] via-[#f6f6f4]/80 dark:from-[#0a0c0b] dark:via-[#0a0c0b]/80 to-transparent"
             />
             <motion.header
             initial={reduceMotion ? false : { y: -40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3 sm:py-4"
+            className="chat-shift fixed top-0 left-[var(--chat-pane)] right-0 z-50 px-4 sm:px-6 py-3 sm:py-4"
         >
             <motion.div
                 aria-hidden="true"

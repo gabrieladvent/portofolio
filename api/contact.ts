@@ -4,9 +4,6 @@ const MAX_LENGTHS = { name: 100, email: 200, message: 5000 };
 
 const RATE_LIMIT = { max: 3, windowMs: 10 * 60 * 1000 };
 
-// Per-instance memory only: a warm Vercel function keeps this between requests,
-// a cold start resets it. Enough to stop a single client hammering the endpoint
-// without pulling in an external store.
 const hits = new Map<string, number[]>();
 
 function isRateLimited(ip: string) {
@@ -21,7 +18,6 @@ function isRateLimited(ip: string) {
     recent.push(now);
     hits.set(ip, recent);
 
-    // Opportunistic cleanup so the map can't grow without bound.
     if (hits.size > 500) {
         for (const [key, times] of hits) {
             if (times.every((t) => now - t >= RATE_LIMIT.windowMs)) hits.delete(key);
@@ -39,10 +35,6 @@ function escapeHtml(value: string) {
         .replace(/"/g, "&quot;");
 }
 
-/**
- * Delivers contact form submissions through Resend.
- * Returns 503 when no key is configured so the client can fall back to mailto.
- */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Method not allowed" });

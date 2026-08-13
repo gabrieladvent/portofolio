@@ -13,17 +13,10 @@ const cardChrome =
 interface ScrollCardProps {
     children: ReactNode;
     className?: string;
-    /** Parallax multiplier — differing values between columns create depth. */
     depth?: number;
     delay?: number;
 }
 
-/**
- * A card that tilts through 3D as it travels the viewport: leaning back on its
- * way in, flat at centre, leaning away on its way out. Everything is driven by
- * scroll position rather than a one-shot entrance, so scrolling back up replays
- * it in reverse. The spring keeps it from tracking the wheel too literally.
- */
 export default function ScrollCard({
     children,
     className = "",

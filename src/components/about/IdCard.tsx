@@ -11,11 +11,6 @@ import {
 import { personalInfo } from "../../data/portfolio";
 import { useGitHubProfile } from "../../hooks/useApi";
 
-/**
- * Spirograph-style rosette — the guilloche pattern security documents print as
- * an anti-copy background. r(t) = R + a·cos(k·t) sampled into one polyline, so
- * it renders identically on every paint.
- */
 function rosette(R: number, a: number, k: number, phase: number) {
     const steps = 340;
     const points: string[] = [];
@@ -68,24 +63,6 @@ function Guilloche() {
     );
 }
 
-/**
- * A loop-pattern thumbprint, generated rather than drawn.
- *
- * Hand-stacked arcs never convinced: real ridges aren't concentric, and a
- * print's defining features are its singularities — the core the ridges curl
- * around, and the delta where three flows meet.
- *
- * This uses the Sherlock–Monro model, where the ridge orientation at any point
- * comes from the two singularities:
- *
- *     θ(z) = θ₀ + ½·[ arg(z − delta) − arg(z − core) ]
- *
- * Ridges are then streamlines of that field, traced with the Jobard–Lefebvre
- * even-spacing rule: a new line stops as soon as it crowds an existing one.
- * That rule is what buys the realism — ridges terminate against their
- * neighbours at irregular points, which is exactly how ridge endings and
- * bifurcations appear on a real finger.
- */
 const PRINT = {
     core: { x: 50, y: 42 },
     delta: { x: 33, y: 80 },
@@ -97,12 +74,9 @@ const PRINT = {
 function orientation(x: number, y: number) {
     const toCore = Math.atan2(y - PRINT.core.y, x - PRINT.core.x);
     const toDelta = Math.atan2(y - PRINT.delta.y, x - PRINT.delta.x);
-    // A core contributes +½·arg and a delta −½; swapping them puts the recurve
-    // around the wrong singularity.
     return Math.PI / 2 + 0.5 * (toCore - toDelta);
 }
 
-/** Inside the pad of the finger — a slightly irregular oval. */
 function inPad(x: number, y: number) {
     const dx = (x - 50) / 41;
     const dy = (y - 54) / 50;
@@ -117,10 +91,6 @@ function nearSingularity(x: number, y: number) {
     );
 }
 
-/**
- * Occupancy grid for the spacing rule. Cells are one ridge-spacing across, so
- * a proximity test only has to look at the nine cells around a point.
- */
 function makeGrid() {
     const cell = PRINT.spacing;
     const cols = Math.ceil(100 / cell) + 2;
@@ -164,8 +134,6 @@ const ridgePaths = (() => {
 
         for (let i = 0; i < PRINT.maxSteps; i++) {
             let angle = orientation(x, y);
-            // Orientation is only defined mod π, so flip it whenever it would
-            // double back — otherwise the trace zig-zags across the field.
             while (angle - previous > Math.PI / 2) angle -= Math.PI;
             while (previous - angle > Math.PI / 2) angle += Math.PI;
             previous = angle;
@@ -181,8 +149,6 @@ const ridgePaths = (() => {
         return points;
     };
 
-    // Seeds sweep outward from the core so the loops get laid down first and
-    // the outer flow fills in around them.
     const seeds: [number, number][] = [];
     for (let y = 4; y < 106; y += 1.6) {
         for (let x = 4; x < 97; x += 1.6) {
@@ -206,8 +172,6 @@ const ridgePaths = (() => {
 
         for (const [px, py] of line) grid.add(px, py);
 
-        // One or two breaks per ridge — an unbroken print reads as a contour
-        // map, but a break every few points reads as a dashed line.
         const cuts = new Set<number>();
         if (line.length > 40) cuts.add((index * 37) % (line.length - 12) + 6);
         if (index % 3 === 0 && line.length > 70) {
@@ -254,7 +218,6 @@ function Fingerprint() {
     );
 }
 
-/** A signature — one continuous hand-drawn-looking stroke plus an underline. */
 function Signature() {
     return (
         <svg
@@ -272,17 +235,14 @@ function Signature() {
     );
 }
 
-// Deterministic bar widths, so the barcode is stable across renders.
 const barcode = Array.from({ length: 30 }, (_, i) => 1 + ((i * 7) % 4));
 
-// Licence-style classes, standing in for what he's actually cleared to drive.
 const classes = [
     { code: "A", label: "Backend" },
     { code: "B", label: "Frontend" },
     { code: "C", label: "Mobile & Ops" },
 ];
 
-// Carried separately the way an ID form splits the family name.
 const SURNAME = "Ritan";
 
 const fields = [
@@ -299,7 +259,6 @@ export default function IdCard() {
     const reduceMotion = useReducedMotion();
     const photo = profile?.avatar_url ?? personalInfo.avatar;
 
-    // Pointer position over the card, normalised to 0..1 on both axes.
     const px = useMotionValue(0.5);
     const py = useMotionValue(0.5);
     const lift = useMotionValue(0);
@@ -309,9 +268,6 @@ export default function IdCard() {
     const pointerRotateX = useSpring(useTransform(py, [0, 1], [5.5, -5.5]), spring);
     const glareOpacity = useSpring(lift, { stiffness: 180, damping: 30 });
 
-    // Scroll only drifts the card; it must never tilt it. A lean of even a few
-    // degrees at rest turns a rectangle into a trapezoid, and a card that isn't
-    // square-on stops reading as a printed object.
     const cardRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
         target: cardRef,
@@ -325,13 +281,9 @@ export default function IdCard() {
     const glareY = useTransform(py, (v) => v * 100);
     const holoAngle = useTransform(px, [0, 1], [65, 205]);
 
-    // Laminated: a soft specular highlight under the pointer, and a rainbow film
-    // that shifts angle as you move across it.
     const glare = useMotionTemplate`radial-gradient(340px circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.5), rgba(255,255,255,0) 62%)`;
     const holo = useMotionTemplate`linear-gradient(${holoAngle}deg, rgba(16,185,129,0.3) 8%, rgba(56,189,248,0.26) 34%, rgba(167,139,250,0.28) 58%, rgba(251,191,36,0.24) 82%)`;
 
-    // One rect read per pointer move on a single element — no style is written
-    // synchronously here, so this never thrashes layout.
     const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
         if (reduceMotion) return;
         const rect = event.currentTarget.getBoundingClientRect();
@@ -342,8 +294,6 @@ export default function IdCard() {
     return (
         <motion.section
             ref={cardRef}
-            // Only opacity on mount — y belongs to the scroll transform below,
-            // and animating both would leave the two fighting over one value.
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}

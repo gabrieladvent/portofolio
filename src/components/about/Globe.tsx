@@ -6,11 +6,9 @@ import type { Topology } from "topojson-specification";
 import type { FeatureCollection, MultiPolygon, Polygon, Position } from "geojson";
 import landTopology from "world-atlas/land-110m.json";
 
-// Where the marker goes.
 const HOME = { lat: -7.7956, lon: 110.3695 };
 const RADIUS = 1.35;
 
-/** Geographic coordinates → a point on the sphere. */
 function toVector(lat: number, lon: number, radius: number) {
     const phi = (90 - lat) * (Math.PI / 180);
     const theta = (lon + 180) * (Math.PI / 180);
@@ -39,20 +37,9 @@ function buildSegments(runs: THREE.Vector3[][]) {
     return geometry;
 }
 
-/**
- * Real coastlines, from Natural Earth's 110m land layer via world-atlas. The
- * TopoJSON is imported (≈55 KB, inside the lazily loaded three chunk) rather
- * than fetched at runtime — the page's CSP only allows 'self', so a texture or
- * dataset from a CDN would be blocked.
- *
- * Every ring becomes a run of line segments in one buffer, so the whole world
- * draws in a single call instead of ~130.
- */
 function useCoastlines() {
     return useMemo(() => {
         const topology = landTopology as unknown as Topology;
-        // objects.land is a GeometryCollection, so feature() hands back a
-        // FeatureCollection — not the single Feature the name suggests.
         const land = feature(topology, topology.objects.land) as FeatureCollection<
             Polygon | MultiPolygon
         >;
@@ -63,15 +50,12 @@ function useCoastlines() {
                 : f.geometry.coordinates,
         );
 
-        // Lift the outline just off the surface so it never z-fights with the
-        // sphere underneath it.
         return buildSegments(
             rings.map((ring) => ring.map((p) => toVector(p[1], p[0], RADIUS * 1.003))),
         );
     }, []);
 }
 
-/** The faint lat/long cage, for depth cues under the coastlines. */
 function useGraticule() {
     return useMemo(() => {
         const runs: THREE.Vector3[][] = [];
@@ -81,6 +65,7 @@ function useGraticule() {
             for (let lon = -180; lon <= 180; lon += 5) run.push(toVector(lat, lon, RADIUS * 1.001));
             runs.push(run);
         }
+
         for (let lon = -180; lon < 180; lon += 30) {
             const run: THREE.Vector3[] = [];
             for (let lat = -90; lat <= 90; lat += 5) run.push(toVector(lat, lon, RADIUS * 1.001));
@@ -97,8 +82,7 @@ function Marker() {
 
     useFrame(({ clock }) => {
         if (!pulse.current) return;
-        // A 3s breathing loop. This is the only thing still moving — it marks
-        // the spot instead of animating the globe.
+
         const t = (clock.getElapsedTime() % 3) / 3;
         pulse.current.scale.setScalar(1 + t * 3);
         (pulse.current.material as THREE.MeshBasicMaterial).opacity = 0.45 * (1 - t);
@@ -129,24 +113,10 @@ export interface GlobeHandle {
     reset: () => void;
 }
 
-/**
- * The globe never moves on its own. Everything here is user-driven: drag to
- * spin it, pinch or ⌘/Ctrl-scroll to zoom, double-click to come home.
- *
- * Input only ever writes to `target`; the frame loop eases the live values
- * toward it. That keeps a fast flick from snapping and lets zoom and rotation
- * settle with the same weight.
- */
 function World({ handle, dark }: { handle: React.Ref<GlobeHandle>; dark: boolean }) {
     const group = useRef<THREE.Group>(null);
     const { gl } = useThree();
 
-    // Park the marker dead centre, facing the camera.
-    //
-    // A point's azimuth on this projection works out to lon + 90°, so undoing
-    // that puts its meridian on the +Z axis where the camera sits. The group's
-    // Euler order is XYZ, meaning Y is applied first and X tilts afterwards —
-    // by which point the marker only needs lifting by its own latitude.
     const initial = useMemo(
         () => ({
             y: -(HOME.lon + 90) * (Math.PI / 180),
@@ -158,7 +128,6 @@ function World({ handle, dark }: { handle: React.Ref<GlobeHandle>; dark: boolean
     const target = useRef({ x: initial.x, y: initial.y, distance: DEFAULT_DISTANCE });
     const live = useRef({ x: initial.x, y: initial.y, distance: DEFAULT_DISTANCE });
 
-    // Pointers currently down on the canvas, so one finger rotates and two pinch.
     const pointers = useRef(new Map<number, { x: number; y: number }>());
     const pinchDistance = useRef(0);
 
@@ -212,10 +181,9 @@ function World({ handle, dark }: { handle: React.Ref<GlobeHandle>; dark: boolean
 
             const dx = event.clientX - previous.x;
             const dy = event.clientY - previous.y;
-            // Rotation slows as you zoom in, so close-up dragging stays precise.
             const speed = 0.005 * (live.current.distance / DEFAULT_DISTANCE);
+
             target.current.y += dx * speed;
-            // Clamp the tilt so the globe can never roll past its poles.
             target.current.x = THREE.MathUtils.clamp(target.current.x + dy * speed, -1.2, 1.2);
         };
 
@@ -227,9 +195,6 @@ function World({ handle, dark }: { handle: React.Ref<GlobeHandle>; dark: boolean
             }
         };
 
-        // Plain wheel scrolls the page — hijacking that on a widget this small
-        // is hostile. A held modifier (or a trackpad pinch, which the browser
-        // reports as ctrl+wheel) means zoom was actually asked for.
         const wheel = (event: WheelEvent) => {
             if (!event.ctrlKey && !event.metaKey) return;
             event.preventDefault();
@@ -259,7 +224,6 @@ function World({ handle, dark }: { handle: React.Ref<GlobeHandle>; dark: boolean
 
     useFrame((state, delta) => {
         if (!group.current) return;
-        // Frame-rate independent easing: the same glide on 60Hz and 120Hz.
         const ease = 1 - Math.pow(0.001, delta);
 
         live.current.x += (target.current.x - live.current.x) * ease;

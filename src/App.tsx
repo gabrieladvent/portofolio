@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage';
 import WorkPage from './pages/WorkPage';
 import CaseStudyPage from './pages/CaseStudyPage';
 import PageNav from './components/PageNav';
+import AskWidget from './components/chat/AskWidget';
 import { useRoute } from './hooks/useRoute';
 
 function pageFor(route: string) {
@@ -41,7 +42,10 @@ function Shell() {
   // containing block for `position: fixed`, and the homepage's own nav — fixed
   // to the viewport — would start scrolling with the page instead.
   return (
-    <div className="relative min-h-screen bg-[#f6f6f4] dark:bg-[#0a0c0b] text-zinc-900 dark:text-zinc-100 overflow-x-clip transition-colors duration-500">
+    // pl-[var(--chat-pane)] is the split view: the drawer sets that variable to
+    // its own width, so the page narrows beside it rather than being covered.
+    // Sticky sections shift with it for free — their containing block moved.
+    <div className="chat-shift relative min-h-screen bg-[#f6f6f4] dark:bg-[#0a0c0b] text-zinc-900 dark:text-zinc-100 overflow-x-clip pl-[var(--chat-pane)]">
       <AnimatedBackground />
 
       {floatingNav && <PageNav current={route.startsWith('/work') ? '/work' : route} />}
@@ -66,6 +70,10 @@ function Shell() {
           {pageFor(route)}
         </motion.div>
       </AnimatePresence>
+
+      {/* Outside the swap, like the nav: closing the panel by navigating would
+          throw away a conversation the visitor is in the middle of. */}
+      {floatingNav && <AskWidget />}
     </div>
   );
 }
