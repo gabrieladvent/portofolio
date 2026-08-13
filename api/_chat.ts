@@ -1,5 +1,5 @@
 import type { ServerResponse } from "node:http";
-import { systemPrompt } from "./_persona";
+import { systemPrompt } from "./_persona.js";
 
 const GEMINI_HOST = "https://generativelanguage.googleapis.com/v1beta/models";
 const DEFAULT_MODEL = "gemini-flash-latest";
@@ -184,7 +184,7 @@ export async function streamChat(
             }),
         });
     } catch (cause) {
-        const why = (cause as Error)?.cause ?? cause;
+        const why = (cause as { cause?: unknown })?.cause ?? cause;
         return fail(res, 502, "I couldn't reach the model just now.", `fetch failed: ${cause} — ${why}`);
     }
 

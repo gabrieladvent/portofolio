@@ -4,7 +4,7 @@ import {
     projects,
     skills,
     socialLinks,
-} from "../src/data/portfolio";
+} from "../src/data/portfolio.js";
 
 function facts() {
     const grouped = ["frontend", "backend", "mobile", "tools"].map((category) => {
