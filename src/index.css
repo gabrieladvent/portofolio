@@ -14,6 +14,26 @@
   --font-serif: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* Width the chat drawer is holding open, and 0 whenever it is closed. The page
+   pads itself by this, and the fixed nav offsets its left edge by it, so the
+   drawer takes room from the layout instead of covering it. AskWidget writes
+   the value straight to the element during a drag — no React render per pixel. */
+:root {
+  --chat-pane: 0px;
+}
+
+/* Everything that has to move aside for the drawer moves at the same speed —
+   except while the divider is being dragged, where a transition would turn the
+   pointer into something the layout is chasing. */
+.chat-shift {
+  transition: padding-left 320ms cubic-bezier(0.32, 0.72, 0, 1),
+    left 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+html[data-chat-dragging] .chat-shift {
+  transition: none;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

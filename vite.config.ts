@@ -1,5 +1,47 @@
 import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
+import { streamChat } from "./api/_chat";
+
+/**
+ * Same story as the GitHub proxy below, except the handler itself is shared:
+ * this only reads the request body, which Vercel would have parsed for us.
+ */
+function chatDevProxy(env: Record<string, string>): Plugin {
+  return {
+    name: "chat-dev-proxy",
+    apply: "serve",
+    configureServer(server) {
+      // Vercel puts every environment variable on process.env; `vite dev` only
+      // parses .env into this local object. The shared handler reads
+      // process.env for everything but the key, so without this the model and
+      // debug switches silently do nothing locally — and dev quietly talks to a
+      // different model than production.
+      for (const name of ["GEMINI_MODEL", "CHAT_DEBUG"]) {
+        if (env[name] && !process.env[name]) process.env[name] = env[name];
+      }
+
+      server.middlewares.use("/api/chat", async (req, res) => {
+        if (req.method !== "POST") {
+          res.statusCode = 405;
+          res.setHeader("Content-Type", "application/json");
+          return res.end(JSON.stringify({ error: "Method not allowed" }));
+        }
+
+        const chunks: Buffer[] = [];
+        for await (const chunk of req) chunks.push(chunk as Buffer);
+
+        let body: unknown = null;
+        try {
+          body = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+        } catch {
+          // streamChat rejects it as malformed, same as in production.
+        }
+
+        await streamChat(body, "dev", res, env.GEMINI_API_KEY);
+      });
+    },
+  };
+}
 
 /**
  * `vite dev` doesn't run the serverless functions in /api, so this mirrors
@@ -119,7 +161,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    plugins: [react(), githubDevProxy(env)],
+    plugins: [react(), githubDevProxy(env), chatDevProxy(env)],
     build: {
       rollupOptions: {
         output: {

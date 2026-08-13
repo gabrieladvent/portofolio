@@ -9,8 +9,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { path, ...queryParams } = req.query;
 
-    // `path` arrives from the vercel.json rewrite as the full sub-path
-    // (e.g. "users/current/stats/last_7_days").
     const wakatimePath = Array.isArray(path) ? path.join("/") : (path ?? "");
 
     const queryString = new URLSearchParams(

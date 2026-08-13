@@ -4,8 +4,6 @@ import { useTheme } from "../../hooks/useTheme";
 import { Crosshair, MapPin, Minus, Plus } from "lucide-react";
 import type { GlobeHandle } from "./Globe";
 
-// three.js is heavy and purely decorative, so it loads on its own chunk and
-// only once the card is close to the viewport.
 const Globe = lazy(() => import("./Globe"));
 
 const controlClass =
@@ -13,8 +11,6 @@ const controlClass =
 
 export default function GlobeCard({ className = "" }: { className?: string }) {
     const ref = useRef<HTMLElement>(null);
-    // Filled in by the scene once it mounts, so the HTML buttons can drive the
-    // camera without the card knowing anything about three.js.
     const globe = useRef<GlobeHandle | null>(null);
     const reduceMotion = useReducedMotion();
     const { theme } = useTheme();
