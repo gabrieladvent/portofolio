@@ -25,9 +25,12 @@
 /* Everything that has to move aside for the drawer moves at the same speed —
    except while the divider is being dragged, where a transition would turn the
    pointer into something the layout is chasing. */
+/* One transition for both directions, so it has to be even-handed: the drawer's
+   own entrance curve front-loads 85% of the travel and would leave the page
+   creeping back into place on the way out. */
 .chat-shift {
-  transition: padding-left 320ms cubic-bezier(0.32, 0.72, 0, 1),
-    left 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: padding-left 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    left 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html[data-chat-dragging] .chat-shift {
