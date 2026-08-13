@@ -41,17 +41,33 @@ function split(raw: string) {
  * beats mapping status codes here, where the same generic sentence used to
  * stand in for four unrelated problems.
  */
-async function reasonFrom(response: Response) {
+export async function reasonFrom(response: Response) {
+    const raw = await response.text().catch(() => "");
+
+    let body: unknown = null;
     try {
-        const body = await response.json();
-        if (typeof body?.error === "string") {
-            // Only present when CHAT_DEBUG is set on the server.
-            if (typeof body?.detail === "string") console.error("[chat]", body.detail);
-            return body.error;
-        }
+        body = JSON.parse(raw);
     } catch {
-        // Not JSON — fall through to the generic line.
+        // A platform error page rather than our endpoint: Vercel's timeout and
+        // crash screens are HTML.
     }
+
+    const error = (body as { error?: unknown })?.error;
+    const detail = (body as { detail?: unknown })?.detail;
+
+    // Whatever it was, say so where the site's owner can find it.
+    console.error("[chat]", response.status, typeof detail === "string" ? detail : raw.slice(0, 300));
+
+    if (typeof error === "string") return error;
+
+    // Not our endpoint answering. Vercel wraps its own refusals as
+    // { error: { message, code } } — deployment protection is the common one,
+    // and it answers 401 to every request the browser has no session for.
+    if (response.status === 401 || response.status === 403) {
+        return "This chat isn't reachable on a protected deployment.";
+    }
+    if (response.status === 504) return "That took too long. Try a shorter question.";
+
     return "Something went wrong reaching me. Try again in a moment.";
 }
 
