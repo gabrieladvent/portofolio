@@ -31,9 +31,13 @@ function setPane(px: number) {
 
 const panelMotion = {
     initial: { x: "-100%" },
-    animate: { x: 0 },
-    exit: { x: "-100%" },
-    transition: { duration: 0.32, ease: [0.32, 0.72, 0, 1] as const },
+    // Coming in, the drawer covers most of the distance early and settles —
+    // that curve puts 85% of the travel in the first 30% of the time.
+    animate: { x: 0, transition: { duration: 0.34, ease: [0.32, 0.72, 0, 1] as const } },
+    // Leaving, the same curve reads as a stall: it throws the panel almost all
+    // the way out, then creeps the last sliver for a quarter of a second.
+    // Dismissal wants the opposite shape — start gently, accelerate away.
+    exit: { x: "-100%", transition: { duration: 0.22, ease: [0.4, 0, 1, 1] as const } },
 };
 
 function Bubble({
@@ -205,7 +209,11 @@ export default function AskWidget() {
                         role="dialog"
                         aria-label={`Ask ${firstName}`}
                         {...(reduceMotion ? {} : panelMotion)}
-                        className="fixed inset-y-0 left-0 z-50 flex h-svh w-[min(26rem,100vw)] flex-col border-r border-black/[0.08] bg-white shadow-[8px_0_40px_-24px_rgba(0,0,0,0.5)] lg:w-[var(--chat-pane)] lg:shadow-none dark:border-white/10 dark:bg-zinc-900"
+                        style={{ willChange: "transform" }}
+                        // Height from the insets, not h-svh: on a phone the URL
+                        // bar showing or hiding changes what svh resolves to,
+                        // and recomputing it mid-slide is a visible hitch.
+                        className="fixed inset-y-0 left-0 z-50 flex w-[min(26rem,100vw)] flex-col border-r border-black/[0.08] bg-white shadow-[8px_0_40px_-24px_rgba(0,0,0,0.5)] lg:w-[var(--chat-pane)] lg:shadow-none dark:border-white/10 dark:bg-zinc-900"
                     >
                         {/* The divider. A thin line to look at, a wider strip to
                             grab, and arrow keys for anyone not using a pointer. */}
