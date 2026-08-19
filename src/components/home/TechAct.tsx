@@ -208,13 +208,15 @@ export default function TechAct({ progress, from, to, still = false }: ActProps)
     // The last act holds to the end of the section instead of fading out, so the
     // screen is never blank on the way to the footer.
     const opacity = useTransform(p, [from, from + 0.07, to], [0, 1, 1]);
+    // See GithubAct: a faded-out panel still hit-tests unless it is told not to.
+    const pointerEvents = useTransform(opacity, (value) => (value > 0.6 ? "auto" : "none"));
 
     // Every line has to be written before the section runs out of scroll.
     const step = 0.16 / LINES.length;
 
     return (
         <motion.div
-            style={still ? undefined : { opacity }}
+            style={still ? undefined : { opacity, pointerEvents }}
             className="absolute inset-0 flex flex-col justify-between p-5 sm:p-7"
         >
             {/* Not "stack.ts" — the tab above already says that, and a heading

@@ -1,4 +1,5 @@
-import { motion, useMotionTemplate, useMotionValue, useTransform } from "motion/react";
+import { AnimatePresence, motion, useMotionTemplate, useMotionValue, useTransform } from "motion/react";
+import { useRef, useState } from "react";
 import { useGitHubStats } from "../../hooks/useApi";
 import type { GitHubContributionDay, GitHubContributionWeek } from "../../types/api";
 import ActHeader from "./ActHeader";
@@ -32,6 +33,7 @@ const GUTTER_TOP = "pt-[15px]";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const WEEKDAYS = ["", "Mon", "", "Wed", "", "Fri", ""];
+const WEEKDAYS_FULL = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /** "1 day", not "1 days" — the streak is often exactly one. */
 function plural(count: number, noun: string) {
@@ -42,6 +44,16 @@ function plural(count: number, noun: string) {
 function shortDate(date: string) {
     const [, month, day] = date.split("-");
     return `${Number(day)} ${MONTHS[Number(month) - 1] ?? ""}`.trim();
+}
+
+/**
+ * "2026-03-12" → "Thu, 12 Mar 2026". Read as UTC: the calendar's dates are
+ * plain days, and a local-midnight parse would slide half of them a day west.
+ */
+function longDate(date: string) {
+    const [year, month, day] = date.split("-").map(Number);
+    const weekday = WEEKDAYS_FULL[new Date(Date.UTC(year, month - 1, day)).getUTCDay()];
+    return `${weekday}, ${day} ${MONTHS[month - 1] ?? ""} ${year}`;
 }
 
 /**
@@ -125,11 +137,34 @@ export default function GithubAct({
     const summary = summarise(days);
     const labels = monthLabels(weeks);
 
+    // The square under the pointer, and where its tooltip should sit — measured
+    // against the panel, not the page, so the scroll transform cannot skew it.
+    const stageRef = useRef<HTMLDivElement>(null);
+    const [hovered, setHovered] = useState<{ day: GitHubContributionDay; x: number; y: number } | null>(
+        null,
+    );
+
+    const track = (event: React.PointerEvent<HTMLSpanElement>, day: GitHubContributionDay) => {
+        const stage = stageRef.current?.getBoundingClientRect();
+        if (!stage) return;
+        const cell = event.currentTarget.getBoundingClientRect();
+        setHovered({
+            day,
+            // Kept a tooltip-half clear of both edges, so a square in the first
+            // or last week does not push its label out of the panel.
+            x: Math.min(Math.max(cell.left - stage.left + cell.width / 2, 84), stage.width - 84),
+            y: cell.top - stage.top,
+        });
+    };
+
     // Hooks cannot be skipped, so the still version drives a value nobody reads.
     const idle = useMotionValue(1);
     const p = progress ?? idle;
 
     const opacity = useTransform(p, [from, from + 0.07, to - 0.07, to], [0, 1, 1, 0]);
+    // The three acts are stacked on top of each other, so a faded-out panel is
+    // still there to catch the pointer. Only the act on screen may be hovered.
+    const pointerEvents = useTransform(opacity, (value) => (value > 0.6 ? "auto" : "none"));
     const y = useTransform(p, [from, from + 0.13], ["42%", "0%"]);
     const rotateX = useTransform(p, [from, from + 0.13], [26, 0]);
 
@@ -143,10 +178,18 @@ export default function GithubAct({
 
     return (
         <motion.div
+            ref={stageRef}
             style={
                 still
                     ? undefined
-                    : { opacity, y, rotateX, transformPerspective: 900, transformOrigin: "50% 100%" }
+                    : {
+                        opacity,
+                        y,
+                        rotateX,
+                        pointerEvents,
+                        transformPerspective: 900,
+                        transformOrigin: "50% 100%",
+                    }
             }
             className="absolute inset-0 flex flex-col justify-between p-5 sm:p-7"
         >
@@ -173,6 +216,7 @@ export default function GithubAct({
                 style={still ? undefined : { WebkitMaskImage: wipe, maskImage: wipe }}
                 // Pushed right, so a narrow screen crops the oldest weeks rather
                 // than slicing the same amount off each end of the year.
+                onPointerLeave={() => setHovered(null)}
                 className="flex justify-end overflow-hidden sm:justify-center"
             >
                 {/* Shrink-wrapped around the calendar so the legend can hang off
@@ -180,15 +224,15 @@ export default function GithubAct({
                 <div className="shrink-0">
                     <div className="flex gap-2">
                         <div className={`hidden shrink-0 flex-col gap-[3px] sm:flex ${GUTTER_TOP}`}>
-                        {WEEKDAYS.map((day, i) => (
-                            <span
-                                key={i}
-                                className={`${ROW} font-mono text-[9px] leading-none text-zinc-300 dark:text-zinc-600`}
-                            >
-                                {day}
-                            </span>
-                        ))}
-                    </div>
+                            {WEEKDAYS.map((day, i) => (
+                                <span
+                                    key={i}
+                                    className={`${ROW} font-mono text-[9px] leading-none text-zinc-300 dark:text-zinc-600`}
+                                >
+                                    {day}
+                                </span>
+                            ))}
+                        </div>
 
                         <div className="flex gap-[3px]">
                             {(weeks.length ? weeks : Array.from({ length: 53 }, () => null)).map(
@@ -209,12 +253,13 @@ export default function GithubAct({
                                         ).map((day, d) => (
                                             <span
                                                 key={d}
-                                                title={
-                                                    day
-                                                        ? `${day.contributionCount} on ${day.date}`
-                                                        : undefined
+                                                onPointerEnter={
+                                                    day ? (event) => track(event, day) : undefined
                                                 }
-                                                className={`${CELL} rounded-[2px] ${LEVELS[levelOf(day?.contributionCount ?? 0)]
+                                                className={`${CELL} rounded-[2px] transition-[box-shadow] ${LEVELS[levelOf(day?.contributionCount ?? 0)]
+                                                    } ${day
+                                                        ? "hover:ring-1 hover:ring-zinc-900/50 dark:hover:ring-white/60"
+                                                        : ""
                                                     }`}
                                             />
                                         ))}
@@ -233,6 +278,33 @@ export default function GithubAct({
                     </div>
                 </div>
             </motion.div>
+
+            <AnimatePresence>
+                {hovered && (
+                    <motion.div
+                        key="tip"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 4 }}
+                        transition={{ duration: 0.14, ease: "easeOut" }}
+                        style={{ left: hovered.x, top: hovered.y }}
+                        className="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-[calc(100%+8px)]"
+                    >
+                        <div className="rounded-md border border-white/10 bg-zinc-900/95 px-2.5 py-1.5 shadow-xl backdrop-blur dark:border-black/10 dark:bg-zinc-100/95">
+                            <p className="whitespace-nowrap font-mono text-[10px] font-semibold leading-none text-emerald-400 dark:text-emerald-600">
+                                {hovered.day.contributionCount === 0
+                                    ? "No contributions"
+                                    : plural(hovered.day.contributionCount, "contribution")}
+                            </p>
+                            <p className="mt-1 whitespace-nowrap font-mono text-[9px] leading-none text-zinc-400 dark:text-zinc-500">
+                                {longDate(hovered.day.date)}
+                            </p>
+                        </div>
+                        {/* The stem, drawn as a rotated corner of the same panel. */}
+                        <span className="absolute left-1/2 top-full h-1.5 w-1.5 -translate-x-1/2 -translate-y-[3px] rotate-45 rounded-[1px] border-b border-r border-white/10 bg-zinc-900/95 dark:border-black/10 dark:bg-zinc-100/95" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <div className="grid grid-cols-3 gap-x-6 gap-y-4 sm:flex sm:items-end sm:justify-between">
                 <Stat label="Commits" value={(stats?.totalCommitContributions ?? 0).toLocaleString()} />

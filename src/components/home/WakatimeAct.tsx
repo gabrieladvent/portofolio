@@ -112,6 +112,8 @@ export default function WakatimeAct({ progress, from, to, still = false }: ActPr
     const p = progress ?? idle;
 
     const opacity = useTransform(p, [from, from + 0.07, to - 0.07, to], [0, 1, 1, 0]);
+    // See GithubAct: a faded-out panel still hit-tests unless it is told not to.
+    const pointerEvents = useTransform(opacity, (value) => (value > 0.6 ? "auto" : "none"));
     const rotateY = useTransform(p, [from, from + 0.14], [58, 0]);
     const x = useTransform(p, [from, from + 0.14], ["16%", "0%"]);
 
@@ -127,7 +129,14 @@ export default function WakatimeAct({ progress, from, to, still = false }: ActPr
             style={
                 still
                     ? undefined
-                    : { opacity, rotateY, x, transformPerspective: 1100, transformOrigin: "0% 50%" }
+                    : {
+                        opacity,
+                        rotateY,
+                        x,
+                        pointerEvents,
+                        transformPerspective: 1100,
+                        transformOrigin: "0% 50%",
+                    }
             }
             className="absolute inset-0 flex flex-col justify-between p-5 sm:p-7"
         >
