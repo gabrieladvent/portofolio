@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { streamChat } from "./api/_chat";
+import { DEV_NAMESPACE, resolveVisit } from "./api/_visit";
 
 /**
  * Same story as the GitHub proxy below, except the handler itself is shared:
@@ -157,11 +158,44 @@ function githubDevProxy(env: Record<string, string>): Plugin {
   };
 }
 
+/**
+ * Mirrors /api/visit.ts locally. The handler itself is shared, so the only
+ * differences are the ones dev forces: a separate counter namespace, and a
+ * cookie without `Secure`, which http://localhost would otherwise drop.
+ */
+function visitDevProxy(env: Record<string, string>): Plugin {
+  return {
+    name: "visit-dev-proxy",
+    apply: "serve",
+    configureServer(server) {
+      server.middlewares.use("/api/visit", async (req, res) => {
+        if (req.method !== "GET") {
+          res.statusCode = 405;
+          res.setHeader("Content-Type", "application/json");
+          return res.end(JSON.stringify({ error: "Method not allowed" }));
+        }
+
+        const { status, body, cookie } = await resolveVisit(
+          req.headers.cookie,
+          req.headers["user-agent"],
+          env.VISITOR_COUNTER_NAMESPACE || DEV_NAMESPACE,
+        );
+
+        res.statusCode = status;
+        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Cache-Control", "no-store, max-age=0");
+        if (cookie) res.setHeader("Set-Cookie", cookie.replace("; Secure", ""));
+        res.end(JSON.stringify(body));
+      });
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    plugins: [react(), githubDevProxy(env), chatDevProxy(env)],
+    plugins: [react(), githubDevProxy(env), chatDevProxy(env), visitDevProxy(env)],
     build: {
       rollupOptions: {
         output: {
