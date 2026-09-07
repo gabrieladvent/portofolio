@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage';
 import WorkPage from './pages/WorkPage';
 import CaseStudyPage from './pages/CaseStudyPage';
 import PageNav from './components/PageNav';
+import Preloader from './components/Preloader';
 import AskWidget from './components/chat/AskWidget';
 import { useRoute } from './hooks/useRoute';
 
@@ -81,6 +82,10 @@ function Shell() {
 export default function App() {
   return (
     <SmoothScroll>
+      {/* Inside SmoothScroll so it can pause Lenis while it covers the page,
+          and outside Shell so a route change never remounts it. */}
+      <Preloader />
+
       {/* `clip`, not `hidden`: overflow-x-hidden makes this a scroll container,
           and every `position: sticky` inside then pins to a box that never
           scrolls — which is to say, it never pins at all. `clip` trims the

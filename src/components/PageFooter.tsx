@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { personalInfo, socialLinks } from "../data/portfolio";
+import { useVisitorCount } from "../hooks/useVisitorCount";
 
 const columns = [
     {
@@ -38,6 +39,27 @@ const totalUnits = first.length + lastName.length + DOT_UNITS;
 const unit = 100 / totalUnits;
 const firstWidth = first.length * unit;
 const dotRadius = (DOT_UNITS * unit) / 2;
+
+/**
+ * The same count the intro overlay opens with, restated where it can be read at
+ * leisure. Renders nothing at all until there is a real number: a footer that
+ * says "0 visitors" while the request is in flight is worse than one that waits
+ * a beat and then has something to say.
+ */
+function VisitorTally() {
+    const { visitor } = useVisitorCount();
+    const total = visitor?.total ?? null;
+
+    if (!total) return null;
+
+    return (
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
+            <span className="text-emerald-600 dark:text-emerald-400">{total.toLocaleString()}</span>{" "}
+            {total === 1 ? "visitor" : "visitors"}
+            {visitor?.number != null && ` \u00b7 you're #${visitor.number.toLocaleString()}`}
+        </motion.p>
+    );
+}
 
 /**
  * Footer for standalone pages: link columns, then the name set as a wordmark
@@ -84,9 +106,16 @@ export default function PageFooter() {
                     ))}
                 </div>
 
-                <p className="mt-10 md:text-right font-mono text-xs text-zinc-400 dark:text-zinc-500">
-                    © {new Date().getFullYear()} {personalInfo.name}.
-                </p>
+                <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                    <VisitorTally />
+
+                    {/* md:ml-auto rather than justify-between: the tally renders
+                        nothing until it has a number, and the copyright has to
+                        stay pinned right either way. */}
+                    <p className="md:ml-auto">
+                        © {new Date().getFullYear()} {personalInfo.name}.
+                    </p>
+                </div>
             </motion.div>
 
             {/* Wordmark — full-bleed, so it lives outside the max-width wrapper */}
