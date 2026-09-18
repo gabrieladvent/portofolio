@@ -55,6 +55,55 @@ html[data-chat-dragging] .chat-shift {
   background: #10b981;
 }
 
+/* ------------------------------------------------------------------ *
+ * Keyboard focus
+ *
+ * Sebelumnya hampir tidak ada: seluruh CSS terkompilasi hanya memuat satu
+ * aturan `focus-visible`, jadi sebagian besar tombol dan tautan kustom di
+ * situs ini tidak memberi tanda apa pun saat dijelajahi lewat papan tik.
+ *
+ * `:focus-visible`, bukan `:focus` — peramban hanya memunculkannya ketika
+ * fokusnya memang datang dari papan tik, sehingga klik tetikus tidak
+ * meninggalkan cincin yang tidak diminta siapa pun.
+ * ------------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Tautan lewati: tersembunyi sampai disorot papan tik, lalu duduk di
+   pojok kiri atas di atas segalanya. */
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+  border-radius: 9999px;
+  background: #10b981;
+  color: #052e16;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
 /* Selection Color */
 ::selection {
   background: rgba(16, 185, 129, 0.25);
