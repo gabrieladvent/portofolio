@@ -151,7 +151,17 @@ export default function AboutPage() {
 
     return (
         <>
-            <main className="px-4 sm:px-6 pt-20 sm:pt-24">
+            <main id="main" className="px-4 sm:px-6 pt-20 sm:pt-24">
+                {/*
+                    The page had no `h1` at all — its headings started at `h2`,
+                    one per card. Visually that is right: the ID card below is
+                    the title, and a heading printed above it would be a second
+                    one saying the same thing. So the page's name is given to
+                    assistive technology only, which is the one reader that was
+                    missing it.
+                */}
+                <h1 className="sr-only">About {personalInfo.name}</h1>
+
                 <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-4 items-start">
                     {/* ── Left column ──────────────────────────────────── */}
                     <div className="flex flex-col gap-4 min-w-0">

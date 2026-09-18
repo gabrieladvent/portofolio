@@ -47,6 +47,13 @@ function Shell() {
     // its own width, so the page narrows beside it rather than being covered.
     // Sticky sections shift with it for free — their containing block moved.
     <div className="chat-shift relative min-h-screen bg-[#f6f6f4] dark:bg-[#0a0c0b] text-zinc-900 dark:text-zinc-100 overflow-x-clip pl-[var(--chat-pane)]">
+      {/* Pertama dalam urutan papan tik, sebelum nav mengambang: pengguna
+          papan tik jadi tidak perlu melewati navigasi yang sama di setiap
+          perpindahan halaman. */}
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
+
       <AnimatedBackground />
 
       {floatingNav && <PageNav current={route.startsWith('/work') ? '/work' : route} />}

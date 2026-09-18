@@ -152,7 +152,7 @@ export default function WorkPage() {
         <>
             {/* No top padding once the deck is in play: its pinned panel has to
                 start at document top, and carries the nav clearance itself. */}
-            <main className="px-4 pt-20 sm:px-6 sm:pt-24 lg:pt-0">
+            <main id="main" className="px-4 pt-20 sm:px-6 sm:pt-24 lg:pt-0">
                 <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[248px_minmax(0,1fr)] lg:items-start">
                     {/* ── Filters ──────────────────────────────────────── */}
                     <motion.aside

@@ -30,7 +30,7 @@ function paragraphsOf(project: Project) {
 function NotFound() {
     return (
         <>
-            <main className="px-4 pt-32 pb-24 sm:px-6">
+            <main id="main" className="px-4 pt-32 pb-24 sm:px-6">
                 <div className="mx-auto max-w-7xl rounded-3xl border border-black/[0.06] bg-white p-10 text-center shadow-sm dark:border-white/[0.07] dark:bg-zinc-900">
                     <p className="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                         404
@@ -71,7 +71,7 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
 
     return (
         <>
-            <main className="pt-20 sm:pt-24">
+            <main id="main" className="pt-20 sm:pt-24">
                 <motion.header
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
