@@ -74,6 +74,7 @@ export const skills: Skill[] = [
   { name: "TypeScript", category: "frontend", icon: "ts" },
   { name: "React", category: "frontend", icon: "react" },
   { name: "Next.js", category: "frontend", icon: "nextjs" },
+  { name: "Svelte", category: "frontend", icon: "svelte" },
   { name: "Tailwind CSS", category: "frontend", icon: "tailwind" },
   { name: "Framer Motion", category: "frontend", icon: "react" },
 
@@ -134,6 +135,57 @@ export const projects: Project[] = [
       "Tailwind CSS",
     ],
     githubUrl: "https://github.com/gabrieladvent/warung-agent",
+    featured: true,
+    category: "web",
+  },
+
+  {
+    id: "wakatobi-diving",
+    date: "2026-09",
+    role: "Full Stack",
+    title: "Nusantara — Stay & Dive",
+    description:
+      "A marketplace for stays and diving trips across Indonesia — a SvelteKit frontend on a Laravel API, serving customers, merchants, and platform admins.",
+    longDescription: `Built a marketplace, end to end, where travellers find, book, and pay for accommodation and dive trips across Indonesia. A Laravel REST API sits behind a single SvelteKit application with three areas: the public customer site, a merchant panel for property owners and dive operators, and an admin panel for running the platform.
+
+    Customers search hotels and dive packages, compare destinations, and go through a full booking flow — room selection, checkout, payment, and confirmation — then manage bookings, favorites, reviews, and notifications from their account. Merchants manage businesses, properties, room types, and dive packages, set per-date prices on a calendar, run promos, and track bookings, payouts, and analytics. Admins moderate listings, handle transactions, refunds, and disbursements, and manage destinations, platform promos, and audit logs.
+
+    Frontend and backend meet at one response contract and a complete endpoint map. Pages never call fetch directly: every request goes through a service layer to a provider that is either a deterministic mock or the Laravel API, selected by one environment variable. That let the whole product run end to end while the backend was built against the same contract. Customer pages are server-rendered for SEO, while the panels render in the browser.
+
+    Built with Laravel, SvelteKit, Svelte 5, TypeScript, and Tailwind CSS, with headless-Chrome end-to-end tests for all three roles running in GitHub Actions against the production build.`,
+    image:
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop",
+    technologies: [
+      "Laravel",
+      "SvelteKit",
+      "Svelte",
+      "TypeScript",
+      "Tailwind CSS",
+      "GitHub Actions",
+    ],
+    featured: true,
+    category: "web",
+  },
+
+  {
+    id: "pokmaswas-san-dominggo",
+    date: "2026-09",
+    role: "Frontend Developer",
+    title: "Pokmaswas San Dominggo",
+    description:
+      "A scroll-driven storytelling site for a community marine watch group in Larantuka, East Flores — a journey from land, across the surface, into the deep sea, and back.",
+    longDescription: `Built the landing page for Pokmaswas San Dominggo, a community marine watch group (Kelompok Masyarakat Pengawas) in Larantuka, East Flores, as a collaboration between RACATECH and Pokmaswas.
+
+    The concept is "From Land to Ocean": scrolling carries the visitor from the shore, across the water's surface, down into the deep sea, and back up with the community. Each section's color tone follows that descent, and the group's field activities are told as a field journal — chapters with a sticky photo stage on the homepage, and the full story on its own page.
+
+    All animation lives outside the components, in GSAP timelines run through a hook that wraps them in gsap.context() so every ScrollTrigger is cleaned up on unmount, with Lenis for smooth scrolling and full prefers-reduced-motion support. A visitor counter backed by a keyless public counting service needs no database and no secrets in the bundle, and the site keeps working when that service is down.
+
+    Built with React 19, TypeScript, Tailwind CSS v4, GSAP + ScrollTrigger, and Lenis.`,
+    image:
+      "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=800&h=600&fit=crop",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "GSAP", "Lenis"],
+    githubUrl: "https://github.com/gabrieladvent/pokmaswas-eco",
+    liveUrl: "https://pokmaswas-eco.vercel.app",
     featured: true,
     category: "web",
   },
