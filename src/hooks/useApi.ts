@@ -51,35 +51,17 @@ export function useWakatimeStats() {
 
     async function fetchWakatimeStats() {
       try {
-        const [weeklyResponse, allTimeResponse] = await Promise.all([
-          fetch("/api/wakatime/users/current/stats/last_7_days", {
-            signal: controller.signal,
-          }),
-          fetch("/api/wakatime/users/current/all_time_since_today", {
-            signal: controller.signal,
-          }),
-        ]);
-
-        if (!weeklyResponse.ok) {
-          throw new Error("Failed to fetch Wakatime weekly data");
-        }
-
-        const weeklyData = await weeklyResponse.json();
-
-        let allTimeTotal = "0 hrs";
-        let allTimeTotalSeconds = 0;
-
-        if (allTimeResponse.ok) {
-          const allTimeData = await allTimeResponse.json();
-          allTimeTotal = allTimeData.data?.text || "0 hrs";
-          allTimeTotalSeconds = allTimeData.data?.total_seconds || 0;
-        }
-
-        setStats({
-          weeklyStats: weeklyData.data,
-          allTimeTotal,
-          allTimeTotalSeconds,
+        // One call: /api/wakatime fetches the week and the all-time total
+        // together server-side and hands back only what the page renders.
+        const response = await fetch("/api/wakatime", {
+          signal: controller.signal,
         });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch Wakatime data");
+        }
+
+        setStats(await response.json());
       } catch (err) {
         if (controller.signal.aborted) return;
         setError(err instanceof Error ? err.message : "Unknown error");

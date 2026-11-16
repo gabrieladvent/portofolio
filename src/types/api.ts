@@ -55,15 +55,6 @@ export interface WakatimeEditor {
   text: string;
 }
 
-export interface WakatimeProject {
-  name: string;
-  percent: number;
-  total_seconds: number;
-  text: string;
-  hours: number;
-  minutes: number;
-}
-
 export interface WakatimeBestDay {
   date: string;
   total_seconds: number;
@@ -81,7 +72,8 @@ export interface WakatimeStats {
   days_minus_holidays?: number;
   start?: string;
   end?: string;
-  projects?: WakatimeProject[];
+  /** Counted server-side: the project names are client work and never leave the API. */
+  project_count?: number;
   best_day?: WakatimeBestDay;
   categories: {
     name: string;
