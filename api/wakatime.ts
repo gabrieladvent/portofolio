@@ -1,36 +1,23 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { resolveWakatime } from "./_wakatime.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    const apiKey = process.env.WAKATIME_API_KEY;
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-    if (!apiKey) {
-        return res.status(500).json({ error: "Wakatime API key not configured" });
-    }
+  const { status, body, fresh } = await resolveWakatime(process.env.WAKATIME_ACCESS_TOKEN);
 
-    const { path, ...queryParams } = req.query;
+  if (status === 200) {
+    // While WakaTime is still calculating, only hold the partial answer for a
+    // minute so the finished numbers replace it quickly.
+    res.setHeader(
+      "Cache-Control",
+      fresh ? "s-maxage=3600, stale-while-revalidate" : "s-maxage=60, stale-while-revalidate",
+    );
+  } else {
+    res.setHeader("Cache-Control", "no-store, max-age=0");
+  }
 
-    const wakatimePath = Array.isArray(path) ? path.join("/") : (path ?? "");
-
-    const queryString = new URLSearchParams(
-        queryParams as Record<string, string>,
-    ).toString();
-
-    const url = `https://wakatime.com/api/v1/${wakatimePath}${queryString ? `?${queryString}` : ""}`;
-
-    try {
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Basic ${Buffer.from(apiKey + ":").toString("base64")}`,
-                "Content-Type": "application/json",
-            },
-        });
-
-        const data = await response.json();
-
-        res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
-
-        return res.status(response.status).json(data);
-    } catch {
-        return res.status(500).json({ error: "Failed to fetch from Wakatime" });
-    }
+  return res.status(status).json(body);
 }

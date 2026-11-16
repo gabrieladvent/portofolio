@@ -2,6 +2,32 @@ import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { streamChat } from "./api/_chat";
 import { DEV_NAMESPACE, resolveVisit } from "./api/_visit";
+import { resolveWakatime } from "./api/_wakatime";
+
+/**
+ * Mirrors /api/wakatime.ts locally with the same shared handler, so dev and
+ * production ask WakaTime for the same two resources and trim them the same way.
+ */
+function wakatimeDevProxy(env: Record<string, string>): Plugin {
+  return {
+    name: "wakatime-dev-proxy",
+    apply: "serve",
+    configureServer(server) {
+      server.middlewares.use("/api/wakatime", async (req, res) => {
+        res.setHeader("Content-Type", "application/json");
+
+        if (req.method !== "GET") {
+          res.statusCode = 405;
+          return res.end(JSON.stringify({ error: "Method not allowed" }));
+        }
+
+        const { status, body } = await resolveWakatime(env.WAKATIME_ACCESS_TOKEN);
+        res.statusCode = status;
+        res.end(JSON.stringify(body));
+      });
+    },
+  };
+}
 
 /**
  * Same story as the GitHub proxy below, except the handler itself is shared:
@@ -195,7 +221,13 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    plugins: [react(), githubDevProxy(env), chatDevProxy(env), visitDevProxy(env)],
+    plugins: [
+      react(),
+      githubDevProxy(env),
+      chatDevProxy(env),
+      visitDevProxy(env),
+      wakatimeDevProxy(env),
+    ],
     build: {
       rollupOptions: {
         output: {
@@ -207,18 +239,6 @@ export default defineConfig(({ mode }) => {
             // Only the about page's globe pulls this in, and it does so through
             // a dynamic import, so it stays off the initial load.
             three: ["three", "@react-three/fiber"],
-          },
-        },
-      },
-    },
-    server: {
-      proxy: {
-        "/api/wakatime": {
-          target: "https://wakatime.com",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/wakatime/, "/api/v1"),
-          headers: {
-            Authorization: `Basic ${Buffer.from(env.WAKATIME_API_KEY + ":").toString("base64")}`,
           },
         },
       },

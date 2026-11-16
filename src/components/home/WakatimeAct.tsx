@@ -122,7 +122,7 @@ export default function WakatimeAct({ progress, from, to, still = false }: ActPr
     // rows at this step put the last one full at 0.201 of the act, just inside
     // the 0.21 where the fade begins.
     const startOf = (index: number) => from + 0.06 + index * 0.009;
-    const projects = weekly?.projects?.length ?? 0;
+    const projects = weekly?.project_count ?? 0;
 
     return (
         <motion.div
